@@ -152,7 +152,7 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
 
   const topic = {
     slug: params.slug,
-    name: params.slug.replaceAll("-", " "),
+    name: params?.slug?.replaceAll("-", " "),
   };
 
   return {
