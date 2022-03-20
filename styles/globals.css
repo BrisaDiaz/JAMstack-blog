@@ -86,7 +86,7 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
-/* HTML5 display-role reset for older browsers */
+
 article,
 aside,
 details,
@@ -121,40 +121,26 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-}
-Useful table styles *******************/ table {
-  table-layout: fixed;
+    table-layout: fixed;
   width: 100%;
 }
 
-/*******************
- The hidden attribute
- *******************/
+
 [hidden] {
   opacity: 0;
   visibility: hidden;
 }
 
-/*******************
- Noscript
- *******************/
 noscript {
   display: block;
   margin-bottom: 1em;
   margin-top: 1em;
 }
 
-/*******************
- Tabindex
- *******************/
 [tabindex="-1"] {
   outline: none !important;
 }
 
-/*******************
- Remove animations and transitions
- @see https://hankchizljaw.com/wrote/a-modern-css-reset/
- *******************/
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -171,11 +157,7 @@ li {
   list-style: none;
   text-align: start;
 }
-/*******************
- * Screen-ready only class to hide content visually
- * Solution by Joe Watkins.
- * @see https://zellwk.com/blog/hide-content-accessibly/
- *******************/
+
 .sr-only {
   position: absolute;
   width: 1px;

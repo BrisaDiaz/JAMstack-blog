@@ -146,7 +146,10 @@ export async function getStaticPaths() {
 }
 export async function getStaticProps({ params }: { params: { slug: string } }) {
   const data = await getPostByTopicSlug({ slug: params.slug, take: 6 });
+
+
   const { posts, total } = await postsAdapter(data);
+
   const topic = {
     slug: params.slug,
     name: params.slug.replaceAll("-", " "),

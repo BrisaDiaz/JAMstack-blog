@@ -17,17 +17,28 @@ import {Post} from "interfaces";
 import Widget from "@/components/Widget";
 import SocialButton, {generateShareLink} from "@/components/SocialButton";
 
-const Page: NextPage<{post: Post}> = ({post}) => {
+const Page: NextPage<{ post: Post }> = ({ post }) => {
   const [url, setUrl] = React.useState("");
 
   React.useEffect(() => {
     setUrl(window.location.href);
   }, []);
-  const shareBy = ["facebook", "twitter", "pinterest", "tumblr", "linkedin", "whatsapp", "email"];
+  const shareBy = [
+    "facebook",
+    "twitter",
+    "pinterest",
+    "tumblr",
+    "linkedin",
+    "whatsapp",
+    "email",
+  ];
   const renderProps = {
     renderNode: {
-      [BLOCKS.EMBEDDED_ASSET]: (node: {data: {target: {sys: {id: string}}}}) => {
-        const {description, title, url} = post.assetsTable[node.data.target.sys.id];
+      [BLOCKS.EMBEDDED_ASSET]: (node: {
+        data: { target: { sys: { id: string } } };
+      }) => {
+        const { description, title, url } =
+          post?.assetsTable[node.data.target.sys.id];
 
         return (
           <figure>
@@ -45,6 +56,8 @@ const Page: NextPage<{post: Post}> = ({post}) => {
       },
     },
   };
+if(!post ) return <div className="container"><p>Loading...</p></div>
+
 
   return (
     <div className="container">
@@ -64,7 +77,7 @@ const Page: NextPage<{post: Post}> = ({post}) => {
         <meta content={post.thumbnail.url} name="twitter:image" />
         <script
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(generatePostORGSchema({post, url})),
+            __html: JSON.stringify(generatePostORGSchema({ post, url })),
           }}
           type="application/ld+json"
         />
@@ -79,26 +92,29 @@ const Page: NextPage<{post: Post}> = ({post}) => {
               </a>
             </Link>
             <Arrow color="var(--dark-gray)" width={15} />
-            <Link passHref href={`/topic/${post.topic.slug}`}>
+            <Link passHref href={`/topic/${post?.topic?.slug}`}>
               <a className="breadcrumb__link" href="">
-                {post.topic.name}
+                {post?.topic?.name}
               </a>
             </Link>
             <Arrow color="var(--dark-gray)" width={15} />
-            <span> {post.title} </span>
+            <span> {post?.title} </span>
           </section>
           <section className="post__content">
-            <h1 className="post__title"> {post.title}</h1>
+            <h1 className="post__title"> {post?.title}</h1>
 
             <div className="post__meta">
               <div>
                 <User />
-                <span className="post__meta-tag">{post.author}</span>
+                <span className="post__meta-tag">{post?.author}</span>
               </div>
               <div>
                 <Clock />
-                <time className="post__meta-tag" dateTime={post.publishedAt.rawDate}>
-                  {post.publishedAt.shortDate}
+                <time
+                  className="post__meta-tag"
+                  dateTime={post?.publishedAt?.rawDate}
+                >
+                  {post?.publishedAt?.shortDate}
                 </time>
               </div>
             </div>
@@ -109,40 +125,48 @@ const Page: NextPage<{post: Post}> = ({post}) => {
 
             <figure className="post__caption">
               <Image
-                alt={post.thumbnail.description}
-                blurDataURL={post.thumbnail.url}
+                alt={post?.thumbnail?.description}
+                blurDataURL={post?.thumbnail?.url}
                 height={300}
                 layout="responsive"
                 objectFit="cover"
                 placeholder="blur"
                 quality={100}
-                src={post.thumbnail.url}
+                src={post?.thumbnail?.url}
                 width={600}
               />
-              <figcaption className="post__figcaption">{post.thumbnail.title}</figcaption>
+              <figcaption className="post__figcaption">
+                {post?.thumbnail?.title}
+              </figcaption>
             </figure>
-            {post.subtitle && <h2 className="post__subtitle"> {post.subtitle}</h2>}
+            {post?.subtitle && (
+              <h2 className="post__subtitle"> {post?.subtitle}</h2>
+            )}
             <div className="pre">
-              {documentToReactComponents(post.content as any, renderProps as any)}
+              {post?.content &&
+                documentToReactComponents(
+                  post?.content as any,
+                  renderProps as any,
+                )}
             </div>
             <section className=" post__ad ">
               <span>Responsive Advertisement</span>
             </section>
           </section>
           <ul className="posts__tags">
-            {post.tags.map((tag) => (
-              <Tag key={tag} tag={{name: tag, link: `/?tag=${tag}`}} />
+            {post?.tags?.map((tag) => (
+              <Tag key={tag} tag={{ name: tag, link: `/?tag=${tag}` }} />
             ))}
           </ul>
           <ul className="share-btn__list">
-            {shareBy.map((social) => (
+            {shareBy?.map((social) => (
               <li key={social} className="share-btn">
                 <a
                   aria-label={`share by ${social}`}
                   href={generateShareLink({
                     socialMedia: social as any,
                     url,
-                    description: post.title,
+                    description: post?.title,
                   })}
                   rel="noreferrer"
                   target="_blank"
@@ -159,27 +183,34 @@ const Page: NextPage<{post: Post}> = ({post}) => {
               <article key={suggestedPost.title} className="suggested-post">
                 <div className="suggested-post__img ">
                   <Image
-                    alt={suggestedPost.thumbnail.description}
-                    blurDataURL={post.thumbnail.url}
+                    alt={suggestedPost?.thumbnail?.description}
+                    blurDataURL={post?.thumbnail?.url}
                     layout="fill"
                     objectFit="cover"
                     placeholder="blur"
                     quality={100}
-                    src={suggestedPost.thumbnail.url}
+                    src={suggestedPost?.thumbnail?.url}
                   />
                 </div>
                 <div>
-                  <Link passHref href={`/posts/${suggestedPost.slug}`}>
-                    <a aria-label={suggestedPost.title} href="" title={suggestedPost.title}>
-                      {suggestedPost.title.length > 45
-                        ? suggestedPost.title.slice(0, 45).concat("...")
-                        : suggestedPost.title}
+                  <Link passHref href={`/posts/${suggestedPost?.slug}`}>
+                    <a
+                      aria-label={suggestedPost?.title}
+                      href=""
+                      title={suggestedPost?.title}
+                    >
+                      {suggestedPost?.title.length > 45
+                        ? suggestedPost?.title.slice(0, 45).concat("...")
+                        : suggestedPost?.title}
                     </a>
                   </Link>
                   <div className=" suggested-post__meta ">
                     <Clock />
-                    <time className="post__meta-tag" dateTime={post.publishedAt.rawDate}>
-                      {post.publishedAt.shortDate}
+                    <time
+                      className="post__meta-tag"
+                      dateTime={post?.publishedAt?.rawDate}
+                    >
+                      {post?.publishedAt?.shortDate}
                     </time>
                   </div>
                 </div>
@@ -354,17 +385,19 @@ export default Page;
 export async function getStaticPaths() {
   const res = await getAllPostSlugs();
 
-  const paths = res.data.blogsCollection.items.map((post: {slug: string}) => ({
-    params: {slug: post.slug},
-  }));
+  const paths = res.data.blogsCollection.items.map(
+    (post: { slug: string }) => ({
+      params: { slug: post.slug },
+    }),
+  );
 
   return {
     paths,
     fallback: true,
   };
 }
-export async function getStaticProps({params}: {params: {slug: string}}) {
-  const data = await getPostBySlug({slug: params.slug});
+export async function getStaticProps({ params }: { params: { slug: string } }) {
+  const data = await getPostBySlug({ slug: params.slug });
 
   if (!data) {
     return {
@@ -376,7 +409,7 @@ export async function getStaticProps({params}: {params: {slug: string}}) {
   }
   const post = postAdapter(data);
 
-  if (!post?.title) {
+  if (!post || !post?.title) {
     return {
       redirect: {
         destination: "/",
@@ -386,6 +419,6 @@ export async function getStaticProps({params}: {params: {slug: string}}) {
   }
 
   return {
-    props: {post, revalidate: 1},
+    props: { post, revalidate: 1 },
   };
 }
