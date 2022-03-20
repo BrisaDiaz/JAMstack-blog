@@ -50,7 +50,7 @@ export async function getStaticPaths() {
       params: { slug: page?.slug },
     }),
   );
-
+  console.log(paths);
   return {
     paths,
     fallback: true,
@@ -71,7 +71,7 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
   }
 
   return {
-    props: { page: null, revalidate: 60 },
+    props: { page, revalidate: 60 },
   };
 }
 export default Page;
