@@ -1,12 +1,11 @@
 import Widget from "./Widget";
-
 import Tag from "./Tag";
-export default function TagsWidget({ tags }: { tags: string[] }) {
+export default function TagsWidget({tags}: {tags: string[]}) {
   return (
     <Widget title="tags">
       <ul className="tags-container">
         {tags.map((tag) => (
-          <Tag key={tag} tag={{ name: tag, link: `/?tag=${tag}` }} />
+          <Tag key={tag} tag={{name: tag, link: `/?tag=${tag}`}} />
         ))}
       </ul>
       <style jsx>{`

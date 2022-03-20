@@ -1,15 +1,17 @@
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+
 import Search from "@/components/svg/Search";
 import Menu from "@/components/svg/Menu";
 import Logo from "@/components/layout/Logo";
-import ProfilePhoto from "./ProfilePhoto";
 import Arrow from "@/components/svg/Arrow";
 import Close from "@/components/svg/Close";
+import {UserProfile} from "interfaces";
+import {WidgetPost} from "interfaces";
+
 import SearchBar from "./SearchBar";
-import { UserProfile } from "interfaces";
-import Link from "next/link";
-import Image from "next/image";
-import { WidgetPost } from "interfaces";
+import ProfilePhoto from "./ProfilePhoto";
 
 export default function Header({
   user,
@@ -28,7 +30,7 @@ export default function Header({
     submenu?: {
       label: string;
       href: string;
-      submenu?: { label: string; href: string }[];
+      submenu?: {label: string; href: string}[];
     }[];
   }[];
 }) {
@@ -53,26 +55,25 @@ export default function Header({
 
     return setSubmenus(submenus.concat(label));
   }
+
   return (
     <header className="header ">
       <div className="header__container container">
         <button
-          onClick={toggleMenu}
           aria-label="toggle menu"
           className="header__bottom header__menu-btn"
+          onClick={toggleMenu}
         >
           {isMenuOpen ? <Close /> : <Menu />}
         </button>
 
         <Logo />
 
-        <nav
-          className={`header__menu ${isMenuOpen ? "header__menu--open" : ""}`}
-        >
+        <nav className={`header__menu ${isMenuOpen ? "header__menu--open" : ""}`}>
           <ul className="header__link-list   ">
             <li className="mega-link">
-              <Link href="/" passHref>
-                <a href="" className={`heder__main-link  `}>
+              <Link passHref href="/">
+                <a className={`heder__main-link  `} href="">
                   Latest
                 </a>
               </Link>
@@ -81,17 +82,17 @@ export default function Header({
                   <article key={post.slug} className="post ">
                     <div className="post__image ">
                       <Image
-                        src={post.thumbnail.url}
                         alt={post.thumbnail.description}
+                        blurDataURL={post.thumbnail.url}
                         layout="fill"
                         objectFit="cover"
-                        quality={100}
                         placeholder="blur"
-                        blurDataURL={post.thumbnail.url}
+                        quality={100}
+                        src={post.thumbnail.url}
                       />
                     </div>
-                    <Link href={`/posts/${post.slug}`} passHref>
-                      <a href="" title={post.title} aria-label={post.title}>
+                    <Link passHref href={`/posts/${post.slug}`}>
+                      <a aria-label={post.title} href="" title={post.title}>
                         {post.title.length > 38
                           ? post.title.slice(0, 35).concat("...")
                           : post.title}
@@ -103,51 +104,35 @@ export default function Header({
             </li>
             {navLinks.map((link) => (
               <li key={link.label} className=" ">
-                <Link href={link.href} passHref>
+                <Link passHref href={link.href}>
                   <a
-                    href="/"
                     className={`header__parent-link   heder__main-link `}
-                    onClick={(e) =>
-                      link.submenu && toggleSubMenu(e, link.label, 1)
-                    }
+                    onClick={(e) => link.submenu && toggleSubMenu(e, link.label, 1)}
                   >
                     <span>{link.label} </span>
                     {link.submenu && (
-                      <Arrow
-                        direction={
-                          submenus.includes(link.label) ? "bottom" : "right"
-                        }
-                      />
+                      <Arrow direction={submenus.includes(link.label) ? "bottom" : "right"} />
                     )}
                   </a>
                 </Link>
                 {link.submenu && (
                   <ul
                     className={`header__submenu   ${
-                      submenus.includes(link.label)
-                        ? "header__submenu--open "
-                        : ""
+                      submenus.includes(link.label) ? "header__submenu--open " : ""
                     }`}
                   >
                     {link.submenu.map((subLink) => (
                       <li key={subLink.label} className=" ">
-                        <Link href={subLink.href} passHref>
+                        <Link passHref href={subLink.href}>
                           <a
                             className={` header__parent-link `}
                             href=""
-                            onClick={(e) =>
-                              subLink?.submenu &&
-                              toggleSubMenu(e, subLink.label, 2)
-                            }
+                            onClick={(e) => subLink?.submenu && toggleSubMenu(e, subLink.label, 2)}
                           >
                             <span>{subLink.label} </span>
                             {subLink?.submenu && (
                               <Arrow
-                                direction={
-                                  submenus.includes(subLink.label)
-                                    ? "bottom"
-                                    : "right"
-                                }
+                                direction={submenus.includes(subLink.label) ? "bottom" : "right"}
                               />
                             )}
                           </a>
@@ -155,9 +140,7 @@ export default function Header({
                         {subLink?.submenu && (
                           <ul
                             className={`header__submenu ${
-                              submenus.includes(subLink.label)
-                                ? "header__submenu--open "
-                                : ""
+                              submenus.includes(subLink.label) ? "header__submenu--open " : ""
                             }`}
                           >
                             {subLink.submenu.map((subSubLink) => (
@@ -183,11 +166,11 @@ export default function Header({
           </SearchBar>
 
           <ProfilePhoto
-            onClick={onUserMenuClick}
             image={{
               alt: user?.name || "profile",
               src: user?.picture || "/assets/default-profile.jpg",
             }}
+            onClick={onUserMenuClick}
           />
         </div>
       </div>

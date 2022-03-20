@@ -1,4 +1,5 @@
-import React, { FormEvent, RefObject, useRef } from "react";
+import React, {FormEvent, useRef} from "react";
+
 import Close from "@/components/svg/Close";
 
 export default function SearchBar({
@@ -11,6 +12,7 @@ export default function SearchBar({
   const [isSearchBarOpen, setIsSearchBarOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const inputRef: React.LegacyRef<HTMLInputElement> = useRef(null);
+
   function toggleSearchBar() {
     setIsSearchBarOpen((isOpen) => !isOpen);
   }
@@ -30,25 +32,19 @@ export default function SearchBar({
   return (
     <>
       <div onClick={toggleSearchBar}> {children}</div>
-      <div
-        className={`search-bar ${isSearchBarOpen ? "search-bar--open" : ""}`}
-      >
+      <div className={`search-bar ${isSearchBarOpen ? "search-bar--open" : ""}`}>
         <form className="form" onSubmit={handleSubmit}>
           <input
             ref={inputRef}
+            className="form__input"
+            placeholder="Search blog"
+            type="search"
             value={search}
             onChange={handleSearch}
-            type="search"
-            placeholder="Search blog"
-            className="form__input"
           />
         </form>
 
-        <button
-          onClick={toggleSearchBar}
-          aria-label="toggle search bar"
-          className="bottom"
-        >
+        <button aria-label="toggle search bar" className="bottom" onClick={toggleSearchBar}>
           <Close />
         </button>
         <style jsx={true}>{`

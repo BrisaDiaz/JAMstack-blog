@@ -1,13 +1,16 @@
+import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="footer">
       <nav className="container footer__nav ">
-        <a href="/" className="footer__link ">
-          Home
-        </a>{" "}
-        <a href="/about" className="footer__link">
-          About
-        </a>
+        <Link passHref href="/">
+          <a className="footer__link " href="">
+            Home
+          </a>
+        </Link>
+        <Link passHref href="/about">
+          <a className="footer__link " href="" />
+        </Link>
       </nav>
       <style jsx>{`
         .footer {

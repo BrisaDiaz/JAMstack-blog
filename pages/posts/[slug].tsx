@@ -1,57 +1,43 @@
-import type { NextPage } from "next";
+import type {NextPage} from "next";
+
 import Head from "next/head";
 import React from "react";
-
 import Link from "next/link";
+import Image from "next/image";
+import {documentToReactComponents} from "@contentful/rich-text-react-renderer";
+import {BLOCKS} from "@contentful/rich-text-types";
+
 import Arrow from "@/components/svg/Arrow";
 import User from "@/components/svg/User";
 import Clock from "@/components/svg/Clock";
-import Image from "next/image";
-import {
-  getAllPostSlugs,
-  getPostBySlug,
-  generatePostORGSchema,
-} from "@/services/posts";
-import { postAdapter } from "@/adapters/posts";
+import {getAllPostSlugs, getPostBySlug, generatePostORGSchema} from "@/services/posts";
+import {postAdapter} from "@/adapters/posts";
 import Tag from "@/components/Tag";
-import { Post } from "interfaces";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { BLOCKS } from "@contentful/rich-text-types";
+import {Post} from "interfaces";
 import Widget from "@/components/Widget";
+import SocialButton, {generateShareLink} from "@/components/SocialButton";
 
-import SocialButton, { generateShareLink } from "@/components/SocialButton";
-
-const Page: NextPage<{ post: Post }> = ({ post }) => {
+const Page: NextPage<{post: Post}> = ({post}) => {
   const [url, setUrl] = React.useState("");
+
   React.useEffect(() => {
     setUrl(window.location.href);
   }, []);
-  const shareBy = [
-    "facebook",
-    "twitter",
-    "pinterest",
-    "tumblr",
-    "linkedin",
-    "whatsapp",
-    "email",
-  ];
+  const shareBy = ["facebook", "twitter", "pinterest", "tumblr", "linkedin", "whatsapp", "email"];
   const renderProps = {
     renderNode: {
-      [BLOCKS.EMBEDDED_ASSET]: (node: {
-        data: { target: { sys: { id: string } } };
-      }) => {
-        let { description, title, url } =
-          post.assetsTable[node.data.target.sys.id];
+      [BLOCKS.EMBEDDED_ASSET]: (node: {data: {target: {sys: {id: string}}}}) => {
+        const {description, title, url} = post.assetsTable[node.data.target.sys.id];
 
         return (
           <figure>
             <Image
-              src={url}
               alt={description}
-              objectFit="cover"
-              layout="responsive"
-              width={600}
               height={300}
+              layout="responsive"
+              objectFit="cover"
+              src={url}
+              width={600}
             />
             <figcaption>{title}</figcaption>
           </figure>
@@ -64,41 +50,41 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
     <div className="container">
       <Head>
         <title>{post.title}</title>
-        <meta name="description" content={post.description} />
-        <meta property="og:url" content={url} />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.description} />
-        <meta property="og:image" content={post.thumbnail.url} />
-        <meta property="og:image:alt" content={post.thumbnail.description} />
-        <meta name="twitter:url" content={url} />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.description} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image:alt" content={post.thumbnail.description} />
-        <meta name="twitter:image" content={post.thumbnail.url} />
+        <meta content={post.description} name="description" />
+        <meta content={url} property="og:url" />
+        <meta content={post.title} property="og:title" />
+        <meta content={post.description} property="og:description" />
+        <meta content={post.thumbnail.url} property="og:image" />
+        <meta content={post.thumbnail.description} property="og:image:alt" />
+        <meta content={url} name="twitter:url" />
+        <meta content={post.title} name="twitter:title" />
+        <meta content={post.description} name="twitter:description" />
+        <meta content="summary_large_image" name="twitter:card" />
+        <meta content={post.thumbnail.description} name="twitter:image:alt" />
+        <meta content={post.thumbnail.url} name="twitter:image" />
         <script
-          type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(generatePostORGSchema({ post, url })),
+            __html: JSON.stringify(generatePostORGSchema({post, url})),
           }}
+          type="application/ld+json"
         />
       </Head>
 
       <main className="container page">
         <section className="post">
           <section className="breadcrumb__bar">
-            <Link href="/" passHref>
-              <a href="" className="breadcrumb__link">
+            <Link passHref href="/">
+              <a className="breadcrumb__link" href="">
                 Home
               </a>
             </Link>
-            <Arrow width={15} color="var(--dark-gray)" />
-            <Link href={`/topic/${post.topic.slug}`} passHref>
-              <a href="" className="breadcrumb__link">
+            <Arrow color="var(--dark-gray)" width={15} />
+            <Link passHref href={`/topic/${post.topic.slug}`}>
+              <a className="breadcrumb__link" href="">
                 {post.topic.name}
               </a>
             </Link>
-            <Arrow width={15} color="var(--dark-gray)" />
+            <Arrow color="var(--dark-gray)" width={15} />
             <span> {post.title} </span>
           </section>
           <section className="post__content">
@@ -111,10 +97,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
               </div>
               <div>
                 <Clock />
-                <time
-                  dateTime={post.publishedAt.rawDate}
-                  className="post__meta-tag"
-                >
+                <time className="post__meta-tag" dateTime={post.publishedAt.rawDate}>
                   {post.publishedAt.shortDate}
                 </time>
               </div>
@@ -126,28 +109,21 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
 
             <figure className="post__caption">
               <Image
-                src={post.thumbnail.url}
                 alt={post.thumbnail.description}
+                blurDataURL={post.thumbnail.url}
+                height={300}
                 layout="responsive"
                 objectFit="cover"
-                quality={100}
-                width={600}
-                height={300}
                 placeholder="blur"
-                blurDataURL={post.thumbnail.url}
+                quality={100}
+                src={post.thumbnail.url}
+                width={600}
               />
-              <figcaption className="post__figcaption">
-                {post.thumbnail.title}
-              </figcaption>
+              <figcaption className="post__figcaption">{post.thumbnail.title}</figcaption>
             </figure>
-            {post.subtitle && (
-              <h2 className="post__subtitle"> {post.subtitle}</h2>
-            )}
+            {post.subtitle && <h2 className="post__subtitle"> {post.subtitle}</h2>}
             <div className="pre">
-              {documentToReactComponents(
-                post.content as any,
-                renderProps as any,
-              )}
+              {documentToReactComponents(post.content as any, renderProps as any)}
             </div>
             <section className=" post__ad ">
               <span>Responsive Advertisement</span>
@@ -155,22 +131,23 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
           </section>
           <ul className="posts__tags">
             {post.tags.map((tag) => (
-              <Tag key={tag} tag={{ name: tag, link: `/?tag=${tag}` }} />
+              <Tag key={tag} tag={{name: tag, link: `/?tag=${tag}`}} />
             ))}
           </ul>
           <ul className="share-btn__list">
             {shareBy.map((social) => (
               <li key={social} className="share-btn">
                 <a
+                  aria-label={`share by ${social}`}
                   href={generateShareLink({
                     socialMedia: social as any,
                     url,
                     description: post.title,
                   })}
+                  rel="noreferrer"
                   target="_blank"
-                  aria-label={`share by ${social}`}
                 >
-                  <SocialButton name={social} fontSize={15} />
+                  <SocialButton fontSize={15} name={social} />
                 </a>
               </li>
             ))}
@@ -182,22 +159,18 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
               <article key={suggestedPost.title} className="suggested-post">
                 <div className="suggested-post__img ">
                   <Image
-                    src={suggestedPost.thumbnail.url}
                     alt={suggestedPost.thumbnail.description}
+                    blurDataURL={post.thumbnail.url}
                     layout="fill"
                     objectFit="cover"
-                    quality={100}
                     placeholder="blur"
-                    blurDataURL={post.thumbnail.url}
+                    quality={100}
+                    src={suggestedPost.thumbnail.url}
                   />
                 </div>
                 <div>
-                  <Link href={`/posts/${suggestedPost.slug}`} passHref>
-                    <a
-                      href=""
-                      title={suggestedPost.title}
-                      aria-label={suggestedPost.title}
-                    >
+                  <Link passHref href={`/posts/${suggestedPost.slug}`}>
+                    <a aria-label={suggestedPost.title} href="" title={suggestedPost.title}>
                       {suggestedPost.title.length > 45
                         ? suggestedPost.title.slice(0, 45).concat("...")
                         : suggestedPost.title}
@@ -205,10 +178,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
                   </Link>
                   <div className=" suggested-post__meta ">
                     <Clock />
-                    <time
-                      dateTime={post.publishedAt.rawDate}
-                      className="post__meta-tag"
-                    >
+                    <time className="post__meta-tag" dateTime={post.publishedAt.rawDate}>
                       {post.publishedAt.shortDate}
                     </time>
                   </div>
@@ -384,19 +354,17 @@ export default Page;
 export async function getStaticPaths() {
   const res = await getAllPostSlugs();
 
-  const paths = res.data.blogsCollection.items.map(
-    (post: { slug: string }) => ({
-      params: { slug: post.slug },
-    }),
-  );
+  const paths = res.data.blogsCollection.items.map((post: {slug: string}) => ({
+    params: {slug: post.slug},
+  }));
 
   return {
     paths,
     fallback: true,
   };
 }
-export async function getStaticProps({ params }: { params: { slug: string } }) {
-  const data = await getPostBySlug({ slug: params.slug });
+export async function getStaticProps({params}: {params: {slug: string}}) {
+  const data = await getPostBySlug({slug: params.slug});
 
   if (!data) {
     return {
@@ -407,6 +375,7 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
     };
   }
   const post = postAdapter(data);
+
   if (!post?.title) {
     return {
       redirect: {
@@ -415,7 +384,8 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
       },
     };
   }
+
   return {
-    props: { post, revalidate: 1 },
+    props: {post, revalidate: 1},
   };
 }

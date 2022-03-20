@@ -1,9 +1,11 @@
 import React from "react";
-import { expect } from "@jest/globals";
-import { render, screen, fireEvent } from "@testing-library/react";
+import {expect} from "@jest/globals";
+import {render, screen, fireEvent} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+
 import Component from "./index";
 const onSubmit = jest.fn();
+
 it("it toggles search bar and auto focus input when children is click and triggers submit callback when submit", () => {
   render(
     <Component onSubmit={onSubmit}>
@@ -11,12 +13,14 @@ it("it toggles search bar and auto focus input when children is click and trigge
     </Component>,
   );
 
-  const button = screen.getByRole("button", { name: "toggle search bar" });
+  const button = screen.getByRole("button", {name: "toggle search bar"});
+
   userEvent.click(button);
   const searchInput = screen.getByPlaceholderText("search blog", {
     exact: false,
   }) as HTMLInputElement;
-  expect(document.activeElement).toEqual(searchInput);
+
+  expect(searchInput).toHaveFocus();
 
   userEvent.type(searchInput, "trends");
 

@@ -18,9 +18,7 @@ export default function SocialButton({
         .social-channel {
           width: ${width ? width + "px" : "100%"};
           height: ${width ? width + "px" : "100%"};
-          border-radius: ${shape === "rounded"
-            ? "50%"
-            : "var(--border-radius)"};
+          border-radius: ${shape === "rounded" ? "50%" : "var(--border-radius)"};
 
           transition: opacity 0.17s;
           display: flex;
@@ -121,5 +119,6 @@ export function generateShareLink({
     pinterest: `https://ar.pinterest.com/pin-builder/?url=${url}&description=${description}&method=button`,
     tumblr: `http://www.tumblr.com/share?v=3&u=${url}&t=${description}`,
   };
+
   return SHARE_LINK[socialMedia] ? SHARE_LINK[socialMedia] : url;
 }

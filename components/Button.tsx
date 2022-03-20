@@ -1,12 +1,6 @@
-export default function Button({
-  text,
-  onClick,
-}: {
-  text: string;
-  onClick?: () => void;
-}) {
+export default function Button({text, onClick}: {text: string; onClick?: () => void}) {
   return (
-    <button onClick={(e) => onClick && onClick()} className="button">
+    <button className="button" onClick={(e) => onClick && onClick()}>
       {text}
       <style jsx>{`
         .button {

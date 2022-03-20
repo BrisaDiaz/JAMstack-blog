@@ -1,9 +1,9 @@
 import Link from "next/link";
-export default function Tag({ tag }: { tag: { name: string; link: string } }) {
+export default function Tag({tag}: {tag: {name: string; link: string}}) {
   return (
     <li>
-      <Link href={tag.link} passHref>
-        <a href="" className="tag">
+      <Link passHref href={tag.link}>
+        <a className="tag" href="">
           {tag.name}
         </a>
       </Link>

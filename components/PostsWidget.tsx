@@ -1,15 +1,11 @@
-import Widget from "./Widget";
 import Image from "next/image";
 import Link from "next/link";
+
+import {WidgetPost} from "interfaces";
+
 import Clock from "./svg/Clock";
-import { WidgetPost } from "interfaces";
-export default function postsWidget({
-  title,
-  posts,
-}: {
-  title: string;
-  posts: WidgetPost[];
-}) {
+import Widget from "./Widget";
+export default function postsWidget({title, posts}: {title: string; posts: WidgetPost[]}) {
   return (
     <Widget title={title}>
       <div>
@@ -17,32 +13,24 @@ export default function postsWidget({
           <section key={post.slug} className="post">
             <div className="post__image ">
               <Image
-                src={post.thumbnail.url}
                 alt={post.thumbnail.description}
+                blurDataURL={post.thumbnail.url}
                 layout="fill"
                 objectFit="cover"
-                quality={100}
                 placeholder="blur"
-                blurDataURL={post.thumbnail.url}
+                quality={100}
+                src={post.thumbnail.url}
               />
             </div>
             <div className="post__content">
               <Link href={`/posts/${post.slug}?topic=${post.topic}`}>
-                <a
-                  className="post__link"
-                  aria-label={post.title}
-                  title={post.title}
-                >
-                  {post.title.length > 64
-                    ? post.title.slice(0, 60).concat("...")
-                    : post.title}
+                <a aria-label={post.title} className="post__link" title={post.title}>
+                  {post.title.length > 64 ? post.title.slice(0, 60).concat("...") : post.title}
                 </a>
               </Link>
               <div className="post__meta">
                 <Clock />
-                <time dateTime={post.publishedAt.rawDate}>
-                  {post.publishedAt.shortDate}
-                </time>
+                <time dateTime={post.publishedAt.rawDate}>{post.publishedAt.shortDate}</time>
               </div>
             </div>
           </section>

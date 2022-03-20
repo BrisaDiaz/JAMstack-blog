@@ -1,19 +1,18 @@
-import User from "@/components/svg/User";
-import Clock from "@/components/svg/Clock";
 import Link from "next/link";
 import Image from "next/image";
+import {documentToReactComponents} from "@contentful/rich-text-react-renderer";
 
-import { PostItem } from "interfaces";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-export default function PostCard({ post }: { post: PostItem }) {
+import User from "@/components/svg/User";
+import Clock from "@/components/svg/Clock";
+import {PostItem} from "interfaces";
+
+export default function PostCard({post}: {post: PostItem}) {
   return (
     <article className="post">
-      <Link href={`/posts/${post.slug}`} passHref>
-        <a href="" className="post__title">
+      <Link passHref href={`/posts/${post.slug}`}>
+        <a className="post__title" href="">
           <h2 aria-label={post.title} title={post.title}>
-            {post.title.length > 50
-              ? post.title.slice(0, 46).concat("...")
-              : post.title}
+            {post.title.length > 50 ? post.title.slice(0, 46).concat("...") : post.title}
           </h2>
         </a>
       </Link>
@@ -26,27 +25,23 @@ export default function PostCard({ post }: { post: PostItem }) {
         </div>
         <div className="post__meta-tag">
           <Clock />
-          <time dateTime={post.publishedAt.rawDate}>
-            {post.publishedAt.shortDate}
-          </time>
+          <time dateTime={post.publishedAt.rawDate}>{post.publishedAt.shortDate}</time>
         </div>
       </div>
       <div className="post__inner">
         {" "}
         <div className="post__image ">
           <Image
-            src={post.thumbnail.url}
             alt={post.thumbnail.description}
+            blurDataURL={post.thumbnail.url}
             layout="fill"
             objectFit="cover"
-            quality={100}
             placeholder="blur"
-            blurDataURL={post.thumbnail.url}
+            quality={100}
+            src={post.thumbnail.url}
           />
         </div>
-        <div className="pre">
-          {documentToReactComponents(post.extract as any)}
-        </div>
+        <div className="pre">{documentToReactComponents(post.extract as any)}</div>
       </div>
       <style jsx>{`
         .post {

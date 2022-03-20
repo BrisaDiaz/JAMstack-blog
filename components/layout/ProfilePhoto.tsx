@@ -1,25 +1,26 @@
 import Image from "next/image";
-import Link from "next/link";
+
 export default function ProfilePhoto({
   image,
   onClick,
   size,
 }: {
-  image: { src: string; alt: string } | null;
+  image: {src: string; alt: string} | null;
   onClick?: () => void;
   size?: "large";
 }) {
   if (!image) return <div />;
+
   return (
     <button
-      onClick={() => onClick && onClick()}
       arial-label="see profile"
       className={`profile-photo
 
         
           ${size === "large" ? "profile-photo--large" : ""}`}
+      onClick={() => onClick && onClick()}
     >
-      <Image src={image.src} alt={image.alt} objectFit="cover" layout="fill" />
+      <Image alt={image.alt} layout="fill" objectFit="cover" src={image.src} />
       <style jsx>{`
         .profile-photo {
           position: relative;

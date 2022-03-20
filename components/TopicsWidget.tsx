@@ -1,20 +1,18 @@
-import Widget from "./Widget";
 import Link from "next/link";
+
+import {Topic} from "interfaces";
+
+import Widget from "./Widget";
 import Arrow from "./svg/Arrow";
-import { Topic } from "interfaces";
-export default function TopicsWidget({ topics }: { topics: Topic[] }) {
+
+export default function TopicsWidget({topics}: {topics: Topic[]}) {
   return (
     <Widget title="topics">
       <ul className="topics-container">
         {topics.map((topic, index) => (
           <li key={topic.name}>
-            <Link href={`/topics/${topic.slug}`} passHref>
-              <a
-                href=""
-                className={`topic ${
-                  index === topics.length - 1 ? "topic--last" : ""
-                }`}
-              >
+            <Link passHref href={`/topics/${topic.slug}`}>
+              <a className={`topic ${index === topics.length - 1 ? "topic--last" : ""}`} href="">
                 <span className="topic__name">
                   <Arrow direction="right" width={15} /> {topic.name}
                 </span>

@@ -1,20 +1,23 @@
-import { useUser } from "@auth0/nextjs-auth0";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import Header from "./Header";
-import Footer from "./Footer";
-import SessionCard from "./SessionCard";
+import {useUser} from "@auth0/nextjs-auth0";
+import {useRouter} from "next/router";
+import React, {useEffect, useState} from "react";
+
+import SocialChannelsBanner from "@/components/SocialChannelsBanner";
+import {getWebsiteWidgetsData} from "@/services/feed";
+import {websiteWidgetsAdapter} from "@/adapters/feed";
+import {Topic, WidgetPost, Social} from "interfaces";
+
 import TagsWidget from "../TagsWidget";
 import SocialPlugin from "../SocialPlugin";
 import PostsWidget from "../PostsWidget";
 import FeaturePostWidget from "../FeaturePostWidget";
 import TopicsWidget from "../TopicsWidget";
-import SocialChannelsBanner from "@/components/SocialChannelsBanner";
-import { getWebsiteWidgetsData } from "@/services/feed";
-import { websiteWidgetsAdapter } from "@/adapters/feed";
-import { Topic, WidgetPost, Social } from "interfaces";
-export default function Layout({ children }: { children: React.ReactNode }) {
-  const { user, error, isLoading } = useUser();
+
+import SessionCard from "./SessionCard";
+import Footer from "./Footer";
+import Header from "./Header";
+export default function Layout({children}: {children: React.ReactNode}) {
+  const {user} = useUser();
 
   const [widgetsData, setWidgetData] = useState<{
     topics: Topic[];
@@ -35,10 +38,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     socials: [],
     socialsInBanner: [],
   });
+
   useEffect(() => {
     async function getFeedData() {
       try {
         const topicsData = await getWebsiteWidgetsData();
+
         setWidgetData(websiteWidgetsAdapter(topicsData));
       } catch (e) {
         console.log(e);
@@ -48,11 +53,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }, []);
 
   const [isSessionCardOpen, setIsSessionCardOpen] = useState(false);
+
   function toggleSessionCard() {
     setIsSessionCardOpen((isOpen) => !isOpen);
   }
 
   const router = useRouter();
+
   function handleSearch(search: string, e: React.FormEvent<HTMLFormElement>) {
     router.push(`?search=${search}`);
   }
@@ -72,15 +79,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       href: "/about",
     },
   ];
+
   return (
     <div>
       {isSessionCardOpen && <SessionCard user={user || null} />}
       <Header
-        user={user || null}
         latestPosts={widgetsData.latestsPosts}
         navLinks={navLinks}
-        onUserMenuClick={toggleSessionCard}
+        user={user || null}
         onSearchSubmit={handleSearch}
+        onUserMenuClick={toggleSessionCard}
       />
       <aside className="  container">
         <div className="  ad-section ">
@@ -91,7 +99,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <section className="content-section "> {children}</section>
         <section className="aside-section ">
           <SocialPlugin socials={widgetsData.socials} />
-          <PostsWidget title="Most Popular" posts={widgetsData.popularPosts} />
+          <PostsWidget posts={widgetsData.popularPosts} title="Most Popular" />
           <TagsWidget tags={widgetsData.tags} />
           <TopicsWidget topics={widgetsData.topics} />
         </section>
@@ -103,18 +111,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </aside>
       <SocialChannelsBanner socials={widgetsData.socialsInBanner} />
       <section className="container bottom-section ">
-        <PostsWidget title="random posts" posts={widgetsData.randomPosts} />
+        <PostsWidget posts={widgetsData.randomPosts} title="random posts" />
         {widgetsData.featuredPost && (
-          <FeaturePostWidget
-            title="Feature post"
-            post={widgetsData.featuredPost}
-          />
+          <FeaturePostWidget post={widgetsData.featuredPost} title="Feature post" />
         )}
 
-        <PostsWidget
-          title="latest"
-          posts={widgetsData.latestsPosts.slice(0, 3)}
-        />
+        <PostsWidget posts={widgetsData.latestsPosts.slice(0, 3)} title="latest" />
       </section>
       <Footer />
       <style jsx>{`

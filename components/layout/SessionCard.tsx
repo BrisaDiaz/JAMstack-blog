@@ -1,37 +1,32 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import ProfilePhoto from "@/components/layout/ProfilePhoto";
-import { UserProfile } from "interfaces";
-export default function SessionCard({ user }: { user: UserProfile | null }) {
+import {UserProfile} from "interfaces";
+export default function SessionCard({user}: {user: UserProfile | null}) {
   return (
     <aside className="cart-wrapper">
       <article className="session-card">
-        <ProfilePhoto
-          size="large"
-          image={{ src: "/assets/default-profile.jpg", alt: "profile" }}
-        />
+        <ProfilePhoto image={{src: "/assets/default-profile.jpg", alt: "profile"}} size="large" />
         {user ? (
           <div>
             {user?.name && <p className="session-card__data ">{user?.name}</p>}
 
             {user?.email && (
-              <p className="session-card__data session-card__email  ">
-                {user?.email}
-              </p>
+              <p className="session-card__data session-card__email  ">{user?.email}</p>
             )}
           </div>
         ) : (
           <p className="session-card__data ">Incognito Mode</p>
         )}
         {user ? (
-          <a href="/api/auth/logout" className="session-btn ">
+          <a className="session-btn " href="/api/auth/logout">
             Close Session
           </a>
         ) : (
-          <a href="/api/auth/login" className="session-btn ">
+          <a className="session-btn " href="/api/auth/login">
             Login
           </a>
         )}
-        <a href="/privacy-policy" className="session-card__link">
+        <a className="session-card__link" href="/privacy-policy">
           <small>privacy policy</small>
         </a>
       </article>

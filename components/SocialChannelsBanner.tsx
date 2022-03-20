@@ -1,27 +1,24 @@
 import Logo from "@/components/layout/Logo";
-
 import SocialButton from "@/components/SocialButton";
-export default function SocialChannelsBanner({
-  socials,
-}: {
-  socials: { name: string; url: string }[];
-}) {
+export default function SocialChannelsBanner({socials}: {socials: {name: string; url: string}[]}) {
   return (
     <aside className="  container">
       <div className=" social-social-section ">
         <Logo size="large" />{" "}
         <p className="text">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's.
+          {
+            " Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's."
+          }
         </p>
         <ul className="social-socials__list">
           {socials.map((social) => (
             <a
               key={social.name}
-              href={social.url}
-              target="_blank"
-              className="social__link"
               aria-label={`${social.name}`}
+              className="social__link"
+              href={social.url}
+              rel="noreferrer"
+              target="_blank"
             >
               <li>
                 <SocialButton name={social.name} shape="rounded" width={40} />

@@ -1,38 +1,31 @@
-import Widget from "./Widget";
 import Image from "next/image";
 import Link from "next/link";
+
+import {WidgetPost} from "interfaces";
+
+import Widget from "./Widget";
 import Clock from "./svg/Clock";
 import User from "./svg/User";
-import { WidgetPost } from "interfaces";
-export default function postsWidget({
-  title,
-  post,
-}: {
-  title: string;
-  post: WidgetPost;
-}) {
+
+export default function postsWidget({title, post}: {title: string; post: WidgetPost}) {
   return (
     <Widget title={title}>
       <div>
         <span className="post__topic">{post.topic.name}</span>
         <div className="post__image ">
           <Image
-            src={post.thumbnail.url}
             alt={post.thumbnail.description}
+            blurDataURL={post.thumbnail.url}
             layout="fill"
             objectFit="cover"
-            quality={100}
             placeholder="blur"
-            blurDataURL={post.thumbnail.url}
+            quality={100}
+            src={post.thumbnail.url}
           />
         </div>
         <div className="post__content">
           <Link href={`/posts/${post.slug}`}>
-            <a
-              className="post__link"
-              aria-label={post.title}
-              title={post.title}
-            >
+            <a aria-label={post.title} className="post__link" title={post.title}>
               {post.title}
             </a>
           </Link>
@@ -40,9 +33,7 @@ export default function postsWidget({
             <User />
             <span>{post.author}</span>
             <Clock />
-            <time dateTime={post.publishedAt.rawDate}>
-              {post.publishedAt.shortDate}
-            </time>
+            <time dateTime={post.publishedAt.rawDate}>{post.publishedAt.shortDate}</time>
           </div>
         </div>
       </div>

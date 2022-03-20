@@ -1,12 +1,6 @@
 import React from "react";
 
-export default function Widget({
-  children,
-  title,
-}: {
-  children: React.ReactNode;
-  title: string;
-}) {
+export default function Widget({children, title}: {children: React.ReactNode; title: string}) {
   return (
     <article className="widget">
       <div className="widget__header">
