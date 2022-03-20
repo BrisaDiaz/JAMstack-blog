@@ -5464,8 +5464,8 @@ function Logo({className, size}: {className?: string; size?: "large" | "medium"}
           outline: none;
           color: var(--primary-main);
         }
-        .header__logo:focus-visible #textLogo,
-        .header__logo:hover #textLogo {
+        .header__logo:focus-visible svg #textLogo,
+        .header__logo:hover svg #textLogo {
           fill: (var--primary-main);
         }
       `}</style>

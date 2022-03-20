@@ -9,7 +9,9 @@ export default function Footer() {
           </a>
         </Link>
         <Link passHref href="/about">
-          <a className="footer__link " href="" />
+          <a className="footer__link " href="">
+            About
+          </a>
         </Link>
       </nav>
       <style jsx>{`

@@ -16,7 +16,7 @@ import Tag from "@/components/Tag";
 import {Post} from "interfaces";
 import Widget from "@/components/Widget";
 import SocialButton, {generateShareLink} from "@/components/SocialButton";
-
+import Placeholder from "@/components/placeholders/Post";
 const Page: NextPage<{ post: Post }> = ({ post }) => {
   const [url, setUrl] = React.useState("");
 
@@ -56,8 +56,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
       },
     },
   };
-if(!post ) return <div className="container"><p>Loading...</p></div>
-
+  if (!post) return <Placeholder />;
 
   return (
     <div className="container">
@@ -385,7 +384,7 @@ export default Page;
 export async function getStaticPaths() {
   const res = await getAllPostSlugs();
 
-  const paths = res.data.blogsCollection.items.map(
+  const paths = res?.data?.blogsCollection?.items.map(
     (post: { slug: string }) => ({
       params: { slug: post.slug },
     }),

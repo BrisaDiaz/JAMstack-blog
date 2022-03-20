@@ -10,6 +10,7 @@ import { PostItem } from "interfaces";
 import PostCard from "@/components/PostCard";
 import Button from "@/components/Button";
 import Loader from "@/components/Loader";
+
 const Topic: NextPage<{
   posts: PostItem[];
   topic: { name: string; slug: string };
