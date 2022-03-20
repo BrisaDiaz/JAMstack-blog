@@ -45,9 +45,11 @@ const Page: NextPage<{ page: GenericPage }> = ({ page }) => {
 export async function getStaticPaths() {
   const res = await getAllPageSlugs();
 
-  const paths = res.data.pageCollection.items.map((page: { slug: string }) => ({
-    params: { slug: page.slug },
-  }));
+  const paths = res.data?.pageCollection?.items.map(
+    (page: { slug: string }) => ({
+      params: { slug: page?.slug },
+    }),
+  );
 
   return {
     paths,
