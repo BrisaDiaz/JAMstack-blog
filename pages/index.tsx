@@ -178,6 +178,7 @@ export async function getStaticProps() {
   const {posts, total} = await postsAdapter(data);
 
   return {
-    props: {posts, total, revalidate: 1},
+    props: { posts, total },
+    revalidate: 1,
   };
 }

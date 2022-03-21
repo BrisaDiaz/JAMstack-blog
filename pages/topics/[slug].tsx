@@ -150,7 +150,8 @@ export async function getStaticProps({params}: {params: {slug: string}}) {
   };
 
   return {
-    props: {posts, total, topic, revalidate: 1},
+    props: { posts, total, topic },
+    revalidate: 1,
   };
 }
 export default Topic;

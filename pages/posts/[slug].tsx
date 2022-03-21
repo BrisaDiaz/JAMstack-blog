@@ -388,6 +388,7 @@ export async function getStaticProps({params}: {params: {slug: string}}) {
   }
 
   return {
-    props: {post, revalidate: 1},
+    props: { post },
+    revalidate: 1,
   };
 }

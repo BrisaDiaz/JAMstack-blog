@@ -47,7 +47,7 @@ export default function Header({
     label: string,
     level: 0 | 1 | 2,
   ) {
-    e.preventDefault();
+
     if (submenus.includes(label)) {
       return setSubmenus(submenus.filter((submenu) => submenu !== label));
     }
