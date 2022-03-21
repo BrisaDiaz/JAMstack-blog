@@ -30,7 +30,7 @@ export default function Header({
     submenu?: {
       label: string;
       href: string;
-      submenu?: {label: string; href: string}[];
+      submenu?: { label: string; href: string }[];
     }[];
   }[];
 }) {
@@ -221,7 +221,7 @@ export default function Header({
           z-index: 995;
         }
         .header__menu {
-          display: none;
+          display: n;
           z-index: -1;
           position: absolute;
           top: 59px;
@@ -240,12 +240,16 @@ export default function Header({
           transition: opacity 0.1s;
           box-shadow: var(--box-shadow-lg);
         }
+
         .header__menu--open {
           height: auto;
           opacity: 1;
           display: flex;
+          border-bottom: var(--border);
         }
-
+        .header__link-list {
+          width: 100%;
+        }
         .header__parent-link {
           text-transform: capitalize;
           font-size: 14px;
@@ -336,7 +340,6 @@ export default function Header({
             left: 0;
             height: auto;
             opacity: 1;
-            display: flex;
             box-shadow: none;
             gap: var(--padding-sm);
           }

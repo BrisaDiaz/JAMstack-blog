@@ -5,17 +5,16 @@ export default function SocialPlugin({socials}: {socials: {name: string; url: st
     <Widget title="social plugin">
       <ul className="social-widget">
         {socials.map((social) => (
-          <a
-            key={social.name}
-            aria-label={`${social.name}`}
-            href={social.url}
-            rel="noreferrer"
-            target="_blank"
-          >
-            <li className={`social-btn`}>
+          <li className={`social-btn`} key={social.name}>
+            <a
+              aria-label={`${social.name}`}
+              href={social.url}
+              rel="noreferrer"
+              target="_blank"
+            >
               <SocialButton name={social.name} />
-            </li>
-          </a>
+            </a>
+          </li>
         ))}
       </ul>
       <style jsx>{`
@@ -24,8 +23,8 @@ export default function SocialPlugin({socials}: {socials: {name: string; url: st
           grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
           gap: 5px;
         }
-        a:focus-visible {
-          outline: 2px solid var(--primary-main);
+        .social-btn:focus-within {
+          transform: translateY(-3px);
         }
         .social-btn {
           height: 40px;

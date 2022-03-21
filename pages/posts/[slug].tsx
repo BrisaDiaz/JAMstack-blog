@@ -238,7 +238,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
           border-radius: var(--border-radius);
         }
         .share-btn:focus-within {
-          border: 2px solid var(--primary-main);
+          transform: translateY(-3px);
         }
         .page {
           display: flex;

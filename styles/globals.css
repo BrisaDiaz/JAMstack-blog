@@ -213,6 +213,9 @@ p {
   line-height: 1.5em;
   margin-bottom: 1em;
 }
+svg:hover  #text{
+  fill:var(--primary-main)
+}
 h1,
 .title-1 {
   font-size: 27px;

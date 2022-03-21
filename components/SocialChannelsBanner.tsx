@@ -12,18 +12,17 @@ export default function SocialChannelsBanner({socials}: {socials: {name: string;
         </p>
         <ul className="social-socials__list">
           {socials.map((social) => (
-            <a
-              key={social.name}
-              aria-label={`${social.name}`}
-              className="social__link"
-              href={social.url}
-              rel="noreferrer"
-              target="_blank"
-            >
-              <li>
+            <li key={social.name}>
+              <a
+                aria-label={`${social.name}`}
+                className="social__link"
+                href={social.url}
+                rel="noreferrer"
+                target="_blank"
+              >
                 <SocialButton name={social.name} shape="rounded" width={40} />
-              </li>{" "}
-            </a>
+              </a>
+            </li>
           ))}
         </ul>
       </div>
@@ -52,12 +51,10 @@ export default function SocialChannelsBanner({socials}: {socials: {name: string;
           flex-wrap: wrap;
           justify-content: center;
         }
-
-        .social__link:focus-visible {
-          border-radius: 50%;
-
-          outline: 2px solid var(--primary-main);
+        .social-socials__list li:focus-within {
+          transform: translateY(-3px);
         }
+
         @media (min-width: 600px) {
           .social-social-section {
             margin: var(--padding);
@@ -69,7 +66,8 @@ export default function SocialChannelsBanner({socials}: {socials: {name: string;
             margin: var(--padding) 0;
           }
           .text {
-            max-width: 50%;
+            width: 100%;
+            max-width: 400px;
           }
         }
       `}</style>
