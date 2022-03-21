@@ -147,9 +147,7 @@ const Home: NextPage<{
           <p className="message">There are no coincidence for your search</p>
         )}
         {loading && <Loader />}
-        {!finished && !loading && (
-          <Button text="Load More" onClick={handleFetchMorePosts} />
-        )}
+        {!finished && !loading && <Button text="Load More" onClick={handleFetchMorePosts} />}
       </main>
 
       <style jsx>{`
@@ -180,7 +178,7 @@ export async function getStaticProps() {
   const {posts, total} = await postsAdapter(data);
 
   return {
-    props: { posts, total },
+    props: {posts, total},
     revalidate: 1,
   };
 }

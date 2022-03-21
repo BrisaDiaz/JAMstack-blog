@@ -2,6 +2,7 @@ import Widget from "../Widget";
 
 export default function TagsWidget() {
   const tags = ["fasdgf", "dfsafdasdf", "adfdf", "dfasfadsfadf", "dfadf"];
+
   return (
     <Widget title="tags">
       <ul className="tags-container">

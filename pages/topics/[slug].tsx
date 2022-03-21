@@ -1,9 +1,10 @@
 import type {NextPage} from "next";
 
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+
 import { getPostByTopicSlug, getAllTopicsSlugs } from "@/services/posts";
 import { postsAdapter } from "@/adapters/posts";
 import { PostItem } from "interfaces";
@@ -24,7 +25,7 @@ const Topic: NextPage<{
   const [error, setError] = useState("");
   const [finished, setFinished] = useState(posts?.length === total);
   const [loading, setLoading] = useState(false);
-  const [topicSlug, setTopicSlug] = useState(topic.slug);
+  const [topicSlug, setTopicSlug] = useState(topic?.slug);
   const [totalResults, setTotalResults] = useState(total);
   const handleFetchMorePosts = async () => {
     if (finished) return;
@@ -32,7 +33,7 @@ const Topic: NextPage<{
     try {
       setLoading(true);
       const data = await getPostByTopicSlug({
-        slug: topic.slug,
+        slug: topicSlug,
         take: 6,
         skip: displayedPostsCount,
       });
@@ -48,7 +49,6 @@ const Topic: NextPage<{
     }
   };
   const router = useRouter();
-
 
   React.useEffect(() => {
     const fetchPosts = async (topicSlug: string) => {
@@ -168,23 +168,28 @@ const Topic: NextPage<{
 export async function getStaticPaths() {
   const res = await getAllTopicsSlugs();
 
-  const paths = res?.data?.topicCollection?.items.map((topic: {slug: string}) => ({
-    params: {slug: topic?.slug},
-  }));
+  const paths = res?.data?.topicCollection?.items.map(
+    (topic: { slug: string }) => ({
+      params: { slug: topic?.slug },
+    }),
+  );
 
   return {
     paths,
     fallback: true,
   };
 }
-export async function getStaticProps({params}: {params: {slug: string}}) {
-  const data = await getPostByTopicSlug({slug: params?.slug, take: 6});
+export async function getStaticProps({ params }: { params: { slug: string } }) {
+  const data = await getPostByTopicSlug({ slug: params?.slug, take: 6 });
 
-  const {posts, total} = await postsAdapter(data);
+  const { posts, total } = await postsAdapter(data);
 
   const topic = {
     slug: params.slug,
-    name: params?.slug?.indexOf("-") !== -1 ? params?.slug?.replaceAll("-", " ") : params?.slug,
+    name:
+      params?.slug?.indexOf("-") !== -1
+        ? params?.slug?.replaceAll("-", " ")
+        : params?.slug,
   };
 
   return {

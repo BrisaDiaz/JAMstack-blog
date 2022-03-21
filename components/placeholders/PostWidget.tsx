@@ -1,12 +1,13 @@
 import Widget from "../Widget";
-export default function postsWidget({ title }: { title: string }) {
+export default function postsWidget({title}: {title: string}) {
   const posts = new Array(3).fill(1);
+
   return (
     <Widget title={title}>
       <div>
         {posts.map((el, index) => (
           <section key={index} className="post">
-            <div className="post__image "></div>
+            <div className="post__image " />
             <div className="post__content">
               <div className="post__title" />
               <div className="post__meta" />

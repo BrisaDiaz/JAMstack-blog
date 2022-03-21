@@ -8,6 +8,7 @@ export default function TopicsWidget() {
     "dfasfadsfadfdsgf",
     "dfgggadf",
   ];
+
   return (
     <Widget title="topics">
       <ul className="topics-container">

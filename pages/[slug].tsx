@@ -66,7 +66,7 @@ export async function getStaticProps({params}: {params: {slug: string}}) {
   }
 
   return {
-    props: { page},
+    props: {page},
     revalidate: 1,
   };
 }

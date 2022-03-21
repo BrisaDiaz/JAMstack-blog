@@ -24,11 +24,7 @@ export default function postsWidget({title, post}: {title: string; post: WidgetP
         </div>
         <div className="post__content">
           <Link href={`/posts/${post.slug}`}>
-            <a
-              aria-label={post.title}
-              className="post__link"
-              title={post.title}
-            >
+            <a aria-label={post.title} className="post__link" title={post.title}>
               {post.title}
             </a>
           </Link>
@@ -36,9 +32,7 @@ export default function postsWidget({title, post}: {title: string; post: WidgetP
             <User />
             <span>{post.author}</span>
             <Clock />
-            <time dateTime={post.publishedAt.rawDate}>
-              {post.publishedAt.shortDate}
-            </time>
+            <time dateTime={post.publishedAt.rawDate}>{post.publishedAt.shortDate}</time>
           </div>
         </div>
       </div>

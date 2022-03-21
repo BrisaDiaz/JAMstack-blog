@@ -31,7 +31,7 @@ export default function Header({
     submenu?: {
       label: string;
       href: string;
-      submenu?: { label: string; href: string; as: string }[];
+      submenu?: {label: string; href: string; as: string}[];
       as: string;
     }[];
   }[];
@@ -51,6 +51,7 @@ export default function Header({
       e.preventDefault();
     } else {
       toggleMenu();
+
       return setSubmenus([]);
     }
     if (submenus.includes(label)) {
@@ -77,9 +78,7 @@ export default function Header({
 
         <Logo />
 
-        <nav
-          className={`header__menu ${isMenuOpen ? "header__menu--open" : ""}`}
-        >
+        <nav className={`header__menu ${isMenuOpen ? "header__menu--open" : ""}`}>
           <ul className="header__link-list   ">
             <li className="mega-link">
               <Link passHref href="/">
@@ -100,11 +99,7 @@ export default function Header({
                         src={post.thumbnail.url}
                       />
                     </div>
-                    <Link
-                      passHref
-                      href={`/posts/[slug]`}
-                      as={`/posts/${post.slug}`}
-                    >
+                    <Link passHref as={`/posts/${post.slug}`} href={`/posts/[slug]`}>
                       <a
                         aria-label={post.title}
                         href=""
@@ -122,36 +117,28 @@ export default function Header({
             </li>
             {navLinks.map((link) => (
               <li key={link.label} className=" ">
-                <Link passHref href={link.href} as={link.as}>
+                <Link passHref as={link.as} href={link.href}>
                   <a
                     className={`header__parent-link   heder__main-link `}
                     onClick={(e) =>
-                      link.submenu
-                        ? handleLinkClick(e, link.label, 1)
-                        : handleLinkClick(e, "", 0)
+                      link.submenu ? handleLinkClick(e, link.label, 1) : handleLinkClick(e, "", 0)
                     }
                   >
                     <span>{link.label} </span>
                     {link.submenu && (
-                      <Arrow
-                        direction={
-                          submenus.includes(link.label) ? "bottom" : "right"
-                        }
-                      />
+                      <Arrow direction={submenus.includes(link.label) ? "bottom" : "right"} />
                     )}
                   </a>
                 </Link>
                 {link.submenu && (
                   <ul
                     className={`header__submenu   ${
-                      submenus.includes(link.label)
-                        ? "header__submenu--open "
-                        : ""
+                      submenus.includes(link.label) ? "header__submenu--open " : ""
                     }`}
                   >
                     {link.submenu.map((subLink) => (
                       <li key={subLink.label} className=" ">
-                        <Link passHref href={subLink.href} as={subLink.as}>
+                        <Link passHref as={subLink.as} href={subLink.href}>
                           <a
                             className={` header__parent-link `}
                             href=""
@@ -164,11 +151,7 @@ export default function Header({
                             <span>{subLink.label} </span>
                             {subLink?.submenu && (
                               <Arrow
-                                direction={
-                                  submenus.includes(subLink.label)
-                                    ? "bottom"
-                                    : "right"
-                                }
+                                direction={submenus.includes(subLink.label) ? "bottom" : "right"}
                               />
                             )}
                           </a>
@@ -176,22 +159,13 @@ export default function Header({
                         {subLink?.submenu && (
                           <ul
                             className={`header__submenu ${
-                              submenus.includes(subLink.label)
-                                ? "header__submenu--open "
-                                : ""
+                              submenus.includes(subLink.label) ? "header__submenu--open " : ""
                             }`}
                           >
                             {subLink.submenu.map((subSubLink) => (
                               <li key={subSubLink.label}>
-                                <Link
-                                  passHref
-                                  href={subLink.href}
-                                  as={subSubLink.as}
-                                >
-                                  <a
-                                    href=""
-                                    onClick={(e) => handleLinkClick(e, "", 0)}
-                                  >
+                                <Link passHref as={subSubLink.as} href={subLink.href}>
+                                  <a href="" onClick={(e) => handleLinkClick(e, "", 0)}>
                                     {subSubLink.label}
                                   </a>
                                 </Link>

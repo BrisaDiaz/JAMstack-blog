@@ -1,15 +1,13 @@
 import Widget from "../Widget";
 
-export default function postsWidget({ title }: { title: string }) {
+export default function postsWidget({title}: {title: string}) {
   return (
     <Widget title={title}>
       <div>
         <span className="post__topic">topic</span>
-        <div className="post__image "></div>
+        <div className="post__image " />
         <div className="post__content">
-          <span className="post__link">
-            4 Post-Pandemic Cybersecurity Trends
-          </span>
+          <span className="post__link">4 Post-Pandemic Cybersecurity Trends</span>
 
           <div className="post__meta">
             <span>adsfadfadf</span>

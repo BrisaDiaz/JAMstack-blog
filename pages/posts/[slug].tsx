@@ -66,7 +66,7 @@ const Page: NextPage<{post: Post}> = ({post}) => {
         <meta content={post.thumbnail.url} name="twitter:image" />
         <script
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(generatePostORGSchema({ post, url })),
+            __html: JSON.stringify(generatePostORGSchema({post, url})),
           }}
           type="application/ld+json"
         />
@@ -81,11 +81,7 @@ const Page: NextPage<{post: Post}> = ({post}) => {
               </a>
             </Link>
             <Arrow color="var(--dark-gray)" width={15} />
-            <Link
-              passHref
-              as={`/topics/${post?.topic?.slug}`}
-              href="/topics/[slug]"
-            >
+            <Link passHref as={`/topics/${post?.topic?.slug}`} href="/topics/[slug]">
               <a className="breadcrumb__link" href="">
                 {post?.topic?.name}
               </a>
@@ -103,10 +99,7 @@ const Page: NextPage<{post: Post}> = ({post}) => {
               </div>
               <div>
                 <Clock />
-                <time
-                  className="post__meta-tag"
-                  dateTime={post?.publishedAt?.rawDate}
-                >
+                <time className="post__meta-tag" dateTime={post?.publishedAt?.rawDate}>
                   {post?.publishedAt?.shortDate}
                 </time>
               </div>
@@ -127,19 +120,11 @@ const Page: NextPage<{post: Post}> = ({post}) => {
                 src={post?.thumbnail?.url}
                 width={600}
               />
-              <figcaption className="post__figcaption">
-                {post?.thumbnail?.title}
-              </figcaption>
+              <figcaption className="post__figcaption">{post?.thumbnail?.title}</figcaption>
             </figure>
-            {post?.subtitle && (
-              <h2 className="post__subtitle"> {post?.subtitle}</h2>
-            )}
+            {post?.subtitle && <h2 className="post__subtitle"> {post?.subtitle}</h2>}
             <div className="pre">
-              {post?.content &&
-                documentToReactComponents(
-                  post?.content as any,
-                  renderProps as any,
-                )}
+              {post?.content && documentToReactComponents(post?.content as any, renderProps as any)}
             </div>
             <section className=" post__ad ">
               <span>Responsive Advertisement</span>
@@ -147,7 +132,7 @@ const Page: NextPage<{post: Post}> = ({post}) => {
           </section>
           <ul className="posts__tags">
             {post?.tags?.map((tag) => (
-              <Tag key={tag} tag={{ name: tag, link: `/?tag=${tag}` }} />
+              <Tag key={tag} tag={{name: tag, link: `/?tag=${tag}`}} />
             ))}
           </ul>
           <ul className="share-btn__list">
@@ -185,11 +170,7 @@ const Page: NextPage<{post: Post}> = ({post}) => {
                 </div>
                 <div>
                   <Link passHref href={`/posts/${suggestedPost?.slug}`}>
-                    <a
-                      aria-label={suggestedPost?.title}
-                      href=""
-                      title={suggestedPost?.title}
-                    >
+                    <a aria-label={suggestedPost?.title} href="" title={suggestedPost?.title}>
                       {suggestedPost?.title.length > 45
                         ? suggestedPost?.title.slice(0, 45).concat("...")
                         : suggestedPost?.title}
@@ -197,10 +178,7 @@ const Page: NextPage<{post: Post}> = ({post}) => {
                   </Link>
                   <div className=" suggested-post__meta ">
                     <Clock />
-                    <time
-                      className="post__meta-tag"
-                      dateTime={post?.publishedAt?.rawDate}
-                    >
+                    <time className="post__meta-tag" dateTime={post?.publishedAt?.rawDate}>
                       {post?.publishedAt?.shortDate}
                     </time>
                   </div>
@@ -408,7 +386,7 @@ export async function getStaticProps({params}: {params: {slug: string}}) {
   }
 
   return {
-    props: { post },
+    props: {post},
     revalidate: 1,
   };
 }

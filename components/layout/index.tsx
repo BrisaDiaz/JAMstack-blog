@@ -6,25 +6,25 @@ import SocialChannelsBanner from "@/components/SocialChannelsBanner";
 import {getWebsiteWidgetsData} from "@/services/feed";
 import {websiteWidgetsAdapter} from "@/adapters/feed";
 import {Topic, WidgetPost, Social} from "interfaces";
+import useOnScreen from "@/hooks/useOnScreen";
 
 import TagsWidget from "../TagsWidget";
 import SocialPlugin from "../SocialPlugin";
 import PostsWidget from "../PostsWidget";
 import FeaturePostWidget from "../FeaturePostWidget";
 import TopicsWidget from "../TopicsWidget";
-
-import SessionCard from "./SessionCard";
-import Footer from "./Footer";
-import Header from "./Header";
-import useOnScreen from "@/hooks/useOnScreen";
 import SocialPluginPlaceholder from "../placeholders/SocialPlugin";
 import PostWidgetPlaceholder from "../placeholders/PostWidget";
 import TagsWidgetPlaceholder from "../placeholders/TagsWidget";
 import TopicsWidgetPlaceholder from "../placeholders/TopicsWidget";
 import FeaturePostWidgetPlaceholder from "../placeholders/FeaturePostWidget";
 import LoadingScreen from "../LoadingScreen";
-export default function Layout({ children }: { children: React.ReactNode }) {
-  const { user } = useUser();
+
+import Header from "./Header";
+import Footer from "./Footer";
+import SessionCard from "./SessionCard";
+export default function Layout({children}: {children: React.ReactNode}) {
+  const {user} = useUser();
   const router = useRouter();
 
   const [isRouteChanging, setIsRouteChanging] = React.useState(false);
@@ -37,10 +37,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       setIsRouteChanging(true);
     });
     router.events.on("routeChangeComplete", () => {
-
-
       setIsRouteChanging(false);
       const main = document.querySelector("main");
+
       if (!main) return;
       const firstFocusableElement = main.querySelectorAll(
         focusableElements,
@@ -50,6 +49,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         firstFocusableElement.focus();
       }
     });
+
     return () => {
       setIsRouteChanging(false);
     };
@@ -119,12 +119,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const asideSectionRef: React.RefObject<any> = React.useRef();
   const isBottomSectionInView = useOnScreen(bottomSectionRef, "-100px", true);
   const isAsideSectionInView = useOnScreen(asideSectionRef, "-100px", true);
+
   return (
     <div>
       {isRouteChanging && <LoadingScreen />}
-      {isSessionCardOpen && (
-        <SessionCard user={user || null} onClick={toggleSessionCard} />
-      )}
+      {isSessionCardOpen && <SessionCard user={user || null} onClick={toggleSessionCard} />}
       <Header
         latestPosts={widgetsData.latestsPosts}
         navLinks={navLinks}
@@ -139,14 +138,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </aside>
       <div className="container middle-section  ">
         <section className="content-section "> {children}</section>
-        <section className="aside-section " ref={asideSectionRef}>
+        <section ref={asideSectionRef} className="aside-section ">
           {isAsideSectionInView && widgetsData.topics.length > 0 ? (
             <>
               <SocialPlugin socials={widgetsData.socials} />
-              <PostsWidget
-                posts={widgetsData.popularPosts}
-                title="Most Popular"
-              />
+              <PostsWidget posts={widgetsData.popularPosts} title="Most Popular" />
               <TagsWidget tags={widgetsData.tags} />
               <TopicsWidget topics={widgetsData.topics} />
             </>
@@ -166,21 +162,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
       <SocialChannelsBanner socials={widgetsData.socialsInBanner} />
-      <section className="container bottom-section " ref={bottomSectionRef}>
+      <section ref={bottomSectionRef} className="container bottom-section ">
         {isBottomSectionInView ? (
           <>
             <PostsWidget posts={widgetsData.randomPosts} title="random posts" />
             {widgetsData.featuredPost && (
-              <FeaturePostWidget
-                post={widgetsData.featuredPost}
-                title="Feature post"
-              />
+              <FeaturePostWidget post={widgetsData.featuredPost} title="Feature post" />
             )}
 
-            <PostsWidget
-              posts={widgetsData.latestsPosts.slice(0, 3)}
-              title="latest"
-            />
+            <PostsWidget posts={widgetsData.latestsPosts.slice(0, 3)} title="latest" />
           </>
         ) : (
           <>

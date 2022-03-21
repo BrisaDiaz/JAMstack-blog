@@ -2,11 +2,12 @@ import Widget from "@/components/Widget";
 
 export default function SocialPlugin() {
   const socials = new Array(10).fill(1);
+
   return (
     <Widget title="social plugin">
       <ul className="social-widget">
         {socials.map((el, indexl) => (
-          <li key={indexl} className={`social-btn`}></li>
+          <li key={indexl} className={`social-btn`} />
         ))}
       </ul>
       <style jsx>{`

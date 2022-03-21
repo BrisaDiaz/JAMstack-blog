@@ -12,9 +12,7 @@ export default function PostCard({post}: {post: PostItem}) {
       <Link passHref as={`/posts/${post.slug}`} href="/posts/[slug]">
         <a className="post__title" href="">
           <h2 aria-label={post.title} title={post.title}>
-            {post.title.length > 50
-              ? post.title.slice(0, 46).concat("...")
-              : post.title}
+            {post.title.length > 50 ? post.title.slice(0, 46).concat("...") : post.title}
           </h2>
         </a>
       </Link>
@@ -27,9 +25,7 @@ export default function PostCard({post}: {post: PostItem}) {
         </div>
         <div className="post__meta-tag">
           <Clock />
-          <time dateTime={post.publishedAt.rawDate}>
-            {post.publishedAt.shortDate}
-          </time>
+          <time dateTime={post.publishedAt.rawDate}>{post.publishedAt.shortDate}</time>
         </div>
       </div>
       <div className="post__inner">
@@ -44,9 +40,7 @@ export default function PostCard({post}: {post: PostItem}) {
             src={post.thumbnail.url}
           />
         </div>
-        <div className="pre">
-          {documentToReactComponents(post.extract as any)}
-        </div>
+        <div className="pre">{documentToReactComponents(post.extract as any)}</div>
       </div>
       <style jsx>{`
         .post {

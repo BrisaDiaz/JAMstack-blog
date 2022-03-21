@@ -12,7 +12,10 @@ export default function SessionCard({
     <aside className="cart-wrapper">
       <article className="session-card">
         <ProfilePhoto
-          image={{ src: "/assets/default-profile.jpg", alt: "profile" }}
+          image={{
+            src: user?.picture || "/assets/default-profile.jpg",
+            alt: "profile",
+          }}
           size="large"
         />
         {user ? (
