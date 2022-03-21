@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import {documentToReactComponents} from "@contentful/rich-text-react-renderer";
+import {PostItem} from "interfaces";
 
 import User from "@/components/svg/User";
 import Clock from "@/components/svg/Clock";
-import {PostItem} from "interfaces";
 
 export default function PostCard({post}: {post: PostItem}) {
   return (

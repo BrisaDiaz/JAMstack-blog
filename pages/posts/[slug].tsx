@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {documentToReactComponents} from "@contentful/rich-text-react-renderer";
 import {BLOCKS} from "@contentful/rich-text-types";
+import {Post} from "interfaces";
 
 import Arrow from "@/components/svg/Arrow";
 import User from "@/components/svg/User";
@@ -13,7 +14,6 @@ import Clock from "@/components/svg/Clock";
 import {getAllPostSlugs, getPostBySlug, generatePostORGSchema} from "@/services/posts";
 import {postAdapter} from "@/adapters/posts";
 import Tag from "@/components/Tag";
-import {Post} from "interfaces";
 import Widget from "@/components/Widget";
 import SocialButton, {generateShareLink} from "@/components/SocialButton";
 import Placeholder from "@/components/placeholders/Post";

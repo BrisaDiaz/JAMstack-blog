@@ -2,13 +2,8 @@ import {useUser} from "@auth0/nextjs-auth0";
 import {useRouter} from "next/router";
 import React, {useEffect, useState} from "react";
 import dynamic from "next/dynamic";
+import {Topic, WidgetPost, Social} from "interfaces";
 
-import SocialChannelsBanner from "@/components/SocialChannelsBanner";
-import { getWebsiteWidgetsData } from "@/services/feed";
-import { websiteWidgetsAdapter } from "@/adapters/feed";
-import { Topic, WidgetPost, Social } from "interfaces";
-
-import useOnScreen from "@/hooks/useOnScreen";
 const TagsWidget = dynamic(() => import("../TagsWidget"));
 const PostsWidget = dynamic(() => import("../PostsWidget"));
 const FeaturePostWidget = dynamic(() => import("../FeaturePostWidget"));
@@ -22,8 +17,14 @@ import TagsWidgetPlaceholder from "../placeholders/TagsWidget";
 import TopicsWidgetPlaceholder from "../placeholders/TopicsWidget";
 import FeaturePostWidgetPlaceholder from "../placeholders/FeaturePostWidget";
 import LoadingScreen from "../LoadingScreen";
+
 import Header from "./Header";
 import Footer from "./Footer";
+
+import useOnScreen from "@/hooks/useOnScreen";
+import {websiteWidgetsAdapter} from "@/adapters/feed";
+import {getWebsiteWidgetsData} from "@/services/feed";
+import SocialChannelsBanner from "@/components/SocialChannelsBanner";
 
 export default function Layout({children}: {children: React.ReactNode}) {
   const {user} = useUser();

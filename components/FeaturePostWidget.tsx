@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-
 import {WidgetPost} from "interfaces";
 
 import Widget from "./Widget";

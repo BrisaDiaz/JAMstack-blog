@@ -2,10 +2,10 @@ import type {NextPage} from "next";
 
 import Head from "next/head";
 import {documentToReactComponents} from "@contentful/rich-text-react-renderer";
+import {GenericPage} from "interfaces";
 
 import {getPageBySlug, getAllPageSlugs} from "@/services/pages";
 import {pageAdapter} from "@/adapters/pages";
-import {GenericPage} from "interfaces";
 import Placeholder from "@/components/placeholders/Page";
 const Page: NextPage<{page: GenericPage}> = ({page}) => {
   if (!page) return <Placeholder />;

@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import Link from "next/link";
+import {UserProfile} from "interfaces";
+
 import ProfilePhoto from "@/components/layout/ProfilePhoto";
-import { UserProfile } from "interfaces";
 export default function SessionCard({
   user,
   onClick,
@@ -24,9 +25,7 @@ export default function SessionCard({
             {user?.name && <p className="session-card__data ">{user?.name}</p>}
 
             {user?.email && (
-              <p className="session-card__data session-card__email  ">
-                {user?.email}
-              </p>
+              <p className="session-card__data session-card__email  ">{user?.email}</p>
             )}
           </div>
         ) : (
@@ -41,8 +40,8 @@ export default function SessionCard({
             Login
           </a>
         )}
-        <Link passHref href="/[slug]" as="/privacy-policy">
-          <a className="session-card__link" onClick={onClick} href="">
+        <Link passHref as="/privacy-policy" href="/[slug]">
+          <a className="session-card__link" href="" onClick={onClick}>
             <small>privacy policy</small>
           </a>
         </Link>

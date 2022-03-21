@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 import {Topic} from "interfaces";
 
 import Widget from "./Widget";
