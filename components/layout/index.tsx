@@ -16,9 +16,42 @@ import TopicsWidget from "../TopicsWidget";
 import SessionCard from "./SessionCard";
 import Footer from "./Footer";
 import Header from "./Header";
-export default function Layout({children}: {children: React.ReactNode}) {
-  const {user} = useUser();
+import useOnScreen from "@/hooks/useOnScreen";
+import SocialPluginPlaceholder from "../placeholders/SocialPlugin";
+import PostWidgetPlaceholder from "../placeholders/PostWidget";
+import TagsWidgetPlaceholder from "../placeholders/TagsWidget";
+import TopicsWidgetPlaceholder from "../placeholders/TopicsWidget";
+import FeaturePostWidgetPlaceholder from "../placeholders/FeaturePostWidget";
+import LoadingScreen from "../LoadingScreen";
+export default function Layout({ children }: { children: React.ReactNode }) {
+  const { user } = useUser();
+  const router = useRouter();
 
+  const [isRouteChanging, setIsRouteChanging] = React.useState(false);
+
+  React.useEffect(() => {
+    const focusableElements =
+      'a,button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+    router.events.on("routeChangeStart", () => {
+      setIsRouteChanging(true);
+    });
+    router.events.on("routeChangeComplete", () => {
+      setIsRouteChanging(false);
+      const main = document.querySelector("main");
+      if (!main) return;
+      const firstFocusableElement = main.querySelectorAll(
+        focusableElements,
+      )[0] as HTMLButtonElement;
+
+      if (firstFocusableElement) {
+        firstFocusableElement.focus();
+      }
+    });
+    return () => {
+      setIsRouteChanging(false); // This worked for me
+    };
+  }, [router.events]);
   const [widgetsData, setWidgetData] = useState<{
     topics: Topic[];
     featuredPost: WidgetPost | null;
@@ -58,8 +91,6 @@ export default function Layout({children}: {children: React.ReactNode}) {
     setIsSessionCardOpen((isOpen) => !isOpen);
   }
 
-  const router = useRouter();
-
   function handleSearch(search: string, e: React.FormEvent<HTMLFormElement>) {
     router.push(`?search=${search}`);
   }
@@ -82,10 +113,16 @@ export default function Layout({children}: {children: React.ReactNode}) {
       as: "/about",
     },
   ];
-
+  const bottomSectionRef: React.RefObject<any> = React.useRef();
+  const asideSectionRef: React.RefObject<any> = React.useRef();
+  const isBottomSectionInView = useOnScreen(bottomSectionRef, "-100px", true);
+  const isAsideSectionInView = useOnScreen(bottomSectionRef, "-100px", true);
   return (
     <div>
-      {isSessionCardOpen && <SessionCard user={user || null} />}
+      {isRouteChanging && <LoadingScreen />}
+      {isSessionCardOpen && (
+        <SessionCard user={user || null} onClick={toggleSessionCard} />
+      )}
       <Header
         latestPosts={widgetsData.latestsPosts}
         navLinks={navLinks}
@@ -100,11 +137,25 @@ export default function Layout({children}: {children: React.ReactNode}) {
       </aside>
       <div className="container middle-section  ">
         <section className="content-section "> {children}</section>
-        <section className="aside-section ">
-          <SocialPlugin socials={widgetsData.socials} />
-          <PostsWidget posts={widgetsData.popularPosts} title="Most Popular" />
-          <TagsWidget tags={widgetsData.tags} />
-          <TopicsWidget topics={widgetsData.topics} />
+        <section className="aside-section " ref={asideSectionRef}>
+          {isAsideSectionInView && widgetsData.topics.length > 0 ? (
+            <>
+              <SocialPlugin socials={widgetsData.socials} />
+              <PostsWidget
+                posts={widgetsData.popularPosts}
+                title="Most Popular"
+              />
+              <TagsWidget tags={widgetsData.tags} />
+              <TopicsWidget topics={widgetsData.topics} />
+            </>
+          ) : (
+            <>
+              <SocialPluginPlaceholder />
+              <PostWidgetPlaceholder title="Most Popular" />
+              <TagsWidgetPlaceholder />
+              <TopicsWidgetPlaceholder />
+            </>
+          )}
         </section>
       </div>
       <aside className="  container">
@@ -113,13 +164,29 @@ export default function Layout({children}: {children: React.ReactNode}) {
         </div>
       </aside>
       <SocialChannelsBanner socials={widgetsData.socialsInBanner} />
-      <section className="container bottom-section ">
-        <PostsWidget posts={widgetsData.randomPosts} title="random posts" />
-        {widgetsData.featuredPost && (
-          <FeaturePostWidget post={widgetsData.featuredPost} title="Feature post" />
-        )}
+      <section className="container bottom-section " ref={bottomSectionRef}>
+        {isBottomSectionInView ? (
+          <>
+            <PostsWidget posts={widgetsData.randomPosts} title="random posts" />
+            {widgetsData.featuredPost && (
+              <FeaturePostWidget
+                post={widgetsData.featuredPost}
+                title="Feature post"
+              />
+            )}
 
-        <PostsWidget posts={widgetsData.latestsPosts.slice(0, 3)} title="latest" />
+            <PostsWidget
+              posts={widgetsData.latestsPosts.slice(0, 3)}
+              title="latest"
+            />
+          </>
+        ) : (
+          <>
+            <PostWidgetPlaceholder title="random posts" />
+            <FeaturePostWidgetPlaceholder title="Feature post" />
+            <PostWidgetPlaceholder title="latest" />
+          </>
+        )}
       </section>
       <Footer />
       <style jsx>{`

@@ -9,7 +9,8 @@
       "@/styles/*": ["styles/*"],
       "@/libs/*": ["libs/*"],
       "@/services/*": ["services/*"],
-      "@/adapters/*": ["adapters/*"]
+      "@/adapters/*": ["adapters/*"],
+      
     },
     "allowJs": true,
     "skipLibCheck": true,

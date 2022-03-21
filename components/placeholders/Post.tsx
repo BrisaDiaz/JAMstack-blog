@@ -73,8 +73,8 @@ export default function PostPlaceholder() {
         }
         .paragraph,
         .image {
-          background: var(--gray);
           width: 100%;
+          background: var(--light-gray);
           animation: blink 1s infinite both;
           height: 16px;
         }

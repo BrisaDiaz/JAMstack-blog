@@ -1,63 +1,74 @@
 export default function Loader() {
   return (
-    <div className="lds-ellipsis">
-      <div />
-      <div />
-      <div />
+    <div className="cubes">
+      <div className="sk-cube sk-cube1"></div>
+      <div className="sk-cube sk-cube2"></div>
+      <div className="sk-cube sk-cube3"></div>
+      <div className="sk-cube sk-cube4"></div>
+      <div className="sk-cube sk-cube5"></div>
+      <div className="sk-cube sk-cube6"></div>
+      <div className="sk-cube sk-cube7"></div>
+      <div className="sk-cube sk-cube8"></div>
+      <div className="sk-cube sk-cube9"></div>
+
       <style jsx>{`
-        .lds-ellipsis {
-          display: inline-block;
-          position: relative;
-          width: 80px;
-          height: 80px;
+        .cubes {
+          width: 40px;
+          height: 40px;
+          margin: 100px auto;
         }
-        .lds-ellipsis div {
-          position: absolute;
-          top: 33px;
-          width: 13px;
-          height: 13px;
-          border-radius: 50%;
-          background: var(--primary-main);
-          animation-timing-function: cubic-bezier(0, 1, 1, 0);
+
+        .cubes .sk-cube {
+          width: 33%;
+          height: 33%;
+          background-color: var(--primary-main);
+          float: left;
+          animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
         }
-        .lds-ellipsis div:nth-child(1) {
-          left: 8px;
-          animation: lds-ellipsis1 0.6s infinite;
+
+        .cubes .sk-cube1 {
+          animation-delay: 0.2s;
         }
-        .lds-ellipsis div:nth-child(2) {
-          left: 8px;
-          animation: lds-ellipsis2 0.6s infinite;
+
+        .cubes .sk-cube2 {
+          animation-delay: 0.3s;
         }
-        .lds-ellipsis div:nth-child(3) {
-          left: 32px;
-          animation: lds-ellipsis2 0.6s infinite;
+
+        .cubes .sk-cube3 {
+          animation-delay: 0.4s;
         }
-        .lds-ellipsis div:nth-child(4) {
-          left: 56px;
-          animation: lds-ellipsis3 0.6s infinite;
+
+        .cubes .sk-cube4 {
+          animation-delay: 0.1s;
         }
-        @keyframes lds-ellipsis1 {
-          0% {
-            transform: scale(0);
-          }
+
+        .cubes .sk-cube5 {
+          animation-delay: 0.2s;
+        }
+
+        .cubes .sk-cube6 {
+          animation-delay: 0.3s;
+        }
+
+        .cubes .sk-cube7 {
+          animation-delay: 0s;
+        }
+
+        .cubes .sk-cube8 {
+          animation-delay: 0.1s;
+        }
+
+        .cubes .sk-cube9 {
+          animation-delay: 0.2s;
+        }
+        @keyframes sk-cubeGridScaleDelay {
+          0%,
+          70%,
           100% {
-            transform: scale(1);
+            transform: scale3D(1, 1, 1);
           }
-        }
-        @keyframes lds-ellipsis3 {
-          0% {
-            transform: scale(1);
-          }
-          100% {
-            transform: scale(0);
-          }
-        }
-        @keyframes lds-ellipsis2 {
-          0% {
-            transform: translate(0, 0);
-          }
-          100% {
-            transform: translate(24px, 0);
+          35% {
+            transform: scale3D(0, 0, 1);
           }
         }
       `}</style>

@@ -1,32 +1,47 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import ProfilePhoto from "@/components/layout/ProfilePhoto";
 import {UserProfile} from "interfaces";
-export default function SessionCard({user}: {user: UserProfile | null}) {
+export default function SessionCard({
+  user,
+  onClick,
+}: {
+  user: UserProfile | null;
+  onClick: () => void;
+}) {
   return (
     <aside className="cart-wrapper">
       <article className="session-card">
-        <ProfilePhoto image={{src: "/assets/default-profile.jpg", alt: "profile"}} size="large" />
+        <ProfilePhoto
+          image={{ src: "/assets/default-profile.jpg", alt: "profile" }}
+          size="large"
+        />
         {user ? (
           <div>
             {user?.name && <p className="session-card__data ">{user?.name}</p>}
 
             {user?.email && (
-              <p className="session-card__data session-card__email  ">{user?.email}</p>
+              <p className="session-card__data session-card__email  ">
+                {user?.email}
+              </p>
             )}
           </div>
         ) : (
           <p className="session-card__data ">Incognito Mode</p>
         )}
         {user ? (
-          <a className="session-btn " href="/api/auth/logout">
+          <a className="session-btn " href="/api/auth/logout" onClick={onClick}>
             Close Session
           </a>
         ) : (
-          <a className="session-btn " href="/api/auth/login">
+          <a className="session-btn " href="/api/auth/login" onClick={onClick}>
             Login
           </a>
         )}
-        <a className="session-card__link" href="/privacy-policy">
+        <a
+          className="session-card__link"
+          href="/privacy-policy"
+          onClick={onClick}
+        >
           <small>privacy policy</small>
         </a>
       </article>
@@ -90,12 +105,14 @@ export default function SessionCard({user}: {user: UserProfile | null}) {
           color: var(--light-black);
           text-transform: capitalize;
           font-weight: 400;
-
+          margin-top: var(--padding);
           text-align: center;
+          color: var(--primary-main);
         }
         .session-card__link:hover,
         .session-card__link:focus-visible {
-          color: var(--primary-main);
+          text-decoration: 1px solid underline;
+          text-underline-offset: 2px;
         }
       `}</style>
     </aside>
