@@ -336,6 +336,7 @@ export default function Header({
             left: 0;
             height: auto;
             opacity: 1;
+            display: flex;
             box-shadow: none;
             gap: var(--padding-sm);
           }
