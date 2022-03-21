@@ -47,19 +47,20 @@ export default function Header({
     label: string,
     level: 0 | 1 | 2,
   ) {
-       if (level === 1 || level === 2) {
-         e.preventDefault();
-       }else{
-     return setSubmenus([]);
-       }
+    if (level === 1 || level === 2) {
+      e.preventDefault();
+    } else {
+      toggleMenu();
+      return setSubmenus([]);
+    }
     if (submenus.includes(label)) {
       return setSubmenus(submenus.filter((submenu) => submenu !== label));
     }
- 
-      if (level === 1) {
-        return setSubmenus([label]);
-      }
-    
+
+    if (level === 1) {
+      return setSubmenus([label]);
+    }
+
     return setSubmenus(submenus.concat(label));
   }
 
@@ -96,7 +97,6 @@ export default function Header({
                         layout="fill"
                         objectFit="cover"
                         placeholder="blur"
-                        quality={100}
                         src={post.thumbnail.url}
                       />
                     </div>

@@ -1,28 +1,31 @@
 import type {NextPage} from "next";
 
 import Head from "next/head";
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-
-import {getPostByTopicSlug, getAllTopicsSlugs} from "@/services/posts";
-import {postsAdapter} from "@/adapters/posts";
-import {PostItem} from "interfaces";
+import { useRouter } from "next/router";
+import { getPostByTopicSlug, getAllTopicsSlugs } from "@/services/posts";
+import { postsAdapter } from "@/adapters/posts";
+import { PostItem } from "interfaces";
 import PostCard from "@/components/PostCard";
 import Button from "@/components/Button";
 import Loader from "@/components/Loader";
 
 const Topic: NextPage<{
   posts: PostItem[];
-  topic: {name: string; slug: string};
+  topic: { name: string; slug: string };
   total: number;
-}> = ({posts, topic, total}) => {
+}> = ({ posts, topic, total }) => {
   const [displayedPosts, setDisplayedPosts] = useState<PostItem[]>(posts || []);
-  const [displayedPostsCount, setTotalPostsCount] = useState(posts?.length || 0);
+  const [displayedPostsCount, setTotalPostsCount] = useState(
+    posts?.length || 0,
+  );
 
   const [error, setError] = useState("");
   const [finished, setFinished] = useState(posts?.length === total);
   const [loading, setLoading] = useState(false);
-
+  const [topicSlug, setTopicSlug] = useState(topic.slug);
+  const [totalResults, setTotalResults] = useState(total);
   const handleFetchMorePosts = async () => {
     if (finished) return;
 
@@ -33,17 +36,50 @@ const Topic: NextPage<{
         take: 6,
         skip: displayedPostsCount,
       });
-      const {posts} = await postsAdapter(data);
+      const { posts } = await postsAdapter(data);
 
       setDisplayedPosts([...displayedPosts, ...posts]);
-      setTotalPostsCount(displayedPostsCount + 6);
-      if (displayedPostsCount === total) setFinished(true);
+      setTotalPostsCount(displayedPostsCount + posts.length);
+      if (displayedPostsCount === totalResults) setFinished(true);
     } catch (e) {
       setLoading(false);
 
       setError("An error has ocurred and posts couldn't be retrieved.");
     }
   };
+  const router = useRouter();
+
+
+  React.useEffect(() => {
+    const fetchPosts = async (topicSlug: string) => {
+      try {
+        setLoading(true);
+        const data = await getPostByTopicSlug({
+          slug: topicSlug,
+          take: 6,
+        });
+        const result = await postsAdapter(data);
+
+        setDisplayedPosts(result.posts);
+        setTotalPostsCount(result.posts.length);
+        setTotalResults(result.total);
+        if (posts.length === result.total) setFinished(true);
+        setLoading(false);
+      } catch (e) {
+        setLoading(false);
+        setError("An error has ocurred and posts couldn't be retrieved.");
+      }
+    };
+
+    router.events.on("routeChangeStart", (url) => {
+      const newTopicSlug = url.split("/")[url.split("/").length - 1];
+
+      if (topicSlug && newTopicSlug !== topicSlug) {
+        setTopicSlug(topicSlug);
+        fetchPosts(newTopicSlug);
+      }
+    });
+  }, [router.events]);
 
   return (
     <div className="container">
@@ -77,7 +113,9 @@ const Topic: NextPage<{
           <p className="message">There are no coincidence for your search</p>
         )}
         {loading && <Loader />}
-        {!finished && <Button text="Load More" onClick={handleFetchMorePosts} />}
+        {!finished && !loading && (
+          <Button text="Load More" onClick={handleFetchMorePosts} />
+        )}
       </main>
 
       <style jsx>{`

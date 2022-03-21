@@ -147,7 +147,9 @@ const Home: NextPage<{
           <p className="message">There are no coincidence for your search</p>
         )}
         {loading && <Loader />}
-        {!finished && <Button text="Load More" onClick={handleFetchMorePosts} />}
+        {!finished && !loading && (
+          <Button text="Load More" onClick={handleFetchMorePosts} />
+        )}
       </main>
 
       <style jsx>{`

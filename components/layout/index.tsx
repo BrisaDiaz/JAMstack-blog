@@ -37,6 +37,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       setIsRouteChanging(true);
     });
     router.events.on("routeChangeComplete", () => {
+
+
       setIsRouteChanging(false);
       const main = document.querySelector("main");
       if (!main) return;
@@ -49,7 +51,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       }
     });
     return () => {
-      setIsRouteChanging(false); // This worked for me
+      setIsRouteChanging(false);
     };
   }, [router.events]);
   const [widgetsData, setWidgetData] = useState<{
@@ -116,7 +118,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const bottomSectionRef: React.RefObject<any> = React.useRef();
   const asideSectionRef: React.RefObject<any> = React.useRef();
   const isBottomSectionInView = useOnScreen(bottomSectionRef, "-100px", true);
-  const isAsideSectionInView = useOnScreen(bottomSectionRef, "-100px", true);
+  const isAsideSectionInView = useOnScreen(asideSectionRef, "-100px", true);
   return (
     <div>
       {isRouteChanging && <LoadingScreen />}

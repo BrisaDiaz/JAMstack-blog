@@ -4,8 +4,8 @@ export default function postsWidget({ title }: { title: string }) {
   return (
     <Widget title={title}>
       <div>
-        {posts.map((post) => (
-          <section key={post.slug} className="post">
+        {posts.map((el, index) => (
+          <section key={index} className="post">
             <div className="post__image "></div>
             <div className="post__content">
               <div className="post__title" />
