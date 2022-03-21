@@ -50,7 +50,7 @@ export async function getStaticPaths() {
       params: { slug: page?.slug },
     }),
   );
-  console.log(paths);
+
   return {
     paths,
     fallback: true,

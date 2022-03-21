@@ -301,7 +301,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
         .post__ad {
           padding: 40px var(--padding);
           border: 1px solid var(--gray);
-          color: var(--dark-gray);
+
           text-align: center;
           margin: var(--padding) 0;
           font-size: 12px;

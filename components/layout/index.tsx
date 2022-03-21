@@ -113,10 +113,16 @@ export default function Layout({children}: {children: React.ReactNode}) {
       <section className="container bottom-section ">
         <PostsWidget posts={widgetsData.randomPosts} title="random posts" />
         {widgetsData.featuredPost && (
-          <FeaturePostWidget post={widgetsData.featuredPost} title="Feature post" />
+          <FeaturePostWidget
+            post={widgetsData.featuredPost}
+            title="Feature post"
+          />
         )}
 
-        <PostsWidget posts={widgetsData.latestsPosts.slice(0, 3)} title="latest" />
+        <PostsWidget
+          posts={widgetsData.latestsPosts.slice(0, 3)}
+          title="latest"
+        />
       </section>
       <Footer />
       <style jsx>{`
@@ -140,7 +146,7 @@ export default function Layout({children}: {children: React.ReactNode}) {
         }
         .ad-section {
           border: 1px solid var(--gray);
-          color: var(--dark-gray);
+
           text-align: center;
           margin: var(--padding) 0;
           padding: 40px var(--padding);

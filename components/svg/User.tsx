@@ -1,7 +1,7 @@
 export default function User() {
   return (
     <svg
-      fill="#ccc"
+      fill="#aaa"
       height="10"
       viewBox="0 0 448 512"
       width="10"

@@ -189,12 +189,13 @@ main {
   --bg: #f2f6f8;
   --primary-dark: hsl(279deg 100% 40%);
   --primary-main: #9e00f3;
-  --primary-light: #e8d8f1;
+  --primary-light: #f0e6f6;
   --black: hsl(0deg 0% 0% / 90%);
   --light-black: rgba(0, 0, 0, 0.7);
   --font-color: hsl(0deg 0% 0% / 75%);
   --light-gray: #eaeaea;
-  --gray: #ccc;
+    --gray: #aaa;
+    --dark-gray: #888;
   --dark-gray: #aaa;
   --border-radius: 4px;
   --border-radius-md: 8px;

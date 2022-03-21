@@ -69,7 +69,9 @@ export default function Header({
 
         <Logo />
 
-        <nav className={`header__menu ${isMenuOpen ? "header__menu--open" : ""}`}>
+        <nav
+          className={`header__menu ${isMenuOpen ? "header__menu--open" : ""}`}
+        >
           <ul className="header__link-list   ">
             <li className="mega-link">
               <Link passHref href="/">
@@ -107,18 +109,26 @@ export default function Header({
                 <Link passHref href={link.href}>
                   <a
                     className={`header__parent-link   heder__main-link `}
-                    onClick={(e) => link.submenu && toggleSubMenu(e, link.label, 1)}
+                    onClick={(e) =>
+                      link.submenu && toggleSubMenu(e, link.label, 1)
+                    }
                   >
                     <span>{link.label} </span>
                     {link.submenu && (
-                      <Arrow direction={submenus.includes(link.label) ? "bottom" : "right"} />
+                      <Arrow
+                        direction={
+                          submenus.includes(link.label) ? "bottom" : "right"
+                        }
+                      />
                     )}
                   </a>
                 </Link>
                 {link.submenu && (
                   <ul
                     className={`header__submenu   ${
-                      submenus.includes(link.label) ? "header__submenu--open " : ""
+                      submenus.includes(link.label)
+                        ? "header__submenu--open "
+                        : ""
                     }`}
                   >
                     {link.submenu.map((subLink) => (
@@ -127,12 +137,19 @@ export default function Header({
                           <a
                             className={` header__parent-link `}
                             href=""
-                            onClick={(e) => subLink?.submenu && toggleSubMenu(e, subLink.label, 2)}
+                            onClick={(e) =>
+                              subLink?.submenu &&
+                              toggleSubMenu(e, subLink.label, 2)
+                            }
                           >
                             <span>{subLink.label} </span>
                             {subLink?.submenu && (
                               <Arrow
-                                direction={submenus.includes(subLink.label) ? "bottom" : "right"}
+                                direction={
+                                  submenus.includes(subLink.label)
+                                    ? "bottom"
+                                    : "right"
+                                }
                               />
                             )}
                           </a>
@@ -140,7 +157,9 @@ export default function Header({
                         {subLink?.submenu && (
                           <ul
                             className={`header__submenu ${
-                              submenus.includes(subLink.label) ? "header__submenu--open " : ""
+                              submenus.includes(subLink.label)
+                                ? "header__submenu--open "
+                                : ""
                             }`}
                           >
                             {subLink.submenu.map((subSubLink) => (
@@ -202,7 +221,7 @@ export default function Header({
           z-index: 995;
         }
         .header__menu {
-          display: flex;
+          display: none;
           z-index: -1;
           position: absolute;
           top: 59px;
@@ -224,6 +243,7 @@ export default function Header({
         .header__menu--open {
           height: auto;
           opacity: 1;
+          display: flex;
         }
 
         .header__parent-link {

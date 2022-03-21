@@ -1,7 +1,7 @@
 export default function Clock() {
   return (
     <svg
-      fill="#ccc"
+      fill="#aaa"
       height="10"
       viewBox="0 0 512 512"
       width="10"
