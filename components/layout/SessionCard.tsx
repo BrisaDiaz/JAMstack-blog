@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
+import Link from "next/link";
 import ProfilePhoto from "@/components/layout/ProfilePhoto";
-import {UserProfile} from "interfaces";
+import { UserProfile } from "interfaces";
 export default function SessionCard({
   user,
   onClick,
@@ -40,13 +41,11 @@ export default function SessionCard({
             Login
           </a>
         )}
-        <a
-          className="session-card__link"
-          href="/privacy-policy"
-          onClick={onClick}
-        >
-          <small>privacy policy</small>
-        </a>
+        <Link passHref href="/[slug]" as="/privacy-policy">
+          <a className="session-card__link" onClick={onClick} href="">
+            <small>privacy policy</small>
+          </a>
+        </Link>
       </article>
       <style jsx>{`
         .cart-wrapper {

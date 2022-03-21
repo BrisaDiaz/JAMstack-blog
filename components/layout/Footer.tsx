@@ -8,7 +8,7 @@ export default function Footer() {
             Home
           </a>
         </Link>
-        <Link passHref href="/about">
+        <Link passHref href="/[slug]" as="/about">
           <a className="footer__link " href="">
             About
           </a>
