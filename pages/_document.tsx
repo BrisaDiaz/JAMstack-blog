@@ -68,7 +68,7 @@ export default function Document() {
                   logo: {
                     "@type": "ImageObject",
                     "@id": process.env.HOST + "/#logo",
-                    inLanguage: "pt-BR",
+                    inLanguage: "pt-EN",
                     url: process.env.HOST + "/TecoRev-org-1200x630.png",
                     contentUrl: process.env.HOST + "/TecoRev-org-1200x630.png",
                     width: 1200,
@@ -95,7 +95,7 @@ export default function Document() {
                       "query-input": "required name=search_term_string",
                     },
                   ],
-                  inLanguage: "pt-BR",
+                  inLanguage: "pt-EN",
                 },
                 {
                   "@type": "CollectionPage",
@@ -109,7 +109,7 @@ export default function Document() {
                   breadcrumb: {
                     "@id": process.env.HOST + "/#breadcrumb",
                   },
-                  inLanguage: "pt-BR",
+                  inLanguage: "pt-EN",
                   potentialAction: [{"@type": "ReadAction", target: [process.env.HOST]}],
                 },
                 {
