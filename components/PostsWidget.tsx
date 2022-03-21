@@ -23,7 +23,7 @@ export default function postsWidget({title, posts}: {title: string; posts: Widge
               />
             </div>
             <div className="post__content">
-              <Link href={`/posts/${post.slug}?topic=${post.topic}`}>
+              <Link href={`/posts/${post.slug}?topic=${post.topic.name}`}>
                 <a
                   aria-label={post.title}
                   className="post__link"
