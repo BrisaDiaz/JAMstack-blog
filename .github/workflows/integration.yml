@@ -15,7 +15,7 @@ jobs:
       AUTH0_HTTP_TIMEOUT: ${{ secrets.AUTH0_HTTP_TIMEOUT }}
       NEXT_PUBLIC_CONTENTFUL_SPACE_ID: ${{ secrets.NEXT_PUBLIC_CONTENTFUL_SPACE_ID }}
       NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN }}
-       HOST: ${{ secrets.HOST }}
+      HOST: ${{ secrets.HOST }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
