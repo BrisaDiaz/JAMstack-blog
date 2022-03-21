@@ -35,9 +35,7 @@ const Home: NextPage<{
 
       if (router.query?.search) {
         const query =
-          typeof router.query?.search === "object"
-            ? router.query?.search[0]
-            : router.query?.search;
+          typeof router.query?.search === "object" ? router.query?.search[0] : router.query?.search;
 
         data = await getPostBySearchQuery({
           query,
@@ -46,9 +44,7 @@ const Home: NextPage<{
         });
       } else if (router.query?.tag) {
         const tag =
-          typeof router.query?.tag === "object"
-            ? router.query?.tag[0]
-            : router.query?.tag;
+          typeof router.query?.tag === "object" ? router.query?.tag[0] : router.query?.tag;
 
         data = await getPostsByTag({
           tag,
@@ -62,10 +58,9 @@ const Home: NextPage<{
         });
       }
 
-      const { posts } = await postsAdapter(data);
+      const {posts} = await postsAdapter(data);
 
-      if (displayedPostsCount + posts.length === totalResults)
-        setFinished(true);
+      if (displayedPostsCount + posts.length === totalResults) setFinished(true);
       setDisplayedPosts([...displayedPosts, ...posts]);
       setTotalPostsCount(displayedPostsCount + posts.length);
       setLoading(false);
@@ -86,7 +81,7 @@ const Home: NextPage<{
           query,
           take: POST_PER_PAGE,
         });
-        const { posts, total } = await postsAdapter(data);
+        const {posts, total} = await postsAdapter(data);
 
         if (posts.length === total) setFinished(true);
         setDisplayedPosts(posts);
@@ -100,9 +95,7 @@ const Home: NextPage<{
       }
     }
     const query =
-      typeof router.query?.search === "object"
-        ? router.query?.search[0]
-        : router.query?.search;
+      typeof router.query?.search === "object" ? router.query?.search[0] : router.query?.search;
 
     fetchPosts(query);
   }, [router.query]);
@@ -115,7 +108,7 @@ const Home: NextPage<{
           tag,
           take: POST_PER_PAGE,
         });
-        const { posts, total } = await postsAdapter(data);
+        const {posts, total} = await postsAdapter(data);
 
         if (posts.length === total) setFinished(true);
         setDisplayedPosts(posts);
@@ -128,10 +121,7 @@ const Home: NextPage<{
         setError("An error has ocurred and posts couldn't be retrieved.");
       }
     }
-    const tag =
-      typeof router?.query.tag === "object"
-        ? router.query?.tag[0]
-        : router.query?.tag;
+    const tag = typeof router?.query.tag === "object" ? router.query?.tag[0] : router.query?.tag;
 
     fetchPosts(tag);
   }, [router.query]);

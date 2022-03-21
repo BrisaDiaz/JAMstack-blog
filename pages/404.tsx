@@ -1,8 +1,9 @@
-import type { NextPage } from "next";
+import type {NextPage} from "next";
 
 import Head from "next/head";
 import React from "react";
 import Link from "next/link";
+
 import Home from "@/components/svg/Home";
 const NotFound: NextPage = () => {
   return (
@@ -20,8 +21,8 @@ const NotFound: NextPage = () => {
         <h1 className="page__title">404</h1>
         <h2 className="page__subtitle">There is nothing here</h2>
         <p>Sorry, the page you were looking for in this blog does not exist.</p>
-        <Link href="/" passHref>
-          <a href="" className="home-link">
+        <Link passHref href="/">
+          <a className="home-link" href="">
             <Home />
             Home
           </a>

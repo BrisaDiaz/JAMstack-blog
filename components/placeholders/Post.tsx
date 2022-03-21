@@ -56,7 +56,6 @@ export default function PostPlaceholder() {
           <div className="paragraph " />
           <div className="paragraph " />
         </div>
-        
       </div>
       <style jsx>{`
         .placeholder {

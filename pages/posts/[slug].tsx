@@ -17,28 +17,17 @@ import {Post} from "interfaces";
 import Widget from "@/components/Widget";
 import SocialButton, {generateShareLink} from "@/components/SocialButton";
 import Placeholder from "@/components/placeholders/Post";
-const Page: NextPage<{ post: Post }> = ({ post }) => {
+const Page: NextPage<{post: Post}> = ({post}) => {
   const [url, setUrl] = React.useState("");
 
   React.useEffect(() => {
     setUrl(window.location.href);
   }, []);
-  const shareBy = [
-    "facebook",
-    "twitter",
-    "pinterest",
-    "tumblr",
-    "linkedin",
-    "whatsapp",
-    "email",
-  ];
+  const shareBy = ["facebook", "twitter", "pinterest", "tumblr", "linkedin", "whatsapp", "email"];
   const renderProps = {
     renderNode: {
-      [BLOCKS.EMBEDDED_ASSET]: (node: {
-        data: { target: { sys: { id: string } } };
-      }) => {
-        const { description, title, url } =
-          post?.assetsTable[node.data.target.sys.id];
+      [BLOCKS.EMBEDDED_ASSET]: (node: {data: {target: {sys: {id: string}}}}) => {
+        const {description, title, url} = post?.assetsTable[node.data.target.sys.id];
 
         return (
           <figure>
@@ -56,6 +45,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
       },
     },
   };
+
   if (!post) return <Placeholder />;
 
   return (
@@ -76,7 +66,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
         <meta content={post.thumbnail.url} name="twitter:image" />
         <script
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(generatePostORGSchema({ post, url })),
+            __html: JSON.stringify(generatePostORGSchema({post, url})),
           }}
           type="application/ld+json"
         />
@@ -91,7 +81,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
               </a>
             </Link>
             <Arrow color="var(--dark-gray)" width={15} />
-            <Link passHref href={`/topic/${post?.topic?.slug}`}>
+            <Link passHref as={`/topics/${post?.topic?.slug}`} href="/topics/[slug]">
               <a className="breadcrumb__link" href="">
                 {post?.topic?.name}
               </a>
@@ -109,10 +99,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
               </div>
               <div>
                 <Clock />
-                <time
-                  className="post__meta-tag"
-                  dateTime={post?.publishedAt?.rawDate}
-                >
+                <time className="post__meta-tag" dateTime={post?.publishedAt?.rawDate}>
                   {post?.publishedAt?.shortDate}
                 </time>
               </div>
@@ -134,19 +121,11 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
                 src={post?.thumbnail?.url}
                 width={600}
               />
-              <figcaption className="post__figcaption">
-                {post?.thumbnail?.title}
-              </figcaption>
+              <figcaption className="post__figcaption">{post?.thumbnail?.title}</figcaption>
             </figure>
-            {post?.subtitle && (
-              <h2 className="post__subtitle"> {post?.subtitle}</h2>
-            )}
+            {post?.subtitle && <h2 className="post__subtitle"> {post?.subtitle}</h2>}
             <div className="pre">
-              {post?.content &&
-                documentToReactComponents(
-                  post?.content as any,
-                  renderProps as any,
-                )}
+              {post?.content && documentToReactComponents(post?.content as any, renderProps as any)}
             </div>
             <section className=" post__ad ">
               <span>Responsive Advertisement</span>
@@ -154,7 +133,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
           </section>
           <ul className="posts__tags">
             {post?.tags?.map((tag) => (
-              <Tag key={tag} tag={{ name: tag, link: `/?tag=${tag}` }} />
+              <Tag key={tag} tag={{name: tag, link: `/?tag=${tag}`}} />
             ))}
           </ul>
           <ul className="share-btn__list">
@@ -193,11 +172,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
                 </div>
                 <div>
                   <Link passHref href={`/posts/${suggestedPost?.slug}`}>
-                    <a
-                      aria-label={suggestedPost?.title}
-                      href=""
-                      title={suggestedPost?.title}
-                    >
+                    <a aria-label={suggestedPost?.title} href="" title={suggestedPost?.title}>
                       {suggestedPost?.title.length > 45
                         ? suggestedPost?.title.slice(0, 45).concat("...")
                         : suggestedPost?.title}
@@ -205,10 +180,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
                   </Link>
                   <div className=" suggested-post__meta ">
                     <Clock />
-                    <time
-                      className="post__meta-tag"
-                      dateTime={post?.publishedAt?.rawDate}
-                    >
+                    <time className="post__meta-tag" dateTime={post?.publishedAt?.rawDate}>
                       {post?.publishedAt?.shortDate}
                     </time>
                   </div>
@@ -247,7 +219,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
         }
         .post {
           background: #fff;
-          box-shadow: var(--box-shadow-lg);
+
           border: var(--border);
           border-radius: var(--border-radius);
         }
@@ -384,19 +356,17 @@ export default Page;
 export async function getStaticPaths() {
   const res = await getAllPostSlugs();
 
-  const paths = res?.data?.blogsCollection?.items.map(
-    (post: { slug: string }) => ({
-      params: { slug: post.slug },
-    }),
-  );
+  const paths = res?.data?.blogsCollection?.items.map((post: {slug: string}) => ({
+    params: {slug: post.slug},
+  }));
 
   return {
     paths,
     fallback: true,
   };
 }
-export async function getStaticProps({ params }: { params: { slug: string } }) {
-  const data = await getPostBySlug({ slug: params.slug });
+export async function getStaticProps({params}: {params: {slug: string}}) {
+  const data = await getPostBySlug({slug: params.slug});
 
   if (!data) {
     return {
@@ -418,6 +388,6 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
   }
 
   return {
-    props: { post, revalidate: 1 },
+    props: {post, revalidate: 1},
   };
 }

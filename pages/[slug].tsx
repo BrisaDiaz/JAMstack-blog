@@ -7,7 +7,7 @@ import {getPageBySlug, getAllPageSlugs} from "@/services/pages";
 import {pageAdapter} from "@/adapters/pages";
 import {GenericPage} from "interfaces";
 import Placeholder from "@/components/placeholders/Page";
-const Page: NextPage<{ page: GenericPage }> = ({ page }) => {
+const Page: NextPage<{page: GenericPage}> = ({page}) => {
   if (!page) return <Placeholder />;
 
   return (
@@ -20,9 +20,7 @@ const Page: NextPage<{ page: GenericPage }> = ({ page }) => {
 
       <main className="container page">
         <h1 className="page__title"> {page.title}</h1>
-        <div className="pre">
-          {documentToReactComponents(page.content as any)}
-        </div>
+        <div className="pre">{documentToReactComponents(page.content as any)}</div>
       </main>
 
       <style jsx>{`
@@ -30,7 +28,6 @@ const Page: NextPage<{ page: GenericPage }> = ({ page }) => {
           background: #fff;
           padding: var(--padding);
           border: var(--border);
-          box-shadow: var(--box-shadow-lg);
         }
         .page__title {
           padding: var(--padding-xs) 0 var(--padding-sm);
@@ -45,19 +42,17 @@ const Page: NextPage<{ page: GenericPage }> = ({ page }) => {
 export async function getStaticPaths() {
   const res = await getAllPageSlugs();
 
-  const paths = res.data?.pageCollection?.items.map(
-    (page: { slug: string }) => ({
-      params: { slug: page?.slug },
-    }),
-  );
+  const paths = res.data?.pageCollection?.items.map((page: {slug: string}) => ({
+    params: {slug: page?.slug},
+  }));
 
   return {
     paths,
     fallback: true,
   };
 }
-export async function getStaticProps({ params }: { params: { slug: string } }) {
-  const data = await getPageBySlug({ slug: params.slug });
+export async function getStaticProps({params}: {params: {slug: string}}) {
+  const data = await getPageBySlug({slug: params.slug});
 
   const page = pageAdapter(data);
 
@@ -71,7 +66,7 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
   }
 
   return {
-    props: { page, revalidate: 60 },
+    props: {page, revalidate: 60},
   };
 }
 export default Page;

@@ -68,15 +68,18 @@ export default function Layout({children}: {children: React.ReactNode}) {
     {
       label: "posts",
       href: "#",
+      as: "#",
       submenu: widgetsData.topics.map((topic) => ({
         label: topic.name,
-        href: `/topics/${topic.slug}`,
+        as: `/topics/${topic.slug}`,
+        href: `/topics/[slug]`,
       })),
     },
 
     {
       label: "about",
       href: "/about",
+      as: "/about",
     },
   ];
 
@@ -113,16 +116,10 @@ export default function Layout({children}: {children: React.ReactNode}) {
       <section className="container bottom-section ">
         <PostsWidget posts={widgetsData.randomPosts} title="random posts" />
         {widgetsData.featuredPost && (
-          <FeaturePostWidget
-            post={widgetsData.featuredPost}
-            title="Feature post"
-          />
+          <FeaturePostWidget post={widgetsData.featuredPost} title="Feature post" />
         )}
 
-        <PostsWidget
-          posts={widgetsData.latestsPosts.slice(0, 3)}
-          title="latest"
-        />
+        <PostsWidget posts={widgetsData.latestsPosts.slice(0, 3)} title="latest" />
       </section>
       <Footer />
       <style jsx>{`

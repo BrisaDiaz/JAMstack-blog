@@ -5,13 +5,8 @@ export default function SocialPlugin({socials}: {socials: {name: string; url: st
     <Widget title="social plugin">
       <ul className="social-widget">
         {socials.map((social) => (
-          <li className={`social-btn`} key={social.name}>
-            <a
-              aria-label={`${social.name}`}
-              href={social.url}
-              rel="noreferrer"
-              target="_blank"
-            >
+          <li key={social.name} className={`social-btn`}>
+            <a aria-label={`${social.name}`} href={social.url} rel="noreferrer" target="_blank">
               <SocialButton name={social.name} />
             </a>
           </li>

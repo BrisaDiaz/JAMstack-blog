@@ -11,7 +11,7 @@ export default function TopicsWidget({topics}: {topics: Topic[]}) {
       <ul className="topics-container">
         {topics.map((topic, index) => (
           <li key={topic.name}>
-            <Link passHref href={`/topics/${topic.slug}`}>
+            <Link passHref as={`/topics/${topic.slug}`} href="/topics/[slug]">
               <a className={`topic ${index === topics.length - 1 ? "topic--last" : ""}`} href="">
                 <span className="topic__name">
                   <Arrow direction="right" width={15} /> {topic.name}
