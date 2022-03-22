@@ -26,6 +26,7 @@ jobs:
       - name: npm install, build
         run: |
           npm install
+          run: echo "The Host  is:${{env.HOST}}"   
           npm run build
       - name: run Lighthouse CI
         run: |
