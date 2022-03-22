@@ -360,7 +360,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: "blocking",
+    fallback: true,
   };
 }
 export async function getStaticProps({params}: {params: {slug: string}}) {
