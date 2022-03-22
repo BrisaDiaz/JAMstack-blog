@@ -6,7 +6,12 @@ export default function SocialPlugin({socials}: {socials: {name: string; url: st
       <ul className="social-widget">
         {socials.map((social) => (
           <li key={social.name} className={`social-btn`}>
-            <a aria-label={`${social.name}`} href={social.url} rel="noreferrer" target="_blank">
+            <a
+              aria-label={`${social.name}`}
+              href={social.url}
+              rel="noreferrer"
+              target="_blank"
+            >
               <SocialButton name={social.name} />
             </a>
           </li>
@@ -19,12 +24,12 @@ export default function SocialPlugin({socials}: {socials: {name: string; url: st
           gap: 5px;
         }
         .social-btn:focus-within {
-          transform: translateY(-3px);
+          transform: translateY(-2px);
         }
         .social-btn {
           height: 40px;
           border-radius: 2px;
-
+          transition: all 0.2s ease;
           width: 100%;
         }
       `}</style>

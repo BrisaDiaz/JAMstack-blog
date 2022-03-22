@@ -4,30 +4,46 @@ import Head from "next/head";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {documentToReactComponents} from "@contentful/rich-text-react-renderer";
-import {BLOCKS} from "@contentful/rich-text-types";
-import {Post} from "interfaces";
+import { ReactCusdis } from "react-cusdis";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { BLOCKS } from "@contentful/rich-text-types";
+import { Post } from "interfaces";
 
 import Arrow from "@/components/svg/Arrow";
 import User from "@/components/svg/User";
 import Clock from "@/components/svg/Clock";
-import {getAllPostSlugs, getPostBySlug, generatePostORGSchema} from "@/services/posts";
-import {postAdapter} from "@/adapters/posts";
+import {
+  getAllPostSlugs,
+  getPostBySlug,
+  generatePostORGSchema,
+} from "@/services/posts";
+import { postAdapter } from "@/adapters/posts";
 import Tag from "@/components/Tag";
 import Widget from "@/components/Widget";
-import SocialButton, {generateShareLink} from "@/components/SocialButton";
+import SocialButton, { generateShareLink } from "@/components/SocialButton";
 import Placeholder from "@/components/placeholders/Post";
-const Page: NextPage<{post: Post}> = ({post}) => {
+const Page: NextPage<{ post: Post }> = ({ post }) => {
   const [url, setUrl] = React.useState("");
 
   React.useEffect(() => {
     setUrl(window.location.href);
   }, []);
-  const shareBy = ["facebook", "twitter", "pinterest", "tumblr", "linkedin", "whatsapp", "email"];
+  const shareBy = [
+    "facebook",
+    "twitter",
+    "pinterest",
+    "tumblr",
+    "linkedin",
+    "whatsapp",
+    "email",
+  ];
   const renderProps = {
     renderNode: {
-      [BLOCKS.EMBEDDED_ASSET]: (node: {data: {target: {sys: {id: string}}}}) => {
-        const {description, title, url} = post?.assetsTable[node.data.target.sys.id];
+      [BLOCKS.EMBEDDED_ASSET]: (node: {
+        data: { target: { sys: { id: string } } };
+      }) => {
+        const { description, title, url } =
+          post?.assetsTable[node.data.target.sys.id];
 
         return (
           <figure>
@@ -66,7 +82,7 @@ const Page: NextPage<{post: Post}> = ({post}) => {
         <meta content={post.thumbnail.url} name="twitter:image" />
         <script
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(generatePostORGSchema({post, url})),
+            __html: JSON.stringify(generatePostORGSchema({ post, url })),
           }}
           type="application/ld+json"
         />
@@ -81,7 +97,11 @@ const Page: NextPage<{post: Post}> = ({post}) => {
               </a>
             </Link>
             <Arrow color="var(--dark-gray)" width={15} />
-            <Link passHref as={`/topics/${post?.topic?.slug}`} href="/topics/[slug]">
+            <Link
+              passHref
+              as={`/topics/${post?.topic?.slug}`}
+              href="/topics/[slug]"
+            >
               <a className="breadcrumb__link" href="">
                 {post?.topic?.name}
               </a>
@@ -99,7 +119,10 @@ const Page: NextPage<{post: Post}> = ({post}) => {
               </div>
               <div>
                 <Clock />
-                <time className="post__meta-tag" dateTime={post?.publishedAt?.rawDate}>
+                <time
+                  className="post__meta-tag"
+                  dateTime={post?.publishedAt?.rawDate}
+                >
                   {post?.publishedAt?.shortDate}
                 </time>
               </div>
@@ -120,11 +143,19 @@ const Page: NextPage<{post: Post}> = ({post}) => {
                 src={post?.thumbnail?.url}
                 width={600}
               />
-              <figcaption className="post__figcaption">{post?.thumbnail?.title}</figcaption>
+              <figcaption className="post__figcaption">
+                {post?.thumbnail?.title}
+              </figcaption>
             </figure>
-            {post?.subtitle && <h2 className="post__subtitle"> {post?.subtitle}</h2>}
+            {post?.subtitle && (
+              <h2 className="post__subtitle"> {post?.subtitle}</h2>
+            )}
             <div className="pre">
-              {post?.content && documentToReactComponents(post?.content as any, renderProps as any)}
+              {post?.content &&
+                documentToReactComponents(
+                  post?.content as any,
+                  renderProps as any,
+                )}
             </div>
             <section className=" post__ad ">
               <span>Responsive Advertisement</span>
@@ -132,7 +163,7 @@ const Page: NextPage<{post: Post}> = ({post}) => {
           </section>
           <ul className="posts__tags">
             {post?.tags?.map((tag) => (
-              <Tag key={tag} tag={{name: tag, link: `/?tag=${tag}`}} />
+              <Tag key={tag} tag={{ name: tag, link: `/?tag=${tag}` }} />
             ))}
           </ul>
           <ul className="share-btn__list">
@@ -154,6 +185,22 @@ const Page: NextPage<{post: Post}> = ({post}) => {
             ))}
           </ul>
         </section>
+        {post && (
+          <div className="comments-section">
+            <Widget title="Comments Section">
+              <ReactCusdis
+                attrs={{
+                  host: "https://cusdis.com",
+                  appId: process.env.CAUDIS_APP_ID as string,
+                  pageId: post.id,
+                  pageTitle: post.title,
+                  pageUrl: url,
+                }}
+              />
+            </Widget>
+          </div>
+        )}
+
         <Widget title="you may like this posts">
           <div className="suggested-posts__list">
             {post.suggested.map((suggestedPost) => (
@@ -170,7 +217,11 @@ const Page: NextPage<{post: Post}> = ({post}) => {
                 </div>
                 <div>
                   <Link passHref href={`/posts/${suggestedPost?.slug}`}>
-                    <a aria-label={suggestedPost?.title} href="" title={suggestedPost?.title}>
+                    <a
+                      aria-label={suggestedPost?.title}
+                      href=""
+                      title={suggestedPost?.title}
+                    >
                       {suggestedPost?.title.length > 45
                         ? suggestedPost?.title.slice(0, 45).concat("...")
                         : suggestedPost?.title}
@@ -178,7 +229,10 @@ const Page: NextPage<{post: Post}> = ({post}) => {
                   </Link>
                   <div className=" suggested-post__meta ">
                     <Clock />
-                    <time className="post__meta-tag" dateTime={post?.publishedAt?.rawDate}>
+                    <time
+                      className="post__meta-tag"
+                      dateTime={post?.publishedAt?.rawDate}
+                    >
                       {post?.publishedAt?.shortDate}
                     </time>
                   </div>
@@ -190,26 +244,6 @@ const Page: NextPage<{post: Post}> = ({post}) => {
       </main>
 
       <style jsx>{`
-        .share-btn__list {
-          display: flex;
-
-          column-gap: var(--padding-xs);
-          row-gap: var(--padding-sm);
-          width: 100%;
-          padding: var(--padding-sm);
-          border-top: 2px solid var(--light-gray);
-        }
-
-        .share-btn {
-          width: 100%;
-          max-width: 90px;
-          height: 34px;
-          border: 2px solid transparent;
-          border-radius: var(--border-radius);
-        }
-        .share-btn:focus-within {
-          transform: translateY(-3px);
-        }
         .page {
           display: flex;
           flex-direction: column;
@@ -323,6 +357,27 @@ const Page: NextPage<{post: Post}> = ({post}) => {
           width: 75px;
           min-width: 75px;
           height: 60px;
+        }
+        .share-btn__list {
+          display: flex;
+
+          column-gap: var(--padding-xs);
+          row-gap: var(--padding-sm);
+          width: 100%;
+          padding: var(--padding-sm);
+          border-top: 2px solid var(--light-gray);
+        }
+
+        .share-btn {
+          width: 100%;
+          max-width: 90px;
+          height: 34px;
+          border: 2px solid transparent;
+          border-radius: var(--border-radius);
+          transition: all 0.2s ease;
+        }
+        .share-btn:focus-within {
+          transform: translateY(-2px);
         }
         @media (min-width: 600px) {
           .suggested-posts__list {

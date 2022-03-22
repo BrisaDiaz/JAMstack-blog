@@ -8,9 +8,9 @@ interface PostResponse {
         title: string;
         subtitle?: string;
         author: string;
-        featured: Boolean;
+        featured: boolean;
         description: string;
-        sys: { publishedAt: string };
+        sys: { publishedAt: string; id: string };
         topic: { name: string; slug: string };
         tags: string[];
 
@@ -58,7 +58,7 @@ interface PostsSearchResponse {
         title: string;
         author: string;
         description: string;
-        featured: Boolean;
+        featured: boolean;
         sys: { publishedAt: string };
         topic: { name: string; slug: string };
         thumbnail: {
@@ -90,6 +90,7 @@ export function postAdapter(apiResponse: PostResponse) {
   });
 
   const formattedData = {
+    id: postData.sys.publishedAt,
     title: postData.title,
     subtitle: postData.subtitle,
     author: postData.author,

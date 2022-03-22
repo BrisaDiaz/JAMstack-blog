@@ -51,8 +51,11 @@ export default function SocialChannelsBanner({socials}: {socials: {name: string;
           flex-wrap: wrap;
           justify-content: center;
         }
+        .social-socials__list li {
+          transition: all 0.2s ease;
+        }
         .social-socials__list li:focus-within {
-          transform: translateY(-3px);
+          transform: translateY(-2px);
         }
 
         @media (min-width: 600px) {

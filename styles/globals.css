@@ -324,3 +324,30 @@ figcaption {
     opacity: 0.5;
   }
 }
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+  display: none;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--dark-gray);
+  border-radius: 10px;
+  height: 50px;
+  cursor: default;
+  border: 1px solid transparent;
+}
+
+@media (min-width: 770px) {
+  *::-webkit-scrollbar {
+    display: block;
+  }
+}
+iframe {
+  overflow: hidden;
+}

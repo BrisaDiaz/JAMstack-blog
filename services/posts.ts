@@ -58,6 +58,7 @@ export async function getPostBySlug({ slug }: { slug: string }) {
       description
       sys{
         publishedAt
+        id
       }
 
     topic{
