@@ -24,7 +24,7 @@ const Topic: NextPage<{
 
   const [error, setError] = useState("");
   const [finished, setFinished] = useState(posts?.length === total);
-  const [loading, setLoading] = useState(false);
+
   const [topicSlug, setTopicSlug] = useState(topic?.slug);
 
   const [query, setQuery] = useState<{
@@ -36,20 +36,16 @@ const Topic: NextPage<{
   const router = useRouter();
 
   /// query
-  const postsSlugQuery = useQuery(
+  const { refetch, isLoading } = useQuery(
     ["posts", query],
     () => getPostByTopicSlug(query as { slug: string; take?: number }),
     {
       enabled: false,
       refetchOnWindowFocus: false,
       onError: (e) => {
-        setLoading(false);
-
         setError("An error has ocurred and posts couldn't be retrieved.");
       },
       onSuccess: (data) => {
-        setLoading(false);
-
         const result = postsAdapter(data);
         if (query?.skip) {
           setDisplayedPosts([...displayedPosts, ...posts]);
@@ -60,7 +56,6 @@ const Topic: NextPage<{
         }
 
         if (posts.length === result.total) setFinished(true);
-        setLoading(false);
       },
     },
   );
@@ -88,7 +83,12 @@ const Topic: NextPage<{
   /// lisen to query changes
   React.useEffect(() => {
     if (!query) return;
-    postsSlugQuery.refetch();
+    refetch();
+  }, [query]);
+
+  React.useEffect(() => {
+    if (!query) return;
+    refetch();
   }, [query]);
 
   return (
@@ -122,8 +122,8 @@ const Topic: NextPage<{
         ) : (
           <p className="message">There are no coincidence for your search</p>
         )}
-        {loading && <Loader />}
-        {!finished && !loading && (
+        {isLoading && <Loader />}
+        {!finished && !isLoading && (
           <Button text="Load More" onClick={handleFetchMorePosts} />
         )}
       </main>

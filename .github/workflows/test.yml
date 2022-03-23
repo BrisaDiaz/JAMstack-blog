@@ -5,10 +5,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-
 jobs:
   build:
-    
     runs-on: ubuntu-latest
     env:
       NODE_ENV: ${{ secrets.NODE_ENV }}
@@ -20,14 +18,16 @@ jobs:
       AUTH0_HTTP_TIMEOUT: ${{ secrets.AUTH0_HTTP_TIMEOUT }}
       NEXT_PUBLIC_CONTENTFUL_SPACE_ID: ${{ secrets.NEXT_PUBLIC_CONTENTFUL_SPACE_ID }}
       NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN }}
-      HOST: ${{ secrets.HOST }}
       NEXT_PUBLIC_CAUDIS_APP_ID: ${{ secrets.NEXT_PUBLIC_CAUDIS_APP_ID }}
       VERIFY_TEST_RUNNER_TIMEOUT_MS: ${{ secrets.VERIFY_TEST_RUNNER_TIMEOUT_MS }}
+      NEXT_PUBLIC_EMAIL_SERVICE_ID: ${{ secrets.NEXT_PUBLIC_EMAIL_SERVICE_ID }}
+      NEXT_PUBLIC_EMAIL_TEMPLATE_ID: ${{ secrets.NEXT_PUBLIC_EMAIL_TEMPLATE_ID }}
+      NEXT_PUBLIC_EMAIL_USER_ID : ${{ secrets.NEXT_PUBLIC_EMAIL_USER_ID }}      
+      HOST: ${{ secrets.HOST }}
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}

@@ -1,13 +1,7 @@
 import Loader from "./Loader";
 export default function LoadingScreen() {
   return (
-    <aside
-      aria-busy={true}
-      aria-label="loading"
-      aria-live="assertive"
-      className="screen"
-      role="alert"
-    >
+    <aside className="screen">
       <Loader />
       <style jsx>{`
         .screen {

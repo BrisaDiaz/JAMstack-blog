@@ -1,8 +1,8 @@
 import {useUser} from "@auth0/nextjs-auth0";
 import {useRouter} from "next/router";
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
-import {Topic, WidgetPost, Social} from "interfaces";
+import { Topic, WidgetPost, Social } from "interfaces";
 import { useQuery } from "react-query";
 const TagsWidget = dynamic(() => import("../TagsWidget"));
 const PostsWidget = dynamic(() => import("../PostsWidget"));
@@ -109,6 +109,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       label: "about",
       href: "/about",
       as: "/about",
+    },
+    {
+      label: "contact us",
+      href: "/contact",
+      as: "/contact",
     },
   ];
   const bottomSectionRef: React.RefObject<any> = React.useRef();

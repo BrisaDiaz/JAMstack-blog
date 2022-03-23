@@ -29,14 +29,14 @@ const Home: NextPage<{
     "default",
   );
   const [finished, setFinished] = useState(posts?.length === total);
-  const [loading, setLoading] = useState(false);
+
   const [query, setQuery] = useState<{
     tag?: string;
     keyword?: string;
     take?: number;
     skip?: number;
   } | null>(null);
-//// querys
+  //// querys
   const postsSearchQuery = useQuery(
     ["posts", query],
     () =>
@@ -47,13 +47,9 @@ const Home: NextPage<{
       enabled: false,
       refetchOnWindowFocus: false,
       onError: (e) => {
-        setLoading(false);
-
         setError("An error has ocurred and posts couldn't be retrieved.");
       },
       onSuccess: (data) => {
-        setLoading(false);
-
         const { posts, total } = postsAdapter(data);
 
         if (posts.length === total) setFinished(true);
@@ -65,7 +61,6 @@ const Home: NextPage<{
 
         setTotalPostsCount(posts.length);
         setTotalResults(total);
-        setLoading(false);
       },
     },
   );
@@ -76,13 +71,9 @@ const Home: NextPage<{
       enabled: false,
       refetchOnWindowFocus: false,
       onError: (e) => {
-        setLoading(false);
-
         setError("An error has ocurred and posts couldn't be retrieved.");
       },
       onSuccess: (data) => {
-        setLoading(false);
-
         const { posts, total } = postsAdapter(data);
 
         if (posts.length === total) setFinished(true);
@@ -94,7 +85,6 @@ const Home: NextPage<{
 
         setTotalPostsCount(posts.length);
         setTotalResults(total);
-        setLoading(false);
       },
     },
   );
@@ -105,13 +95,9 @@ const Home: NextPage<{
       enabled: false,
       refetchOnWindowFocus: false,
       onError: (e) => {
-        setLoading(false);
-
         setError("An error has ocurred and posts couldn't be retrieved.");
       },
       onSuccess: (data) => {
-        setLoading(false);
-
         const { posts } = postsAdapter(data);
 
         if (displayedPostsCount + posts.length === totalResults)
@@ -123,7 +109,6 @@ const Home: NextPage<{
         }
 
         setTotalPostsCount(displayedPostsCount + posts.length);
-        setLoading(false);
       },
     },
   );
@@ -192,10 +177,7 @@ const Home: NextPage<{
       });
       setSearchMode("tag");
     }
-  },[router.query]);
-
-
-
+  }, [router.query]);
 
   useEffect(() => {
     if (!query) return;
@@ -222,10 +204,15 @@ const Home: NextPage<{
         ) : (
           <p className="message">There are no coincidence for your search</p>
         )}
-        {loading && <Loader />}
-        {!finished && !loading && (
-          <Button text="Load More" onClick={handleFetchMorePosts} />
-        )}
+        {(postsQuery.isLoading ||
+          postsTagQuery.isLoading ||
+          postsSearchQuery.isLoading) && <Loader />}
+        {!finished &&
+          !(
+            postsQuery.isLoading ||
+            postsTagQuery.isLoading ||
+            postsSearchQuery.isLoading
+          ) && <Button text="Load More" onClick={handleFetchMorePosts} />}
       </main>
 
       <style jsx>{`
