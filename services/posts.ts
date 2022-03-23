@@ -200,6 +200,7 @@ export function generatePostORGSchema({
   post: Post;
   url: string;
 }) {
+
   const schema = {
     "@context": "http://schema.org",
     "@type": "BlogPosting",
@@ -233,4 +234,5 @@ export function generatePostORGSchema({
     description: post.description,
     articleBody: documentToPlainTextString(post.content as any),
   };
+  return schema;
 }
