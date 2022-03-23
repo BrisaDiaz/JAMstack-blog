@@ -88,6 +88,28 @@ export function postAdapter(apiResponse: PostResponse) {
       url: asset.url,
     };
   });
+  const suggestedPosts =
+    postData.suggestedCollection.items.length === 0
+      ? []
+      : postData.suggestedCollection?.items
+          .map((post) =>
+            post
+              ? {
+                  title: post.title,
+                  slug: postData.slug,
+                  publishedAt: {
+                    rawDate: post.sys.publishedAt,
+                    shortDate: formatDate(post.sys.publishedAt),
+                  },
+                  thumbnail: {
+                    title: post.thumbnail.title,
+                    description: post.thumbnail.description,
+                    url: post.thumbnail.url,
+                  },
+                }
+              : null,
+          )
+          .filter((post) => post !== null);
 
   const formattedData = {
     id: postData.sys.publishedAt,
@@ -108,19 +130,7 @@ export function postAdapter(apiResponse: PostResponse) {
     tags: postData.tags,
     content: postData.content.json,
     assetsTable: assetsHashTable,
-    suggested: postData.suggestedCollection.items.map((post) => ({
-      title: post.title,
-      slug: postData.slug,
-      publishedAt: {
-        rawDate: post.sys.publishedAt,
-        shortDate: formatDate(post.sys.publishedAt),
-      },
-      thumbnail: {
-        title: post.thumbnail.title,
-        description: post.thumbnail.description,
-        url: post.thumbnail.url,
-      },
-    })),
+    suggested: suggestedPosts,
   };
   return formattedData;
 }

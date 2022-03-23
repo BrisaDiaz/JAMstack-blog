@@ -10,7 +10,7 @@
       "@/libs/*": ["libs/*"],
       "@/services/*": ["services/*"],
       "@/adapters/*": ["adapters/*"],
-      
+         "@/utils/*": ["utils/*"],
     },
     "allowJs": true,
     "skipLibCheck": true,

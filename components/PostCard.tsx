@@ -35,6 +35,7 @@ export default function PostCard({post}: {post: PostItem}) {
             alt={post.thumbnail.description}
             blurDataURL={post.thumbnail.url}
             layout="fill"
+            loading="eager"
             objectFit="cover"
             placeholder="blur"
             src={post.thumbnail.url}

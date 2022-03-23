@@ -22,6 +22,7 @@ import Tag from "@/components/Tag";
 import Widget from "@/components/Widget";
 import SocialButton, { generateShareLink } from "@/components/SocialButton";
 import Placeholder from "@/components/placeholders/Post";
+
 const Page: NextPage<{ post: Post }> = ({ post }) => {
   const [url, setUrl] = React.useState("");
 
@@ -42,20 +43,19 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
       [BLOCKS.EMBEDDED_ASSET]: (node: {
         data: { target: { sys: { id: string } } };
       }) => {
-        const { description, title, url } =
-          post?.assetsTable[node.data.target.sys.id];
+        const asset = post?.assetsTable[node.data.target.sys.id];
 
         return (
           <figure>
             <Image
-              alt={description}
+              alt={asset?.description}
               height={300}
               layout="responsive"
               objectFit="cover"
-              src={url}
+              src={asset?.url}
               width={600}
             />
-            <figcaption>{title}</figcaption>
+            <figcaption>{asset?.title}</figcaption>
           </figure>
         );
       },
@@ -67,19 +67,19 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
   return (
     <div className="container">
       <Head>
-        <title>{post.title}</title>
-        <meta content={post.description} name="description" />
+        <title>{post?.title}</title>
+        <meta content={post?.description} name="description" />
         <meta content={url} property="og:url" />
-        <meta content={post.title} property="og:title" />
-        <meta content={post.description} property="og:description" />
-        <meta content={post.thumbnail.url} property="og:image" />
-        <meta content={post.thumbnail.description} property="og:image:alt" />
+        <meta content={post?.title} property="og:title" />
+        <meta content={post?.description} property="og:description" />
+        <meta content={post?.thumbnail?.url} property="og:image" />
+        <meta content={post?.thumbnail?.description} property="og:image:alt" />
         <meta content={url} name="twitter:url" />
-        <meta content={post.title} name="twitter:title" />
-        <meta content={post.description} name="twitter:description" />
+        <meta content={post?.title} name="twitter:title" />
+        <meta content={post?.description} name="twitter:description" />
         <meta content="summary_large_image" name="twitter:card" />
-        <meta content={post.thumbnail.description} name="twitter:image:alt" />
-        <meta content={post.thumbnail.url} name="twitter:image" />
+        <meta content={post?.thumbnail?.description} name="twitter:image:alt" />
+        <meta content={post?.thumbnail?.url} name="twitter:image" />
         <script
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(generatePostORGSchema({ post, url })),
@@ -138,6 +138,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
                 blurDataURL={post?.thumbnail?.url}
                 height={300}
                 layout="responsive"
+                loading="eager"
                 objectFit="cover"
                 placeholder="blur"
                 src={post?.thumbnail?.url}
@@ -192,8 +193,8 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
                 attrs={{
                   host: "https://cusdis.com",
                   appId: process.env.CAUDIS_APP_ID as string,
-                  pageId: post.id,
-                  pageTitle: post.title,
+                  pageId: post?.id,
+                  pageTitle: post?.title,
                   pageUrl: url,
                 }}
               />
@@ -204,7 +205,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
         <Widget title="you may like this posts">
           <div className="suggested-posts__list">
             {post.suggested.map((suggestedPost) => (
-              <article key={suggestedPost.title} className="suggested-post">
+              <article key={suggestedPost?.title} className="suggested-post">
                 <div className="suggested-post__img ">
                   <Image
                     alt={suggestedPost?.thumbnail?.description}
@@ -407,19 +408,21 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
 
 export default Page;
 export async function getStaticPaths() {
-  const res = await getAllPostSlugs();
+  const res = await getAllPostSlugs({take: process.env.NODE_ENV ==="test" ? 6: undefined});
 
-  const paths = res?.data?.blogsCollection?.items.map((post: {slug: string}) => ({
-    params: {slug: post.slug},
-  }));
+  const paths = res?.data?.blogsCollection?.items.map(
+    (post: { slug: string }) => ({
+      params: { slug: post?.slug || "" },
+    }),
+  );
 
   return {
     paths,
     fallback: true,
   };
 }
-export async function getStaticProps({params}: {params: {slug: string}}) {
-  const data = await getPostBySlug({slug: params.slug});
+export async function getStaticProps({ params }: { params: { slug: string } }) {
+  const data = await getPostBySlug({ slug: params?.slug || "" });
 
   if (!data) {
     return {
@@ -429,9 +432,9 @@ export async function getStaticProps({params}: {params: {slug: string}}) {
       },
     };
   }
-  const post = postAdapter(data);
+  const post = await postAdapter(data);
 
-  if (!post || !post?.title) {
+  if (!post ) {
     return {
       redirect: {
         destination: "/",
@@ -441,7 +444,7 @@ export async function getStaticProps({params}: {params: {slug: string}}) {
   }
 
   return {
-    props: {post},
+    props: { post },
     revalidate: 1,
   };
 }

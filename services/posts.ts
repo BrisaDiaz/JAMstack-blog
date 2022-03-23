@@ -143,14 +143,26 @@ export async function getPostBySearchQuery({
   return getPosts({ searchParams, take, skip });
 }
 
-export async function getAllPostSlugs() {
-  const query = `query {
+export async function getAllPostSlugs({ take }: { take?: number }) {
+  let query: string;
+
+  if (take) {
+    query = `query {
+  blogsCollection(limit:${take}){
+    items{
+      slug
+    }
+  }
+}`;
+  } else {
+    query = `query {
   blogsCollection{
     items{
       slug
     }
   }
 }`;
+  }
 
   const res = await GET(query);
 
