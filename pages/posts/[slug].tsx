@@ -242,7 +242,9 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
                     <ReactCusdis
                       attrs={{
                         host: "https://cusdis.com",
-                        appId: process.env.NEXT_PUBLIC_CAUDIS_APP_ID as string,
+                        appId:
+                          process.env.NEXT_PUBLIC_CAUDIS_APP_ID ||
+                          "04db5f6d-1d17-4143-a323-ac74db1d241b",
                         pageId: post?.id,
                         pageTitle: post?.title,
                         pageUrl: url,
