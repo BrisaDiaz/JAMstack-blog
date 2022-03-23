@@ -5,29 +5,25 @@ import React, {useState, useEffect} from "react";
 import {useRouter} from "next/router";
 import {getPosts, getPostBySearchQuery, getPostsByTag} from "services/posts";
 import {PostItem} from "interfaces";
+import {useQuery} from "react-query";
 
 import PostCard from "@/components/PostCard";
 import {postsAdapter} from "@/adapters/posts";
 import Button from "@/components/Button";
 import Loader from "@/components/Loader";
 
-import {  useQuery } from "react-query";
 const Home: NextPage<{
   posts: PostItem[];
 
   total: number;
-}> = ({ posts, total }) => {
+}> = ({posts, total}) => {
   const router = useRouter();
   const POST_PER_PAGE = 6;
   const [displayedPosts, setDisplayedPosts] = useState<PostItem[]>(posts || []);
   const [totalResults, setTotalResults] = useState(total || 0);
-  const [displayedPostsCount, setTotalPostsCount] = useState(
-    posts?.length || 0,
-  );
+  const [displayedPostsCount, setTotalPostsCount] = useState(posts?.length || 0);
   const [error, setError] = useState("");
-  const [searchMode, setSearchMode] = useState<"default" | "keyword" | "tag">(
-    "default",
-  );
+  const [searchMode, setSearchMode] = useState<"default" | "keyword" | "tag">("default");
   const [finished, setFinished] = useState(posts?.length === total);
 
   const [query, setQuery] = useState<{
@@ -39,10 +35,7 @@ const Home: NextPage<{
   //// querys
   const postsSearchQuery = useQuery(
     ["posts", query],
-    () =>
-      getPostBySearchQuery(
-        query as { keyword: string; take?: number; skip?: number },
-      ),
+    () => getPostBySearchQuery(query as {keyword: string; take?: number; skip?: number}),
     {
       enabled: false,
       refetchOnWindowFocus: false,
@@ -50,7 +43,7 @@ const Home: NextPage<{
         setError("An error has ocurred and posts couldn't be retrieved.");
       },
       onSuccess: (data) => {
-        const { posts, total } = postsAdapter(data);
+        const {posts, total} = postsAdapter(data);
 
         if (posts.length === total) setFinished(true);
         if (query && !query.skip) {
@@ -66,7 +59,7 @@ const Home: NextPage<{
   );
   const postsTagQuery = useQuery(
     ["posts", query],
-    () => getPostsByTag(query as { tag: string; take?: number; skip?: number }),
+    () => getPostsByTag(query as {tag: string; take?: number; skip?: number}),
     {
       enabled: false,
       refetchOnWindowFocus: false,
@@ -74,7 +67,7 @@ const Home: NextPage<{
         setError("An error has ocurred and posts couldn't be retrieved.");
       },
       onSuccess: (data) => {
-        const { posts, total } = postsAdapter(data);
+        const {posts, total} = postsAdapter(data);
 
         if (posts.length === total) setFinished(true);
         if (query && !query.skip) {
@@ -90,7 +83,7 @@ const Home: NextPage<{
   );
   const postsQuery = useQuery(
     ["posts", query],
-    () => getPosts(query as { take: number; skip?: number }),
+    () => getPosts(query as {take: number; skip?: number}),
     {
       enabled: false,
       refetchOnWindowFocus: false,
@@ -98,10 +91,9 @@ const Home: NextPage<{
         setError("An error has ocurred and posts couldn't be retrieved.");
       },
       onSuccess: (data) => {
-        const { posts } = postsAdapter(data);
+        const {posts} = postsAdapter(data);
 
-        if (displayedPostsCount + posts.length === totalResults)
-          setFinished(true);
+        if (displayedPostsCount + posts.length === totalResults) setFinished(true);
         if (query && !query.skip) {
           setDisplayedPosts(posts);
         } else {
@@ -117,31 +109,30 @@ const Home: NextPage<{
   const handleSearchPosts = () => {
     if (searchMode === "keyword") return postsSearchQuery.refetch();
     if (searchMode === "tag") return postsTagQuery.refetch();
+
     return postsQuery.refetch();
   };
   const handleFetchMorePosts = async () => {
     if (finished) return;
     if (router.query?.search) {
       const keyword =
-        typeof router.query?.search === "object"
-          ? router.query?.search[0]
-          : router.query?.search;
+        typeof router.query?.search === "object" ? router.query?.search[0] : router.query?.search;
 
       setQuery({
         keyword,
         take: POST_PER_PAGE,
       });
+
       return setSearchMode("keyword");
     }
     if (router.query?.tag) {
-      const tag =
-        typeof router?.query.tag === "object"
-          ? router.query?.tag[0]
-          : router.query?.tag;
+      const tag = typeof router?.query.tag === "object" ? router.query?.tag[0] : router.query?.tag;
+
       setQuery({
         tag: tag,
         take: POST_PER_PAGE,
       });
+
       return setSearchMode("tag");
     }
     setQuery({
@@ -156,9 +147,7 @@ const Home: NextPage<{
   useEffect(() => {
     if (router.query && router.query?.search) {
       const keyword =
-        typeof router.query?.search === "object"
-          ? router.query?.search[0]
-          : router.query?.search;
+        typeof router.query?.search === "object" ? router.query?.search[0] : router.query?.search;
 
       setQuery({
         keyword,
@@ -167,10 +156,8 @@ const Home: NextPage<{
       setSearchMode("keyword");
     }
     if (router.query && router.query?.tag) {
-      const tag =
-        typeof router?.query.tag === "object"
-          ? router.query?.tag[0]
-          : router.query?.tag;
+      const tag = typeof router?.query.tag === "object" ? router.query?.tag[0] : router.query?.tag;
+
       setQuery({
         tag: tag,
         take: POST_PER_PAGE,
@@ -204,15 +191,13 @@ const Home: NextPage<{
         ) : (
           <p className="message">There are no coincidence for your search</p>
         )}
-        {(postsQuery.isLoading ||
-          postsTagQuery.isLoading ||
-          postsSearchQuery.isLoading) && <Loader />}
+        {(postsQuery.isLoading || postsTagQuery.isLoading || postsSearchQuery.isLoading) && (
+          <Loader />
+        )}
         {!finished &&
-          !(
-            postsQuery.isLoading ||
-            postsTagQuery.isLoading ||
-            postsSearchQuery.isLoading
-          ) && <Button text="Load More" onClick={handleFetchMorePosts} />}
+          !(postsQuery.isLoading || postsTagQuery.isLoading || postsSearchQuery.isLoading) && (
+            <Button text="Load More" onClick={handleFetchMorePosts} />
+          )}
       </main>
 
       <style jsx>{`

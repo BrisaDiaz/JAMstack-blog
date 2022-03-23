@@ -1,9 +1,9 @@
 import {useUser} from "@auth0/nextjs-auth0";
 import {useRouter} from "next/router";
-import React, { useState } from "react";
+import React, {useState} from "react";
 import dynamic from "next/dynamic";
-import { Topic, WidgetPost, Social } from "interfaces";
-import { useQuery } from "react-query";
+import {Topic, WidgetPost, Social} from "interfaces";
+import {useQuery} from "react-query";
 const TagsWidget = dynamic(() => import("../TagsWidget"));
 const PostsWidget = dynamic(() => import("../PostsWidget"));
 const FeaturePostWidget = dynamic(() => import("../FeaturePostWidget"));
@@ -22,12 +22,12 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 import useOnScreen from "@/hooks/useOnScreen";
-import { websiteWidgetsAdapter } from "@/adapters/feed";
-import { getWebsiteWidgetsData } from "@/services/feed";
+import {websiteWidgetsAdapter} from "@/adapters/feed";
+import {getWebsiteWidgetsData} from "@/services/feed";
 import SocialChannelsBanner from "@/components/SocialChannelsBanner";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  const { user } = useUser();
+export default function Layout({children}: {children: React.ReactNode}) {
+  const {user} = useUser();
   const router = useRouter();
 
   const [isRouteChanging, setIsRouteChanging] = React.useState(false);
@@ -124,9 +124,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div>
       {isRouteChanging && <LoadingScreen />}
-      {isSessionCardOpen && (
-        <SessionCard user={user || null} onClick={toggleSessionCard} />
-      )}
+      {isSessionCardOpen && <SessionCard user={user || null} onClick={toggleSessionCard} />}
       <Header
         latestPosts={widgetsData.latestsPosts}
         navLinks={navLinks}
@@ -145,10 +143,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {isAsideSectionInView && widgetsData.topics.length > 0 ? (
             <>
               <SocialPlugin socials={widgetsData.socials} />
-              <PostsWidget
-                posts={widgetsData.popularPosts}
-                title="Most Popular"
-              />
+              <PostsWidget posts={widgetsData.popularPosts} title="Most Popular" />
               <TagsWidget tags={widgetsData.tags} />
               <TopicsWidget topics={widgetsData.topics} />
             </>
@@ -173,15 +168,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <>
             <PostsWidget posts={widgetsData.randomPosts} title="random posts" />
 
-            <FeaturePostWidget
-              post={widgetsData.featuredPost}
-              title="Feature post"
-            />
+            <FeaturePostWidget post={widgetsData.featuredPost} title="Feature post" />
 
-            <PostsWidget
-              posts={widgetsData.latestsPosts.slice(0, 3)}
-              title="latest"
-            />
+            <PostsWidget posts={widgetsData.latestsPosts.slice(0, 3)} title="latest" />
           </>
         ) : (
           <>

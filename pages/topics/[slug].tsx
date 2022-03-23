@@ -1,26 +1,24 @@
 import type {NextPage} from "next";
 
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { PostItem } from "interfaces";
+import {useRouter} from "next/router";
+import {PostItem} from "interfaces";
+import {useQuery} from "react-query";
 
-import { getPostByTopicSlug, getAllTopicsSlugs } from "@/services/posts";
-import { postsAdapter } from "@/adapters/posts";
+import {getPostByTopicSlug, getAllTopicsSlugs} from "@/services/posts";
+import {postsAdapter} from "@/adapters/posts";
 import PostCard from "@/components/PostCard";
 import Button from "@/components/Button";
 import Loader from "@/components/Loader";
-import { useQuery } from "react-query";
 const Topic: NextPage<{
   posts: PostItem[];
-  topic: { name: string; slug: string };
+  topic: {name: string; slug: string};
   total: number;
-}> = ({ posts, topic, total }) => {
+}> = ({posts, topic, total}) => {
   const [displayedPosts, setDisplayedPosts] = useState<PostItem[]>(posts || []);
-  const [displayedPostsCount, setTotalPostsCount] = useState(
-    posts?.length || 0,
-  );
+  const [displayedPostsCount, setTotalPostsCount] = useState(posts?.length || 0);
 
   const [error, setError] = useState("");
   const [finished, setFinished] = useState(posts?.length === total);
@@ -36,9 +34,9 @@ const Topic: NextPage<{
   const router = useRouter();
 
   /// query
-  const { refetch, isLoading } = useQuery(
+  const {refetch, isLoading} = useQuery(
     ["posts", query],
-    () => getPostByTopicSlug(query as { slug: string; take?: number }),
+    () => getPostByTopicSlug(query as {slug: string; take?: number}),
     {
       enabled: false,
       refetchOnWindowFocus: false,
@@ -47,6 +45,7 @@ const Topic: NextPage<{
       },
       onSuccess: (data) => {
         const result = postsAdapter(data);
+
         if (query?.skip) {
           setDisplayedPosts([...displayedPosts, ...posts]);
           setTotalPostsCount(displayedPostsCount + posts.length);
@@ -63,8 +62,9 @@ const Topic: NextPage<{
   const handleFetchMorePosts = async () => {
     if (finished) return;
 
-    setQuery({ slug: topicSlug, take: 6, skip: displayedPostsCount });
+    setQuery({slug: topicSlug, take: 6, skip: displayedPostsCount});
   };
+
   /// lisen to url topic change
   React.useEffect(() => {
     router.events.on("routeChangeStart", (url) => {
@@ -123,9 +123,7 @@ const Topic: NextPage<{
           <p className="message">There are no coincidence for your search</p>
         )}
         {isLoading && <Loader />}
-        {!finished && !isLoading && (
-          <Button text="Load More" onClick={handleFetchMorePosts} />
-        )}
+        {!finished && !isLoading && <Button text="Load More" onClick={handleFetchMorePosts} />}
       </main>
 
       <style jsx>{`
@@ -178,32 +176,27 @@ const Topic: NextPage<{
 export async function getStaticPaths() {
   const res = await getAllTopicsSlugs();
 
-  const paths = res?.data?.topicCollection?.items.map(
-    (topic: { slug: string }) => ({
-      params: { slug: topic?.slug || "" },
-    }),
-  );
+  const paths = res?.data?.topicCollection?.items.map((topic: {slug: string}) => ({
+    params: {slug: topic?.slug || ""},
+  }));
 
   return {
     paths,
     fallback: true,
   };
 }
-export async function getStaticProps({ params }: { params: { slug: string } }) {
-  const data = await getPostByTopicSlug({ slug: params?.slug || "", take: 6 });
+export async function getStaticProps({params}: {params: {slug: string}}) {
+  const data = await getPostByTopicSlug({slug: params?.slug || "", take: 6});
 
-  const { posts, total } = await postsAdapter(data);
+  const {posts, total} = await postsAdapter(data);
 
   const topic = {
     slug: params?.slug,
-    name:
-      params?.slug?.indexOf("-") !== -1
-        ? params?.slug?.replaceAll("-", " ")
-        : params?.slug,
+    name: params?.slug?.indexOf("-") !== -1 ? params?.slug?.replaceAll("-", " ") : params?.slug,
   };
 
   return {
-    props: { posts, total, topic },
+    props: {posts, total, topic},
     revalidate: 1,
   };
 }

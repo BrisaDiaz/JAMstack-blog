@@ -1,6 +1,7 @@
 import Widget from "../Widget";
-export default function PostsSuggestions({ title }: { title: string }) {
+export default function PostsSuggestions({title}: {title: string}) {
   const suggestions = new Array(3).fill(1);
+
   return (
     <Widget title={title}>
       <div className="suggested-posts__list">
@@ -8,8 +9,8 @@ export default function PostsSuggestions({ title }: { title: string }) {
           <article key={index} className="suggested-post">
             <div className="suggested-post__img " />
             <div className="suggested-post__content">
-              <div className=" suggested-post__title "></div>
-              <div className=" suggested-post__meta"></div>
+              <div className=" suggested-post__title " />
+              <div className=" suggested-post__meta" />
             </div>
           </article>
         ))}

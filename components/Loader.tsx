@@ -1,12 +1,6 @@
 export default function Loader() {
   return (
-    <div
-      className="cubes"
-      aria-busy={true}
-      aria-label="loading"
-      aria-live="assertive"
-      role="alert"
-    >
+    <div aria-busy={true} aria-label="loading" aria-live="assertive" className="cubes" role="alert">
       <div className="sk-cube sk-cube1" />
       <div className="sk-cube sk-cube2" />
       <div className="sk-cube sk-cube3" />

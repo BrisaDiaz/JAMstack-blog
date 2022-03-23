@@ -13,7 +13,7 @@ export default function Footer() {
             About
           </a>
         </Link>
-        <Link passHref href="/contact" >
+        <Link passHref href="/contact">
           <a className="footer__link " href="">
             Contact Us
           </a>

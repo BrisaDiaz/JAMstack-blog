@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, {useRef, useState} from "react";
 import emailjs from "@emailjs/browser";
+import {useForm} from "react-hook-form";
+
 import Button from "./Button";
 import Loader from "./Loader";
-import { useForm } from "react-hook-form";
 export default function ContactForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [responseMessage, setResponceMessage] = useState("");
@@ -10,8 +11,8 @@ export default function ContactForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm({ mode: "onBlur" });
+    formState: {errors},
+  } = useForm({mode: "onBlur"});
 
   const sendEmail = () => {
     setIsLoading(true);
@@ -39,15 +40,15 @@ export default function ContactForm() {
   };
 
   return (
-    <form ref={form} onSubmit={handleSubmit(sendEmail)} className="form">
+    <form ref={form} className="form" onSubmit={handleSubmit(sendEmail)}>
       <label htmlFor="subject">Subject*</label>
       <input
+        aria-describedby="subject-error"
+        aria-invalid={errors["subject"] ? true : false}
+        aria-required={true}
+        className="form-input "
         id="subject"
         type="text"
-        className="form-input "
-        aria-describedby="subject-error"
-        aria-required={true}
-        aria-invalid={errors["subject"] ? true : false}
         {...register("subject", {
           minLength: {
             value: 3,
@@ -61,7 +62,7 @@ export default function ContactForm() {
         })}
       />
       {errors["subject"] && (
-        <small className="input__error" role="alert" id="subject-error">
+        <small className="input__error" id="subject-error" role="alert">
           {errors["subject"].message}
         </small>
       )}
@@ -70,11 +71,11 @@ export default function ContactForm() {
           <label htmlFor="name">Name*</label>
 
           <input
+            aria-describedby="name-error"
+            aria-invalid={errors["user_name"] ? true : false}
+            aria-required={true}
             id="name"
             type="text"
-            aria-describedby="name-error"
-            aria-required={true}
-            aria-invalid={errors["user_name"] ? true : false}
             {...register("user_name", {
               minLength: {
                 value: 5,
@@ -89,7 +90,7 @@ export default function ContactForm() {
             className="form-input "
           />
           {errors["user_name"] && (
-            <small className="input__error" role="alert" id="name-error">
+            <small className="input__error" id="name-error" role="alert">
               {errors["user_name"].message}
             </small>
           )}
@@ -97,15 +98,14 @@ export default function ContactForm() {
         <div className="input-wrap ">
           <label htmlFor="email">Email*</label>
           <input
-            type="email"
-            id="email"
             aria-describedby="email-error"
-            aria-required={true}
             aria-invalid={errors["email"] ? true : false}
+            aria-required={true}
+            id="email"
+            type="email"
             {...register("user_email", {
               pattern: {
-                value:
-                  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
                 message: "Please insert a valid email",
               },
               required: "Field is required",
@@ -113,7 +113,7 @@ export default function ContactForm() {
             className="form-input "
           />
           {errors["user_email"] && (
-            <small className="input__error" role="alert" id="email-error">
+            <small className="input__error" id="email-error" role="alert">
               {errors["user_email"].message}
             </small>
           )}
@@ -122,10 +122,10 @@ export default function ContactForm() {
 
       <label htmlFor="message">Message*</label>
       <textarea
-        id="message"
         aria-describedby="message-error"
-        aria-required={true}
         aria-invalid={errors["message"] ? true : false}
+        aria-required={true}
+        id="message"
         {...register("message", {
           minLength: {
             value: 10,
@@ -142,7 +142,7 @@ export default function ContactForm() {
         rows={6}
       />
       {errors["message"] && (
-        <small className="input__error" role="alert" id="message-error">
+        <small className="input__error" id="message-error" role="alert">
           {errors["message"].message}
         </small>
       )}

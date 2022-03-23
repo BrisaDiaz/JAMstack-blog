@@ -1,6 +1,7 @@
-import type { NextPage } from "next";
+import type {NextPage} from "next";
 
 import Head from "next/head";
+
 import ContactForm from "@/components/ContactForm";
 
 const Page: NextPage = () => {
@@ -33,4 +34,5 @@ const Page: NextPage = () => {
     </div>
   );
 };
+
 export default Page;
