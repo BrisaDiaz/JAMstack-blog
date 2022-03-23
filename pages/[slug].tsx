@@ -35,7 +35,7 @@ const Page: NextPage<{ page: GenericPage }> = ({ page }) => {
         .page__title {
           padding: var(--padding-xs) 0 var(--padding-sm);
           margin-bottom: var(--padding);
-          border-bottom: 2px solid var(--light-gray);
+          border-bottom: 1px solid var(--light-gray);
         }
       `}</style>
     </div>

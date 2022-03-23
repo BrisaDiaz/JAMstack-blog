@@ -125,19 +125,20 @@ export async function getPostByTopicSlug({
   return getPosts({ searchParams, take, skip });
 }
 export async function getPostBySearchQuery({
-  query,
+  keyword,
   take,
   skip,
 }: {
-  query: string;
+  keyword: string;
   take?: number;
   skip?: number;
 }) {
   const searchParams = `{
     OR: [
-      { title_contains: "${query}" },
-      { content_contains: "${query}"   },
-      { tags_contains_some: ["${query}" ] },
+      { title_contains: "${keyword}" },
+      { content_contains: "${keyword}"   },
+      { tags_contains_some: ["${keyword}" ] },
+      {author: "${keyword}"  }
     ],
   }`;
   return getPosts({ searchParams, take, skip });

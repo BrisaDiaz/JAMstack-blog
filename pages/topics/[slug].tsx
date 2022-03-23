@@ -1,17 +1,17 @@
 import type {NextPage} from "next";
 
 import Head from "next/head";
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import {useRouter} from "next/router";
-import {PostItem} from "interfaces";
+import { useRouter } from "next/router";
+import { PostItem } from "interfaces";
 
-import {getPostByTopicSlug, getAllTopicsSlugs} from "@/services/posts";
-import {postsAdapter} from "@/adapters/posts";
+import { getPostByTopicSlug, getAllTopicsSlugs } from "@/services/posts";
+import { postsAdapter } from "@/adapters/posts";
 import PostCard from "@/components/PostCard";
 import Button from "@/components/Button";
 import Loader from "@/components/Loader";
-
+import { useQuery } from "react-query";
 const Topic: NextPage<{
   posts: PostItem[];
   topic: { name: string; slug: string };
@@ -26,60 +26,70 @@ const Topic: NextPage<{
   const [finished, setFinished] = useState(posts?.length === total);
   const [loading, setLoading] = useState(false);
   const [topicSlug, setTopicSlug] = useState(topic?.slug);
-  const [totalResults, setTotalResults] = useState(total);
+
+  const [query, setQuery] = useState<{
+    slug: string;
+    take?: number;
+    skip?: number;
+  } | null>(null);
+
+  const router = useRouter();
+
+  /// query
+  const postsSlugQuery = useQuery(
+    ["posts", query],
+    () => getPostByTopicSlug(query as { slug: string; take?: number }),
+    {
+      enabled: false,
+      refetchOnWindowFocus: false,
+      onError: (e) => {
+        setLoading(false);
+
+        setError("An error has ocurred and posts couldn't be retrieved.");
+      },
+      onSuccess: (data) => {
+        setLoading(false);
+
+        const result = postsAdapter(data);
+        if (query?.skip) {
+          setDisplayedPosts([...displayedPosts, ...posts]);
+          setTotalPostsCount(displayedPostsCount + posts.length);
+        } else {
+          setDisplayedPosts(result.posts);
+          setTotalPostsCount(result.posts.length);
+        }
+
+        if (posts.length === result.total) setFinished(true);
+        setLoading(false);
+      },
+    },
+  );
+  /// fetch handler
   const handleFetchMorePosts = async () => {
     if (finished) return;
 
-    try {
-      setLoading(true);
-      const data = await getPostByTopicSlug({
-        slug: topicSlug,
-        take: 6,
-        skip: displayedPostsCount,
-      });
-      const { posts } = await postsAdapter(data);
-
-      setDisplayedPosts([...displayedPosts, ...posts]);
-      setTotalPostsCount(displayedPostsCount + posts.length);
-      if (displayedPostsCount === totalResults) setFinished(true);
-    } catch (e) {
-      setLoading(false);
-
-      setError("An error has ocurred and posts couldn't be retrieved.");
-    }
+    setQuery({ slug: topicSlug, take: 6, skip: displayedPostsCount });
   };
-  const router = useRouter();
-
+  /// lisen to url topic change
   React.useEffect(() => {
-    const fetchPosts = async (topicSlug: string) => {
-      try {
-        setLoading(true);
-        const data = await getPostByTopicSlug({
-          slug: topicSlug,
-          take: 6,
-        });
-        const result = await postsAdapter(data);
-
-        setDisplayedPosts(result.posts);
-        setTotalPostsCount(result.posts.length);
-        setTotalResults(result.total);
-        if (posts.length === result.total) setFinished(true);
-        setLoading(false);
-      } catch (e) {
-        setLoading(false);
-        setError("An error has ocurred and posts couldn't be retrieved.");
-      }
-    };
-
     router.events.on("routeChangeStart", (url) => {
       const newTopicSlug = url.split("/")[url.split("/").length - 1];
 
       if (topicSlug && newTopicSlug !== topicSlug) {
         setTopicSlug(topicSlug);
-        fetchPosts(newTopicSlug);
+        setQuery({
+          slug: newTopicSlug,
+          take: 6,
+        });
       }
     });
   }, [router.events]);
+
+  /// lisen to query changes
+  React.useEffect(() => {
+    if (!query) return;
+    postsSlugQuery.refetch();
+  }, [query]);
 
   return (
     <div className="container">

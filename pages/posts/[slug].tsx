@@ -63,7 +63,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
     },
   };
   const bottomSectionRef: React.RefObject<any> = React.useRef();
-  const isBottomSectionInView = useOnScreen(bottomSectionRef, "-100px", true);
+  const isBottomSectionInView = useOnScreen(bottomSectionRef, "-200px", true);
 
   if (!post) return <Placeholder />;
 

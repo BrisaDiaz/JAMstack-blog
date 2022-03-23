@@ -3,7 +3,7 @@ import {useRouter} from "next/router";
 import React, {useEffect, useState} from "react";
 import dynamic from "next/dynamic";
 import {Topic, WidgetPost, Social} from "interfaces";
-
+import { useQuery } from "react-query";
 const TagsWidget = dynamic(() => import("../TagsWidget"));
 const PostsWidget = dynamic(() => import("../PostsWidget"));
 const FeaturePostWidget = dynamic(() => import("../FeaturePostWidget"));
@@ -22,12 +22,12 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 import useOnScreen from "@/hooks/useOnScreen";
-import {websiteWidgetsAdapter} from "@/adapters/feed";
-import {getWebsiteWidgetsData} from "@/services/feed";
+import { websiteWidgetsAdapter } from "@/adapters/feed";
+import { getWebsiteWidgetsData } from "@/services/feed";
 import SocialChannelsBanner from "@/components/SocialChannelsBanner";
 
-export default function Layout({children}: {children: React.ReactNode}) {
-  const {user} = useUser();
+export default function Layout({ children }: { children: React.ReactNode }) {
+  const { user } = useUser();
   const router = useRouter();
 
   const [isRouteChanging, setIsRouteChanging] = React.useState(false);
@@ -77,18 +77,11 @@ export default function Layout({children}: {children: React.ReactNode}) {
     socialsInBanner: [],
   });
 
-  useEffect(() => {
-    async function getFeedData() {
-      try {
-        const topicsData = await getWebsiteWidgetsData();
-
-        setWidgetData(websiteWidgetsAdapter(topicsData));
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getFeedData();
-  }, []);
+  useQuery("WidgetsData", getWebsiteWidgetsData, {
+    onSuccess: (topicsData) => {
+      setWidgetData(websiteWidgetsAdapter(topicsData));
+    },
+  });
 
   const [isSessionCardOpen, setIsSessionCardOpen] = useState(false);
 

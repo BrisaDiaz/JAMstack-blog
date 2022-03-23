@@ -134,7 +134,7 @@ export function postAdapter(apiResponse: PostResponse) {
   };
   return formattedData;
 }
-export async function postsAdapter(apiResponse: PostsSearchResponse) {
+export function postsAdapter(apiResponse: PostsSearchResponse) {
   const postsData = apiResponse.data.blogsCollection.items;
 
   if (postsData.length === 0) return { posts: [], total: 0 };
