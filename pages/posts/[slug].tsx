@@ -22,7 +22,8 @@ import Tag from "@/components/Tag";
 import Widget from "@/components/Widget";
 import SocialButton, { generateShareLink } from "@/components/SocialButton";
 import Placeholder from "@/components/placeholders/Post";
-
+import PostsSuggestionsPlaceholder from "@/components/placeholders/PostsSuggestions";
+import useOnScreen from "@/hooks/useOnScreen";
 const Page: NextPage<{ post: Post }> = ({ post }) => {
   const [url, setUrl] = React.useState("");
 
@@ -61,6 +62,8 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
       },
     },
   };
+  const bottomSectionRef: React.RefObject<any> = React.useRef();
+  const isBottomSectionInView = useOnScreen(bottomSectionRef, "-100px", true);
 
   if (!post) return <Placeholder />;
 
@@ -186,65 +189,81 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
             ))}
           </ul>
         </section>
-        {post && (
-          <div className="comments-section">
-            <Widget title="Comments Section">
-              <ReactCusdis
-                attrs={{
-                  host: "https://cusdis.com",
-                  appId: process.env.CAUDIS_APP_ID as string,
-                  pageId: post?.id,
-                  pageTitle: post?.title,
-                  pageUrl: url,
-                }}
-              />
-            </Widget>
-          </div>
-        )}
 
-        <Widget title="you may like this posts">
-          <div className="suggested-posts__list">
-            {post.suggested.map((suggestedPost) => (
-              <article key={suggestedPost?.title} className="suggested-post">
-                <div className="suggested-post__img ">
-                  <Image
-                    alt={suggestedPost?.thumbnail?.description}
-                    blurDataURL={post?.thumbnail?.url}
-                    layout="fill"
-                    objectFit="cover"
-                    placeholder="blur"
-                    src={suggestedPost?.thumbnail?.url}
-                  />
-                </div>
-                <div>
-                  <Link passHref href={`/posts/${suggestedPost?.slug}`}>
-                    <a
-                      aria-label={suggestedPost?.title}
-                      href=""
-                      title={suggestedPost?.title}
+        <div ref={bottomSectionRef}>
+          {isBottomSectionInView ? (
+            <>
+              <Widget title="you may like this posts">
+                <div className="suggested-posts__list">
+                  {post.suggested.map((suggestedPost) => (
+                    <article
+                      key={suggestedPost?.title}
+                      className="suggested-post"
                     >
-                      {suggestedPost?.title.length > 45
-                        ? suggestedPost?.title.slice(0, 45).concat("...")
-                        : suggestedPost?.title}
-                    </a>
-                  </Link>
-                  <div className=" suggested-post__meta ">
-                    <Clock />
-                    <time
-                      className="post__meta-tag"
-                      dateTime={post?.publishedAt?.rawDate}
-                    >
-                      {post?.publishedAt?.shortDate}
-                    </time>
-                  </div>
+                      <div className="suggested-post__img ">
+                        <Image
+                          alt={suggestedPost?.thumbnail?.description}
+                          blurDataURL={post?.thumbnail?.url}
+                          layout="fill"
+                          objectFit="cover"
+                          placeholder="blur"
+                          src={suggestedPost?.thumbnail?.url}
+                        />
+                      </div>
+                      <div>
+                        <Link passHref href={`/posts/${suggestedPost?.slug}`}>
+                          <a
+                            aria-label={suggestedPost?.title}
+                            href=""
+                            title={suggestedPost?.title}
+                          >
+                            {suggestedPost?.title.length > 45
+                              ? suggestedPost?.title.slice(0, 45).concat("...")
+                              : suggestedPost?.title}
+                          </a>
+                        </Link>
+                        <div className=" suggested-post__meta ">
+                          <Clock />
+                          <time
+                            className="post__meta-tag"
+                            dateTime={post?.publishedAt?.rawDate}
+                          >
+                            {post?.publishedAt?.shortDate}
+                          </time>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
                 </div>
-              </article>
-            ))}
-          </div>
-        </Widget>
+              </Widget>
+              {post && (
+                <div className="comments-section">
+                  <Widget title="Comments Section">
+                    <ReactCusdis
+                      attrs={{
+                        host: "https://cusdis.com",
+                        appId: process.env.NEXT_PUBLIC_CAUDIS_APP_ID as string,
+                        pageId: post?.id,
+                        pageTitle: post?.title,
+                        pageUrl: url,
+                      }}
+                    />
+                  </Widget>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <PostsSuggestionsPlaceholder title="you may like this posts" />
+            </>
+          )}
+        </div>
       </main>
 
       <style jsx>{`
+        .comments-section {
+          margin-top: var(--padding);
+        }
         .page {
           display: flex;
           flex-direction: column;

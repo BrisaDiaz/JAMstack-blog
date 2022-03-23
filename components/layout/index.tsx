@@ -126,7 +126,9 @@ export default function Layout({children}: {children: React.ReactNode}) {
   return (
     <div>
       {isRouteChanging && <LoadingScreen />}
-      {isSessionCardOpen && <SessionCard user={user || null} onClick={toggleSessionCard} />}
+      {isSessionCardOpen && (
+        <SessionCard user={user || null} onClick={toggleSessionCard} />
+      )}
       <Header
         latestPosts={widgetsData.latestsPosts}
         navLinks={navLinks}
@@ -145,7 +147,10 @@ export default function Layout({children}: {children: React.ReactNode}) {
           {isAsideSectionInView && widgetsData.topics.length > 0 ? (
             <>
               <SocialPlugin socials={widgetsData.socials} />
-              <PostsWidget posts={widgetsData.popularPosts} title="Most Popular" />
+              <PostsWidget
+                posts={widgetsData.popularPosts}
+                title="Most Popular"
+              />
               <TagsWidget tags={widgetsData.tags} />
               <TopicsWidget topics={widgetsData.topics} />
             </>
@@ -166,14 +171,19 @@ export default function Layout({children}: {children: React.ReactNode}) {
       </aside>
       <SocialChannelsBanner socials={widgetsData.socialsInBanner} />
       <section ref={bottomSectionRef} className="container bottom-section ">
-        {isBottomSectionInView ? (
+        {isBottomSectionInView && widgetsData.featuredPost ? (
           <>
             <PostsWidget posts={widgetsData.randomPosts} title="random posts" />
-            {widgetsData.featuredPost && (
-              <FeaturePostWidget post={widgetsData.featuredPost} title="Feature post" />
-            )}
 
-            <PostsWidget posts={widgetsData.latestsPosts.slice(0, 3)} title="latest" />
+            <FeaturePostWidget
+              post={widgetsData.featuredPost}
+              title="Feature post"
+            />
+
+            <PostsWidget
+              posts={widgetsData.latestsPosts.slice(0, 3)}
+              title="latest"
+            />
           </>
         ) : (
           <>
