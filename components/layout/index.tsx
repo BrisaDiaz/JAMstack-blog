@@ -90,7 +90,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }
 
   function handleSearch(search: string, e: React.FormEvent<HTMLFormElement>) {
-    router.push(`?search=${search}`);
+    router.push(`/?search=${search}`);
   }
 
   const navLinks = [
