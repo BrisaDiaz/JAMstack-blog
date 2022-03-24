@@ -58,7 +58,7 @@ export default function HotPostWidget({ posts }: { posts: WidgetPost[] }) {
             >
               <a>
                 {" "}
-                <h1 className="post__title">{secondPost?.title}</h1>
+                <h2 className="post__title">{secondPost?.title}</h2>
               </a>
             </Link>
             <div className="post__meta">
@@ -91,7 +91,7 @@ export default function HotPostWidget({ posts }: { posts: WidgetPost[] }) {
             >
               <a>
                 {" "}
-                <h1 className="post__title">{thirdPost?.title}</h1>
+                <h2 className="post__title">{thirdPost?.title}</h2>
               </a>
             </Link>
             <div className="post__meta">
