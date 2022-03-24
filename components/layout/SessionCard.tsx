@@ -25,7 +25,9 @@ export default function SessionCard({
             {user?.name && <p className="session-card__data ">{user?.name}</p>}
 
             {user?.email && (
-              <p className="session-card__data session-card__email  ">{user?.email}</p>
+              <p className="session-card__data session-card__email  ">
+                {user?.email}
+              </p>
             )}
           </div>
         ) : (
@@ -41,7 +43,7 @@ export default function SessionCard({
           </a>
         )}
         <Link passHref as="/privacy-policy" href="/[slug]">
-          <a className="session-card__link" href="" onClick={onClick}>
+          <a className="session-card__link" onClick={onClick}>
             <small>privacy policy</small>
           </a>
         </Link>
@@ -49,7 +51,7 @@ export default function SessionCard({
       <style jsx>{`
         .cart-wrapper {
           position: relative;
-          z-index: 1000;
+          z-index: 800;
           width: 100%;
           max-width: 1024px;
           margin: 0 auto;
@@ -59,7 +61,6 @@ export default function SessionCard({
         .session-card {
           position: absolute;
           right: 0;
-
           top: -1px;
           border: var(--border);
           border-radius: var(--border-radius);

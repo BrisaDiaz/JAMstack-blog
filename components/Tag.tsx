@@ -3,9 +3,7 @@ export default function Tag({tag}: {tag: {name: string; link: string}}) {
   return (
     <li>
       <Link passHref href={tag.link}>
-        <a className="tag" href="">
-          {tag.name}
-        </a>
+        <a className="tag">{tag.name}</a>
       </Link>
       <style jsx>{`
         .tag {

@@ -2,7 +2,7 @@ import Logo from "@/components/layout/Logo";
 import SocialButton from "@/components/SocialButton";
 export default function SocialChannelsBanner({socials}: {socials: {name: string; url: string}[]}) {
   return (
-    <aside className="  container">
+    <aside className="  container" role="banner">
       <div className=" social-social-section ">
         <Logo size="large" />{" "}
         <p className="text">
@@ -33,7 +33,7 @@ export default function SocialChannelsBanner({socials}: {socials: {name: string;
           border: var(--border);
           margin: var(--padding) 0;
           margin-top: 0;
-          box-shadow: var(--box-shadow-lg);
+          box-shadow: var(--box-shadow);
           display: flex;
           align-items: center;
           gap: var(--padding);

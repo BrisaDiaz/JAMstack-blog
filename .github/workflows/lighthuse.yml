@@ -1,38 +1,28 @@
 name: CI
 on: [push]
 jobs:
-  lhci:
-    name: Lighthouse
+  lighthouseci:
     runs-on: ubuntu-latest
     env:
-      NODE_ENV: ${{ secrets.NODE_ENV }}
-      AUTH0_SECRET: ${{ secrets.AUTH0_SECRET }}
-      AUTH0_BASE_URL: ${{ secrets.AUTH0_BASE_URL }}
-      AUTH0_ISSUER_BASE_URL: ${{ secrets.AUTH0_ISSUER_BASE_URL }}
-      AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
-      AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
-      AUTH0_HTTP_TIMEOUT: ${{ secrets.AUTH0_HTTP_TIMEOUT }}
-      NEXT_PUBLIC_CONTENTFUL_SPACE_ID: ${{ secrets.NEXT_PUBLIC_CONTENTFUL_SPACE_ID }}
-      NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN }}
-      VERIFY_TEST_RUNNER_TIMEOUT_MS: ${{ secrets.VERIFY_TEST_RUNNER_TIMEOUT_MS }}
-      NEXT_PUBLIC_EMAIL_SERVICE_ID: ${{ secrets.NEXT_PUBLIC_EMAIL_SERVICE_ID }}
-      NEXT_PUBLIC_EMAIL_TEMPLATE_ID: ${{ secrets.NEXT_PUBLIC_EMAIL_TEMPLATE_ID }}
-      NEXT_PUBLIC_EMAIL_USER_ID : ${{ secrets.NEXT_PUBLIC_EMAIL_USER_ID }}
-      HOST: ${{ secrets.HOST }}
+         NODE_ENV: ${{ secrets.NODE_ENV }}
+         AUTH0_SECRET: ${{ secrets.AUTH0_SECRET }}
+         AUTH0_BASE_URL: ${{ secrets.AUTH0_BASE_URL }}
+         AUTH0_ISSUER_BASE_URL: ${{ secrets.AUTH0_ISSUER_BASE_URL }}
+         AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+         AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
+         AUTH0_HTTP_TIMEOUT: ${{ secrets.AUTH0_HTTP_TIMEOUT }}
+         NEXT_PUBLIC_CONTENTFUL_SPACE_ID: ${{ secrets.NEXT_PUBLIC_CONTENTFUL_SPACE_ID }}
+         NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN }}
+         VERIFY_TEST_RUNNER_TIMEOUT_MS: ${{ secrets.VERIFY_TEST_RUNNER_TIMEOUT_MS }}
+         NEXT_PUBLIC_EMAIL_SERVICE_ID: ${{ secrets.NEXT_PUBLIC_EMAIL_SERVICE_ID }}
+         NEXT_PUBLIC_EMAIL_TEMPLATE_ID: ${{ secrets.NEXT_PUBLIC_EMAIL_TEMPLATE_ID }}
+         NEXT_PUBLIC_EMAIL_USER_ID : ${{ secrets.NEXT_PUBLIC_EMAIL_USER_ID }}
+         HOST: ${{ secrets.HOST }}
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14.x
-      - name: npm install, build
-        run: |
-          npm install
-          npm run build
-      - name: run Lighthouse CI
-        run: |
-          npm install -g @lhci/cli@0.8.x
-          lhci autorun
-
+      - uses: actions/setup-node@v1
+      - run: npm install && npm install -g @lhci/cli@0.6.x
+      - run: npm run build
+      - run: lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}

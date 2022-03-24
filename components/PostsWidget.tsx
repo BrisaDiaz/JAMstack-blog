@@ -21,14 +21,27 @@ export default function postsWidget({title, posts}: {title: string; posts: Widge
               />
             </div>
             <div className="post__content">
-              <Link as={`/posts/${post.slug}?topic=${post.topic.name}`} href="/posts/[slug]">
-                <a aria-label={post.title} className="post__link" title={post.title}>
-                  {post.title.length > 55 ? post.title.slice(0, 55).concat("...") : post.title}
-                </a>
+              <Link
+                as={`/posts/${post.slug}?topic=${post.topic.name}`}
+                href="/posts/[slug]"
+              >
+                {post.title.length > 55 ? (
+                  <a
+                    aria-label={post.title}
+                    className="post__link"
+                    title={post.title}
+                  >
+                    {post.title.slice(0, 55).concat("...")}
+                  </a>
+                ) : (
+                  <a className="post__link">{post.title}</a>
+                )}
               </Link>
               <div className="post__meta">
                 <Clock />
-                <time dateTime={post.publishedAt.rawDate}>{post.publishedAt.shortDate}</time>
+                <time dateTime={post.publishedAt.rawDate}>
+                  {post.publishedAt.shortDate}
+                </time>
               </div>
             </div>
           </section>

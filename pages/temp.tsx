@@ -35,7 +35,7 @@ const Topic: NextPage = () => {
           border-radius: var(--border-radius);
           padding: var(--padding-sm) var(--padding);
           border: var(--border);
-          box-shadow: var(--box-shadow-lg);
+          box-shadow: var(--box-shadow);
           display: flex;
           justify-content: space-between;
           flex-wrap: wrap;

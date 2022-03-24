@@ -78,13 +78,13 @@ export default function Header({
 
         <Logo />
 
-        <nav className={`header__menu ${isMenuOpen ? "header__menu--open" : ""}`}>
+        <nav
+          className={`header__menu ${isMenuOpen ? "header__menu--open" : ""}`}
+        >
           <ul className="header__link-list   ">
             <li className="mega-link">
               <Link passHref href="/">
-                <a className={`heder__main-link  `} href="">
-                  Latest
-                </a>
+                <a className={`heder__main-link  `}>Latest</a>
               </Link>
               <div className="container mega-menu">
                 {latestPosts.map((post) => (
@@ -99,10 +99,13 @@ export default function Header({
                         src={post.thumbnail.url}
                       />
                     </div>
-                    <Link passHref as={`/posts/${post.slug}`} href={`/posts/[slug]`}>
+                    <Link
+                      passHref
+                      as={`/posts/${post.slug}`}
+                      href={`/posts/[slug]`}
+                    >
                       <a
                         aria-label={post.title}
-                        href=""
                         title={post.title}
                         onClick={(e) => handleLinkClick(e, "", 0)}
                       >
@@ -121,19 +124,27 @@ export default function Header({
                   <a
                     className={`header__parent-link   heder__main-link `}
                     onClick={(e) =>
-                      link.submenu ? handleLinkClick(e, link.label, 1) : handleLinkClick(e, "", 0)
+                      link.submenu
+                        ? handleLinkClick(e, link.label, 1)
+                        : handleLinkClick(e, "", 0)
                     }
                   >
                     <span>{link.label} </span>
                     {link.submenu && (
-                      <Arrow direction={submenus.includes(link.label) ? "bottom" : "right"} />
+                      <Arrow
+                        direction={
+                          submenus.includes(link.label) ? "bottom" : "right"
+                        }
+                      />
                     )}
                   </a>
                 </Link>
                 {link.submenu && (
                   <ul
                     className={`header__submenu   ${
-                      submenus.includes(link.label) ? "header__submenu--open " : ""
+                      submenus.includes(link.label)
+                        ? "header__submenu--open "
+                        : ""
                     }`}
                   >
                     {link.submenu.map((subLink) => (
@@ -141,7 +152,6 @@ export default function Header({
                         <Link passHref as={subLink.as} href={subLink.href}>
                           <a
                             className={` header__parent-link `}
-                            href=""
                             onClick={(e) =>
                               subLink?.submenu
                                 ? handleLinkClick(e, subLink.label, 2)
@@ -151,7 +161,11 @@ export default function Header({
                             <span>{subLink.label} </span>
                             {subLink?.submenu && (
                               <Arrow
-                                direction={submenus.includes(subLink.label) ? "bottom" : "right"}
+                                direction={
+                                  submenus.includes(subLink.label)
+                                    ? "bottom"
+                                    : "right"
+                                }
                               />
                             )}
                           </a>
@@ -159,13 +173,19 @@ export default function Header({
                         {subLink?.submenu && (
                           <ul
                             className={`header__submenu ${
-                              submenus.includes(subLink.label) ? "header__submenu--open " : ""
+                              submenus.includes(subLink.label)
+                                ? "header__submenu--open "
+                                : ""
                             }`}
                           >
                             {subLink.submenu.map((subSubLink) => (
                               <li key={subSubLink.label}>
-                                <Link passHref as={subSubLink.as} href={subLink.href}>
-                                  <a href="" onClick={(e) => handleLinkClick(e, "", 0)}>
+                                <Link
+                                  passHref
+                                  as={subSubLink.as}
+                                  href={subLink.href}
+                                >
+                                  <a onClick={(e) => handleLinkClick(e, "", 0)}>
                                     {subSubLink.label}
                                   </a>
                                 </Link>
@@ -199,23 +219,6 @@ export default function Header({
       </div>
 
       <style jsx>{`
-        .post {
-          width: 100%;
-          font-size: 13px;
-          line-height: 1.2em;
-        }
-        .post__image {
-          width: 100%;
-
-          height: 80px;
-          position: relative;
-
-          overflow: hidden;
-          float: left;
-          margin-bottom: var(--padding-sm);
-          transition: all 0.3s ease;
-        }
-
         .header {
           position: relative;
           width: 100%;
@@ -225,7 +228,7 @@ export default function Header({
           z-index: 995;
         }
         .header__menu {
-          display: n;
+          display: none;
           z-index: -1;
           position: absolute;
           top: 59px;
@@ -330,6 +333,23 @@ export default function Header({
           border: var(--border);
           grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         }
+        .post {
+          width: 100%;
+          font-size: 13px;
+          line-height: 1.2em;
+        }
+        .post__image {
+          width: 100%;
+
+          height: 80px;
+          position: relative;
+
+          overflow: hidden;
+          float: left;
+          margin-bottom: var(--padding-sm);
+          transition: all 0.3s ease;
+        }
+
         @media (min-width: 1024px) {
           .header {
             padding: 0 var(--padding);
@@ -342,6 +362,7 @@ export default function Header({
           }
 
           .header__menu {
+            display: flex;
             position: relative;
             top: 0;
             padding: 0;

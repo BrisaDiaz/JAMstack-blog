@@ -44,7 +44,7 @@ export default function PagePlaceholder() {
         .placeholder {
           min-height: 100vh;
           background: #fff;
-          box-shadow: var(--box-shadow-lg);
+          box-shadow: var(--box-shadow);
           border: var(--border);
           border-radius: var(--border-radius);
         }

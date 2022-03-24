@@ -13,7 +13,7 @@ export default function Widget({children, title}: {children: React.ReactNode; ti
             width: 100%;
             height: min-content;
             border: var(--border);
-            box-shadow: var(--box-shadow-lg);
+            box-shadow: var(--box-shadow);
             border-radius: var(--border-radius);
             background: #fff;
           }

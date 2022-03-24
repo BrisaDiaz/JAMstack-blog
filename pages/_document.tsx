@@ -1,26 +1,83 @@
 import {Html, Head, Main, NextScript} from "next/document";
+import Script from "next/script";
 
 export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <link href="/apple-icon-57x57.png" rel="apple-touch-icon" sizes="57x57" />
-        <link href="/apple-icon-60x60.png" rel="apple-touch-icon" sizes="60x60" />
-        <link href="/apple-icon-72x72.png" rel="apple-touch-icon" sizes="72x72" />
-        <link href="/apple-icon-76x76.png" rel="apple-touch-icon" sizes="76x76" />
-        <link href="/apple-icon-114x114.png" rel="apple-touch-icon" sizes="114x114" />
-        <link href="/apple-icon-120x120.png" rel="apple-touch-icon" sizes="120x120" />
-        <link href="/apple-icon-144x144.png" rel="apple-touch-icon" sizes="144x144" />
-        <link href="/apple-icon-152x152.png" rel="apple-touch-icon" sizes="152x152" />
-        <link href="/apple-icon-180x180.png" rel="apple-touch-icon" sizes="180x180" />
-        <link href="/android-icon-192x192.png" rel="icon" sizes="192x192" type="image/png" />
+        <link
+          href="/apple-icon-57x57.png"
+          rel="apple-touch-icon"
+          sizes="57x57"
+        />
+        <link
+          href="/apple-icon-60x60.png"
+          rel="apple-touch-icon"
+          sizes="60x60"
+        />
+        <link
+          href="/apple-icon-72x72.png"
+          rel="apple-touch-icon"
+          sizes="72x72"
+        />
+        <link
+          href="/apple-icon-76x76.png"
+          rel="apple-touch-icon"
+          sizes="76x76"
+        />
+        <link
+          href="/apple-icon-114x114.png"
+          rel="apple-touch-icon"
+          sizes="114x114"
+        />
+        <link
+          href="/apple-icon-120x120.png"
+          rel="apple-touch-icon"
+          sizes="120x120"
+        />
+        <link
+          href="/apple-icon-144x144.png"
+          rel="apple-touch-icon"
+          sizes="144x144"
+        />
+        <link
+          href="/apple-icon-152x152.png"
+          rel="apple-touch-icon"
+          sizes="152x152"
+        />
+        <link
+          href="/apple-icon-180x180.png"
+          rel="apple-touch-icon"
+          sizes="180x180"
+        />
+        <link
+          href="/android-icon-192x192.png"
+          rel="icon"
+          sizes="192x192"
+          type="image/png"
+        />
         <link href="/228x228.png" rel="icon" sizes="228x228" type="image/png" />
         <link href="/270x270.png" rel="icon" sizes="270x270" type="image/png" />
         <link href="/558x270.png" rel="icon" sizes="558x270" type="image/png" />
         <link href="/558x558.png" rel="icon" sizes="558x558" type="image/png" />
-        <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png" />
-        <link href="/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png" />
-        <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png" />
+        <link
+          href="/favicon-32x32.png"
+          rel="icon"
+          sizes="32x32"
+          type="image/png"
+        />
+        <link
+          href="/favicon-96x96.png"
+          rel="icon"
+          sizes="96x96"
+          type="image/png"
+        />
+        <link
+          href="/favicon-16x16.png"
+          rel="icon"
+          sizes="16x16"
+          type="image/png"
+        />
         <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
         <link href="/manifest.json" rel="manifest" />
         <meta content="#ffffff" name="msapplication-TileColor" />
@@ -29,7 +86,10 @@ export default function Document() {
         <link href="/favicon.ico" rel="icon" />
         <meta charSet="utf-8" />
 
-        <meta content="TecnoRev | Technology, Development and Much More" property="og:title" />
+        <meta
+          content="TecnoRev | Technology, Development and Much More"
+          property="og:title"
+        />
         <meta content="website" property="og:type" />
         <meta content={process.env.HOTS} property="og:url" />
         <meta content={"TencoRev"} property="og:site_name" />
@@ -42,14 +102,17 @@ export default function Document() {
           property="og:description"
         />
         <meta content="summary_large_image" name="twitter:card" />
-        <meta content="TecnoRev | Technology, Development and Much More" property="twitter:title" />
+        <meta
+          content="TecnoRev | Technology, Development and Much More"
+          property="twitter:title"
+        />
         <meta content="TecoRev-org-1200x630.png" property="twitter:image" />
         <meta content="TecnoRev " name="twitter:image:alt" />
         <meta
           content="Technology that matters – smartphones, hardware, games and applications. On TecnoRev you can find news, tips and tutorials and stay on top of Internet affairs."
           name="description"
         />
-        <script
+        <Script
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
@@ -75,7 +138,7 @@ export default function Document() {
                     height: 630,
                     caption: "TencoRev",
                   },
-                  image: {"@id": process.env.HOST + "/#logo"},
+                  image: { "@id": process.env.HOST + "/#logo" },
                 },
                 {
                   "@type": "WebSite",
@@ -92,7 +155,8 @@ export default function Document() {
                       "@type": "SearchAction",
                       target: {
                         "@type": "EntryPoint",
-                        urlTemplate: process.env.HOST + "?search={search_term_string}",
+                        urlTemplate:
+                          process.env.HOST + "?search={search_term_string}",
                       },
                       "query-input": "required name=search_term_string",
                     },
@@ -126,7 +190,9 @@ export default function Document() {
                 {
                   "@type": "BreadcrumbList",
                   "@id": process.env.HOST + "/#breadcrumb",
-                  itemListElement: [{"@type": "ListItem", position: 1, name: "home"}],
+                  itemListElement: [
+                    { "@type": "ListItem", position: 1, name: "home" },
+                  ],
                 },
               ],
             }),

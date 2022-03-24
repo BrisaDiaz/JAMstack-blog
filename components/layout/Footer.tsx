@@ -3,20 +3,14 @@ export default function Footer() {
   return (
     <footer className="footer">
       <nav className="container footer__nav ">
-        <Link passHref href="/">
-          <a className="footer__link " href="">
-            Home
-          </a>
+        <Link href="/" passHref>
+          <a className="footer__link ">Home</a>
         </Link>
-        <Link passHref as="/about" href="/[slug]">
-          <a className="footer__link " href="">
-            About
-          </a>
+        <Link as="/about" href="/[slug]" passHref>
+          <a className="footer__link ">About</a>
         </Link>
-        <Link passHref href="/contact">
-          <a className="footer__link " href="">
-            Contact Us
-          </a>
+        <Link href="/contact" passHref>
+          <a className="footer__link ">Contact Us</a>
         </Link>
       </nav>
       <style jsx>{`

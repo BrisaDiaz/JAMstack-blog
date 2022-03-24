@@ -106,9 +106,7 @@ const Topic: NextPage<{
             <strong className="breadcrumb-bar__topic-name">{`"${topic?.name}"`}</strong>
           </p>
           <Link passHref href="/">
-            <a className="breadcrumb-bar__return-link" href="">
-              show all
-            </a>
+            <a className="breadcrumb-bar__return-link">show all</a>
           </Link>
         </div>
         {displayedPosts?.length ? (
@@ -123,7 +121,9 @@ const Topic: NextPage<{
           <p className="message">There are no coincidence for your search</p>
         )}
         {isLoading && <Loader />}
-        {!finished && !isLoading && <Button text="Load More" onClick={handleFetchMorePosts} />}
+        {!finished && !isLoading && (
+          <Button text="Load More" onClick={handleFetchMorePosts} />
+        )}
       </main>
 
       <style jsx>{`
@@ -148,7 +148,7 @@ const Topic: NextPage<{
           border-radius: var(--border-radius);
           padding: var(--padding-sm) var(--padding);
           border: var(--border);
-          box-shadow: var(--box-shadow-lg);
+          box-shadow: var(--box-shadow);
           display: flex;
           justify-content: space-between;
           flex-wrap: wrap;

@@ -61,22 +61,22 @@ export default function ContactForm() {
           required: "Field is required",
         })}
       />
-      {errors["subject"] && (
-        <small className="input__error" id="subject-error" role="alert">
-          {errors["subject"].message}
-        </small>
-      )}
+
+      <small className="input__error" id="subject-error" role="alert">
+        {errors["subject"]?.message}
+      </small>
+
       <div className="form__double-input ">
         <div className="input-wrap ">
           <label htmlFor="name">Name*</label>
 
           <input
             aria-describedby="name-error"
-            aria-invalid={errors["user_name"] ? true : false}
+            aria-invalid={errors["name"] ? true : false}
             aria-required={true}
             id="name"
             type="text"
-            {...register("user_name", {
+            {...register("name", {
               minLength: {
                 value: 5,
                 message: "The name most be at least 5 characters long",
@@ -89,11 +89,10 @@ export default function ContactForm() {
             })}
             className="form-input "
           />
-          {errors["user_name"] && (
-            <small className="input__error" id="name-error" role="alert">
-              {errors["user_name"].message}
-            </small>
-          )}
+
+          <small className="input__error" id="name-error" role="alert">
+            {errors["name"]?.message}
+          </small>
         </div>
         <div className="input-wrap ">
           <label htmlFor="email">Email*</label>
@@ -103,20 +102,20 @@ export default function ContactForm() {
             aria-required={true}
             id="email"
             type="email"
-            {...register("user_email", {
+            {...register("email", {
               pattern: {
-                value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                value:
+                  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
                 message: "Please insert a valid email",
               },
               required: "Field is required",
             })}
             className="form-input "
           />
-          {errors["user_email"] && (
-            <small className="input__error" id="email-error" role="alert">
-              {errors["user_email"].message}
-            </small>
-          )}
+
+          <small className="input__error" id="email-error" role="alert">
+            {errors["email"]?.message}
+          </small>
         </div>
       </div>
 
@@ -141,11 +140,10 @@ export default function ContactForm() {
        "
         rows={6}
       />
-      {errors["message"] && (
-        <small className="input__error" id="message-error" role="alert">
-          {errors["message"].message}
-        </small>
-      )}
+
+      <small className="input__error" id="message-error" role="alert">
+        {errors["message"]?.message}
+      </small>
 
       {responseMessage && <p>{responseMessage}</p>}
       {!isLoading && !responseMessage && <Button text="Send" />}

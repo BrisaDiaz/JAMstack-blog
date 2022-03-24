@@ -11,7 +11,11 @@ export default function TopicsWidget({topics}: {topics: Topic[]}) {
         {topics.map((topic, index) => (
           <li key={topic.name}>
             <Link passHref as={`/topics/${topic.slug}`} href="/topics/[slug]">
-              <a className={`topic ${index === topics.length - 1 ? "topic--last" : ""}`} href="">
+              <a
+                className={`topic ${
+                  index === topics.length - 1 ? "topic--last" : ""
+                }`}
+              >
                 <span className="topic__name">
                   <Arrow direction="right" width={15} /> {topic.name}
                 </span>

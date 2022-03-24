@@ -32,19 +32,26 @@ export default function SearchBar({
   return (
     <>
       <div onClick={toggleSearchBar}> {children}</div>
-      <div className={`search-bar ${isSearchBarOpen ? "search-bar--open" : ""}`}>
+      <div
+        className={`search-bar ${isSearchBarOpen ? "search-bar--open" : ""}`}
+      >
         <form className="form" onSubmit={handleSubmit}>
           <input
             ref={inputRef}
             className="form__input"
             placeholder="Search blog"
+            aria-label="Search blog"
             type="search"
             value={search}
             onChange={handleSearch}
           />
         </form>
 
-        <button aria-label="toggle search bar" className="bottom" onClick={toggleSearchBar}>
+        <button
+          aria-label="toggle search bar"
+          className="bottom"
+          onClick={toggleSearchBar}
+        >
           <Close />
         </button>
         <style jsx={true}>{`

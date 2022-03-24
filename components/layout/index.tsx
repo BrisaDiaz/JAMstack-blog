@@ -17,17 +17,18 @@ import TagsWidgetPlaceholder from "../placeholders/TagsWidget";
 import TopicsWidgetPlaceholder from "../placeholders/TopicsWidget";
 import FeaturePostWidgetPlaceholder from "../placeholders/FeaturePostWidget";
 import LoadingScreen from "../LoadingScreen";
-
+import HotPostWidget from "@/components/HotPostWidget";
 import Header from "./Header";
 import Footer from "./Footer";
 
 import useOnScreen from "@/hooks/useOnScreen";
-import {websiteWidgetsAdapter} from "@/adapters/feed";
-import {getWebsiteWidgetsData} from "@/services/feed";
+import { websiteWidgetsAdapter } from "@/adapters/feed";
+import { getWebsiteWidgetsData } from "@/services/feed";
 import SocialChannelsBanner from "@/components/SocialChannelsBanner";
+import { route } from "next/dist/server/router";
 
-export default function Layout({children}: {children: React.ReactNode}) {
-  const {user} = useUser();
+export default function Layout({ children }: { children: React.ReactNode }) {
+  const { user } = useUser();
   const router = useRouter();
 
   const [isRouteChanging, setIsRouteChanging] = React.useState(false);
@@ -57,6 +58,7 @@ export default function Layout({children}: {children: React.ReactNode}) {
       setIsRouteChanging(false);
     };
   }, [router.events]);
+
   const [widgetsData, setWidgetData] = useState<{
     topics: Topic[];
     featuredPost: WidgetPost | null;
@@ -120,11 +122,15 @@ export default function Layout({children}: {children: React.ReactNode}) {
   const asideSectionRef: React.RefObject<any> = React.useRef();
   const isBottomSectionInView = useOnScreen(bottomSectionRef, "-100px", true);
   const isAsideSectionInView = useOnScreen(asideSectionRef, "-100px", true);
+  const isInHomePage =
+    router.pathname === "/" && !router.query?.search && !router.query?.tag;
 
   return (
     <div>
       {isRouteChanging && <LoadingScreen />}
-      {isSessionCardOpen && <SessionCard user={user || null} onClick={toggleSessionCard} />}
+      {isSessionCardOpen && (
+        <SessionCard user={user || null} onClick={toggleSessionCard} />
+      )}
       <Header
         latestPosts={widgetsData.latestsPosts}
         navLinks={navLinks}
@@ -132,18 +138,27 @@ export default function Layout({children}: {children: React.ReactNode}) {
         onSearchSubmit={handleSearch}
         onUserMenuClick={toggleSessionCard}
       />
-      <aside className="  container">
+      <aside className="  container" role="banner">
         <div className="  ad-section ">
           <span>Responsive Advertisement</span>
         </div>
       </aside>
+      {isInHomePage && (
+        <section className="container  posts-grid">
+          <HotPostWidget posts={widgetsData.randomPosts} />
+        </section>
+      )}
+
       <div className="container middle-section  ">
         <section className="content-section "> {children}</section>
         <section ref={asideSectionRef} className="aside-section ">
           {isAsideSectionInView && widgetsData.topics.length > 0 ? (
             <>
               <SocialPlugin socials={widgetsData.socials} />
-              <PostsWidget posts={widgetsData.popularPosts} title="Most Popular" />
+              <PostsWidget
+                posts={widgetsData.popularPosts}
+                title="Most Popular"
+              />
               <TagsWidget tags={widgetsData.tags} />
               <TopicsWidget topics={widgetsData.topics} />
             </>
@@ -157,7 +172,7 @@ export default function Layout({children}: {children: React.ReactNode}) {
           )}
         </section>
       </div>
-      <aside className="  container">
+      <aside className="  container" role="banner">
         <div className=" ad-section ">
           <span>Responsive Advertisement</span>
         </div>
@@ -168,9 +183,15 @@ export default function Layout({children}: {children: React.ReactNode}) {
           <>
             <PostsWidget posts={widgetsData.randomPosts} title="random posts" />
 
-            <FeaturePostWidget post={widgetsData.featuredPost} title="Feature post" />
+            <FeaturePostWidget
+              post={widgetsData.featuredPost}
+              title="Feature post"
+            />
 
-            <PostsWidget posts={widgetsData.latestsPosts.slice(0, 3)} title="latest" />
+            <PostsWidget
+              posts={widgetsData.latestsPosts.slice(0, 3)}
+              title="latest"
+            />
           </>
         ) : (
           <>
@@ -216,11 +237,15 @@ export default function Layout({children}: {children: React.ReactNode}) {
           display: flex;
           flex-direction: column;
           gap: var(--padding);
+          margin-bottom: var(--padding);
         }
         @media (min-width: 600px) {
-          .middle-section,
           .bottom-section {
             padding: var(--padding);
+          }
+          .posts-grid,
+          .middle-section {
+            padding: 0 var(--padding);
           }
           .ad-section {
             margin: var(--padding);
@@ -230,8 +255,16 @@ export default function Layout({children}: {children: React.ReactNode}) {
           .middle-section,
           .bottom-section {
             flex-direction: row;
-            padding: var(--padding) 0;
             gap: var(--padding);
+            padding: 0;
+            padding-bottom: var(--padding);
+          }
+
+          .aside-section {
+            margin-bottom: 0;
+          }
+          .posts-grid {
+            padding: var(--padding) 0 0;
           }
           .ad-section {
             margin: var(--padding) 0;

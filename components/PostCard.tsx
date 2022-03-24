@@ -10,10 +10,14 @@ export default function PostCard({post}: {post: PostItem}) {
   return (
     <article className="post">
       <Link passHref as={`/posts/${post.slug}`} href="/posts/[slug]">
-        <a className="post__title" href="">
-          <h2 aria-label={post.title} title={post.title}>
-            {post.title.length > 50 ? post.title.slice(0, 46).concat("...") : post.title}
-          </h2>
+        <a className="post__title">
+          {post.title.length > 50 ? (
+            <h2 aria-label={post.title} title={post.title}>
+              {post.title.slice(0, 46).concat("...")}
+            </h2>
+          ) : (
+            <h2>{post.title}</h2>
+          )}
         </a>
       </Link>
       <div className="post__meta">
@@ -25,7 +29,9 @@ export default function PostCard({post}: {post: PostItem}) {
         </div>
         <div className="post__meta-tag">
           <Clock />
-          <time dateTime={post.publishedAt.rawDate}>{post.publishedAt.shortDate}</time>
+          <time dateTime={post.publishedAt.rawDate}>
+            {post.publishedAt.shortDate}
+          </time>
         </div>
       </div>
       <div className="post__inner">
@@ -41,13 +47,15 @@ export default function PostCard({post}: {post: PostItem}) {
             src={post.thumbnail.url}
           />
         </div>
-        <div className="post__extract">{documentToReactComponents(post.extract as any)}</div>
+        <div className="post__extract">
+          {documentToReactComponents(post.extract as any)}
+        </div>
       </div>
       <style jsx>{`
         .post {
           padding: var(--padding);
           border: var(--border);
-          box-shadow: var(--box-shadow-lg);
+          box-shadow: var(--box-shadow);
           background: #fff;
           border-radius: var(--border-radius);
         }

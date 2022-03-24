@@ -22,7 +22,7 @@ const NotFound: NextPage = () => {
         <h2 className="page__subtitle">There is nothing here</h2>
         <p>Sorry, the page you were looking for in this blog does not exist.</p>
         <Link passHref href="/">
-          <a className="home-link" href="">
+          <a className="home-link">
             <Home />
             Home
           </a>

@@ -373,114 +373,97 @@ export const extract = {
   nodeType: "document",
 };
 
-export const posts = {
-  data: {
-    blogsCollection: {
-      total: 2,
-      items: [
-        {
-          slug: "bitcoin-cash-machines-ordered-to-shut-down-in-uk",
-          title: "Bitcoin cash machines ordered to shut down in UK",
-          author: "bbc news",
-          topic: {
-            name: "economy",
-            slug: "economy",
-          },
-          sys: {
-            publishedAt: "2022-03-16T16:10:05.669Z",
-          },
-          featured: false,
-          thumbnail: {
-            title: "Bitcoin ",
-            description: "Bitcoin on a keyboard",
-            url: "https://images.ctfassets.net/d24otek6mn76/52u3UXxNdVJfQeZfbzOqHh/f69c0d183ba7c33d99552b4e8c4aeacb/_123642993_mediaitem123642989.jpg",
-          },
-          extract: {
-            json: {
-              nodeType: "document",
-              data: {},
-              content: [
-                {
-                  nodeType: "paragraph",
-                  content: [
-                    {
-                      nodeType: "text",
-                      value:
-                        "All UK crypto-currency cash machines (ATMs) are operating illegally and must be shut down, the Financial Conduct Authority has announced. Crypto-ATMs look like regular cash machines and let people buy crypto-currency, such as Bitcoin, using their bank cards.",
-                      marks: [],
-                      data: {},
-                    },
-                  ],
-                  data: {},
-                },
-              ],
-            },
-          },
-        },
-        {
-          slug: "chinese-spies-hacked-a-livestock-app-to-breach-us-state-networks",
-          title:
-            "Chinese Spies Hacked a Livestock App to Breach US State Networks",
-          author: "wired",
-          topic: {
-            name: " security",
-            slug: " security",
-          },
-          sys: {
-            publishedAt: "2022-03-16T16:07:07.874Z",
-          },
-          featured: false,
-          thumbnail: {
-            title: " Noah Ortega / FILMING FOR LIBERATION",
-            description: "Dairy cows at a dairy farm",
-            url: "https://images.ctfassets.net/d24otek6mn76/1KkSyRA56x99vR8FIjHjDS/9327a2efede74f097e929c55d5f47402/e00e8cd2-a1b6-4fd0-bfe0-3b4aef775160_16-9-aspect-ratio_default_0.jpg",
-          },
-          extract: {
-            json: {
-              nodeType: "document",
-              data: {},
-              content: [
-                {
-                  nodeType: "paragraph",
-                  content: [
-                    {
-                      nodeType: "text",
-                      value:
-                        "THE WEB-BASED SOFTWARE known as the Animal Health Emergency Reporting Diagnostic System, or USAHERDS, serves as a helpful digital tool for state governments to track and trace animal diseases through populations of livestock. Now it's turned out to be a kind of infection vector of its own...",
-                      marks: [],
-                      data: {},
-                    },
-                  ],
-                  data: {},
-                },
-              ],
-            },
-          },
-        },
-      ],
+export const posts = [
+  {
+    slug: "these-are-the-best-games-to-play-on-the-playstation-5",
+    title: "These are the best games to play on the PlayStation 5",
+    author: "washingtonpost",
+    topic: {
+      name: "gaming",
+      slug: "gaming",
+    },
+    thumbnail: {
+      title: "(iStock/Washington Post illustration)",
+      description: "These are the best games to play on the PlayStation 5\n",
+      url: "https://images.ctfassets.net/d24otek6mn76/4cYIXuRcrLp9a5hXk0GDzC/a5537fa8963e49c2c548a95cd47d7b92/imrs__1_.jpg",
+    },
+    sys: {
+      publishedAt: "2022-03-23T19:21:01.558Z",
     },
   },
-};
-const postTopics = {
-  data: {
-    blogsCollection: {
-      items: [
-        {
-          topic: {
-            name: "economy",
-            slug: "economy",
-          },
-        },
-        {
-          topic: {
-            name: " security",
-            slug: " security",
-          },
-        },
-      ],
+  {
+    slug: "4-post-pandemic-cybersecurity-trends",
+    title: "4 Post-Pandemic Cybersecurity Trends",
+    author: "netscout",
+    topic: {
+      name: "security",
+      slug: "security",
+    },
+    thumbnail: {
+      title:
+        "Digital Network Data and Communication Network Concept Abstract Background",
+      description: "The constant evolution of computer security",
+      url: "https://images.ctfassets.net/d24otek6mn76/5NiCvd6i3NNiEkkz6BneNz/0ce8979b55942bbc3cc910b6eb584973/ciberseguridad.jpeg",
+    },
+    sys: {
+      publishedAt: "2022-03-23T00:32:42.980Z",
     },
   },
-};
+  {
+    slug: "three-types-of-technology-that-can-help-boost-your-sales",
+    title: "Three types of technology that can help boost your sales",
+    author: "retailtechinnovationhub",
+    topic: {
+      name: "business",
+      slug: "business",
+    },
+    thumbnail: {
+      title: "Three types of technology that can help boost your sales",
+      description: "Three types of technology that can help boost your sales",
+      url: "https://images.ctfassets.net/d24otek6mn76/4Xbj53xf4wkFLLfM0FPwK9/ef0854f1e2b6b69f8ee7c76a1222f714/7-Ways-to-Increase-Sales-Using-SEO-blog.gif",
+    },
+    sys: {
+      publishedAt: "2022-03-23T00:23:16.555Z",
+    },
+  },
+  {
+    slug: "artificial-insurance-how-machine-learning-is-transforming-underwriting",
+    title:
+      "Artificial Insurance? How Machine Learning Is Transforming Underwriting",
+    author: "businessnewsdaily",
+    topic: {
+      name: "technology",
+      slug: "technology",
+    },
+    thumbnail: {
+      title: "Machine learning",
+      description: "machine learning",
+      url: "https://images.ctfassets.net/d24otek6mn76/6fIc0sMH2eiRhICQwqwJaP/14cee344e1f77ae3cf7779c4cab2f5b5/machine-learning-covid-19.webp",
+    },
+    sys: {
+      publishedAt: "2022-03-23T00:21:11.725Z",
+    },
+  },
+  {
+    slug: "three-web-development-trends-driving-a-better-user-experience-this-year",
+    title:
+      "Three Web Development Trends Driving a Better User Experience This Year",
+    author: "technative",
+    topic: {
+      name: "development",
+      slug: "development",
+    },
+    thumbnail: {
+      title: "Let’s delve into the topic",
+      description: "Top Web Development Trends",
+      url: "https://images.ctfassets.net/d24otek6mn76/KDr85UgS3la1lRIRQFK3l/5f4d4f96eb73adba741fcf61c1efc796/Top-Web-Development-Trends-1.webp",
+    },
+    sys: {
+      publishedAt: "2022-03-23T00:19:16.335Z",
+    },
+  },
+];
+
 const post = {
   data: {
     blogsCollection: {

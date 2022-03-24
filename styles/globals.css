@@ -185,7 +185,8 @@ main {
 }
 :root {
   --border: 1px solid #ebebf3;
-  --box-shadow-lg: 0 0 10px rgb(0 0 0 / 3%);
+  --box-shadow: 0 0 10px rgb(0 0 0 / 3%);
+  --box-shadow-lg:0px 1px 2px 0px rgb(60 64 67 / 30%), 0px 6px 6px 2px rgb(60 64 67 / 15%);
   --bg: #f2f6f8;
   --primary-dark: hsl(279deg 100% 40%);
   --primary-main: #9e00f3;
@@ -195,8 +196,8 @@ main {
   --font-color: hsl(0deg 0% 0% / 75%);
   --light-gray: #eaeaea;
     --gray: #aaa;
-    --dark-gray: #878787;
-  --dark-gray: #aaa;
+    --dark-gray: #575757;
+  --gray: #aaa;
   --border-radius: 4px;
   --border-radius-md: 8px;
   --padding-lg: 30px;
@@ -235,6 +236,12 @@ h3,
   font-weight: 600;
   margin: 1em 0;
 }
+img{
+  transition: all 0.4s ease;
+}
+img:hover,.post:hover img{
+  transform: scale(1.1);
+}
 a:focus-visible,
 pre a:focus-visible {
   outline: none;
@@ -264,7 +271,9 @@ figcaption {
 .pre {
   white-space: pre-wrap;
 }
-
+.pre img:hover{
+  transform: none;
+}
 .pre a {
   color: var(--primary-main);
 }
