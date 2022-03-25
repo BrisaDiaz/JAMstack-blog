@@ -435,7 +435,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: true,
+    fallback: process.env.NODE_ENV === "test" ? false : true,
   };
 }
 export async function getStaticProps({params}: {params: {slug: string}}) {
