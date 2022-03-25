@@ -38,10 +38,12 @@ jobs:
   unit-tests:
     needs: [build]
     steps:
+      - run: npm start
       - run: npm run test
   integration-tests:
     needs: [build]
     steps:
+      - run: npm start
       - run: npm run integration
   lighthouse:
    needs: [build]
