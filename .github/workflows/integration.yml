@@ -20,9 +20,9 @@ jobs:
       NEXT_PUBLIC_EMAIL_USER_ID : ${{ secrets.NEXT_PUBLIC_EMAIL_USER_ID }}
       HOST: ${{ secrets.HOST }}
     steps:
-      - name: Checkout
+       - name: Checkout
         uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v2
-        with:
-          build: npm run build
