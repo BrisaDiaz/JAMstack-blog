@@ -2,7 +2,6 @@ name: end-to-end Tests
 on: [push]
 jobs:
   cypress-run:
-    runs-on: ubuntu-20.04
     runs-on: ubuntu-latest
     env:
       NODE_ENV: ${{ secrets.NODE_ENV }}
