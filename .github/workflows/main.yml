@@ -55,3 +55,11 @@ jobs:
       - run: npm i
       - run: npm run lint
       - run: npm run test
+      - run: npm run start
+      - name: run Cypress
+      - run: npm run integration
+      - name: run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.8.x
+          lhci autorun
+      
