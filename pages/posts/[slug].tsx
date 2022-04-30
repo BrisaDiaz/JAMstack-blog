@@ -23,8 +23,7 @@ import Tag from "@/components/Tag";
 
 import SocialButton, { generateShareLink } from "@/components/SocialButton";
 import Placeholder from "@/components/placeholders/Post";
-import PostsSuggestionsPlaceholder from "@/components/placeholders/PostsSuggestions";
-import useOnScreen from "@/hooks/useOnScreen";
+
 
 const Widget = dynamic(() => import("@/components/Widget"));
 const Page: NextPage<{ post: Post }> = ({ post }) => {
@@ -65,8 +64,6 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
       },
     },
   };
-  const bottomSectionRef: React.RefObject<any> = React.useRef();
-  const isBottomSectionInView = useOnScreen(bottomSectionRef, "-200px", true);
 
   if (!post) return <Placeholder />;
 
@@ -189,8 +186,8 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
           </ul>
         </section>
 
-        <div ref={bottomSectionRef}>
-          {isBottomSectionInView ? (
+        
+        
             <>
               <Widget title="you may like this posts">
                 <div className="suggested-posts__list">
@@ -234,7 +231,7 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
                   ))}
                 </div>
               </Widget>
-              {post && (
+              {post?.id && (
                 <div className="comments-section">
                   <Widget title="Comments Section">
                     <ReactCusdis
@@ -252,12 +249,8 @@ const Page: NextPage<{ post: Post }> = ({ post }) => {
                 </div>
               )}
             </>
-          ) : (
-            <>
-              <PostsSuggestionsPlaceholder title="you may like this posts" />
-            </>
-          )}
-        </div>
+         
+       
       </main>
 
       <style jsx>{`
